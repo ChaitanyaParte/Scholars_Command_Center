@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scholar's Command Center — Nexus-Uni</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
@@ -27,14 +27,23 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text);
     display: flex;
     height: 100vh;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 13px;
   }
+  /* FOCUS MODE: Dims non-target UI */
+  html.live-focus-on {
+    --focus-dim: 0.15;
+  }
+  html.live-focus-on .sidebar { opacity: var(--focus-dim); filter: blur(3px); pointer-events: none; }
+  html.live-focus-on .topbar { opacity: var(--focus-dim); filter: blur(3px); pointer-events: none; }
+  html.live-focus-on .card:not(.focus-target) { opacity: var(--focus-dim); filter: blur(3px); pointer-events: none; }
+  .card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .card.focus-target { opacity: 1; filter: blur(0); pointer-events: auto; }
   /* SIDEBAR */
   .sidebar {
     width: var(--sidebar-w);
@@ -219,11 +228,45 @@
   }
   .topbar-clock {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--text);
     letter-spacing: 0.05em;
   }
+  .streak-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.15), rgba(245, 158, 11, 0.15));
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: var(--warn);
+    padding: 4px 10px;
+    border-radius: 16px;
+    white-space: nowrap;
+  }
+  .pomodoro {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--warn);
+    padding: 4px 10px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 6px;
+  }
+  .btn-theme-toggle {
+    width: 32px;
+    height: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .btn-theme-toggle:hover { border-color: var(--border2); background: var(--surface3); }
   .search-bar {
     display: flex;
     align-items: center;
@@ -368,13 +411,33 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto;
     gap: 14px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* IN-CLASS STATE: Collapse layout to 2 columns (Live Notes + Class Resources) */
+  html.in-class-state .top-grid {
+    grid-template-columns: 1fr 1fr;
+    max-height: 80vh;
+  }
+  html.in-class-state .priority-card { display: none !important; }
+  html.in-class-state .health-card { display: none !important; }
+  html.in-class-state .knowledge-card { display: none !important; }
+  html.in-class-state .feedback-card {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    min-height: 400px;
+  }
+  html.in-class-state .resource-card {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-height: 400px;
   }
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    transition: border-color 0.15s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
   .card:hover { border-color: var(--border2); }
   .card-header {
@@ -444,6 +507,24 @@
     transition: all 0.15s;
   }
   .task-item:hover { border-color: var(--border2); }
+  .task-item.high {
+    border: 1px dashed rgba(248, 113, 113, 0.8);
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.4);
+    animation: glowHigh 2s ease-in-out infinite;
+  }
+  .task-item.med {
+    border: 1px dashed rgba(245, 158, 11, 0.8);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+    animation: glowMed 2.5s ease-in-out infinite;
+  }
+  @keyframes glowHigh {
+    0%, 100% { box-shadow: 0 0 12px rgba(248, 113, 113, 0.4), inset 0 0 8px rgba(248, 113, 113, 0.1); }
+    50% { box-shadow: 0 0 20px rgba(248, 113, 113, 0.7), inset 0 0 12px rgba(248, 113, 113, 0.2); }
+  }
+  @keyframes glowMed {
+    0%, 100% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.3), inset 0 0 6px rgba(245, 158, 11, 0.05); }
+    50% { box-shadow: 0 0 18px rgba(245, 158, 11, 0.6), inset 0 0 10px rgba(245, 158, 11, 0.15); }
+  }
   .task-check {
     width: 16px; height: 16px;
     border-radius: 50%;
@@ -684,7 +765,8 @@
     align-items: center;
     gap: 10px;
     padding: 8px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(42, 42, 53, 0.08);
+    margin-bottom: 14px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
@@ -693,17 +775,32 @@
     background: var(--surface2);
     border-radius: 6px;
   }
-  .health-item:last-child { border-bottom: none; }
-  .health-name { font-size: 12px; font-weight: 600; color: var(--text); width: 80px; flex-shrink: 0; }
-  .health-bar-wrap { flex: 1; background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; }
-  .health-bar {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  .health-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .health-item.pulse {
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
+    animation: pulseItem 1.2s infinite;
   }
-  .hb-good { background: linear-gradient(90deg, var(--accent3), #6ee7b7); }
-  .hb-ok   { background: linear-gradient(90deg, var(--warn), #fbbf24); }
-  .hb-warn { background: linear-gradient(90deg, var(--danger), #fca5a5); }
+  .health-name { font-size: 12px; font-weight: 600; color: var(--text); width: 80px; flex-shrink: 0; display: flex; align-items: center; height: 40px; }
+  .health-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(10, 10px);
+    grid-template-rows: repeat(2, 10px);
+    gap: 3px;
+    margin: 2px 0;
+    max-height: 40px;
+  }
+  .health-grid .heat-cell {
+    width: 100%;
+    height: 10px;
+    border-radius: 3px;
+    background: #1d2434;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .health-grid .heat-cell.high { background: #34d399; }
+  .health-grid .heat-cell.mid { background: #fbbf24; }
+  .health-grid .heat-cell.low { background: #f87171; }
+  .health-grid .heat-cell:hover { transform: translateY(-1px); }
   .health-val {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -713,6 +810,10 @@
     text-align: right;
   }
   .health-trend { font-size: 10px; width: 12px; text-align: center; }
+  @keyframes pulseItem {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1px); }
+  }
   /* RESOURCE SHELF */
   .resource-card { grid-column: 3; grid-row: 1 / 3; }
   .resource-search-bar { display: flex; gap: 8px; margin-bottom: 10px; }
@@ -1335,9 +1436,9 @@
   <div class="nav-item" onclick="showView('settings')"><span class="icon">⚙️</span> Settings</div>
   <div class="quick-focus">
     <div class="quick-focus-label">Quick Focus</div>
-    <div class="quick-focus-title"><span class="live-dot"></span>Live Class Mode</div>
-    <div class="quick-focus-desc">Hide distractions. Show only notes & class resources.</div>
-    <button class="btn-live">Enable Now</button>
+    <div class="quick-focus-title"><span class="live-dot"></span><span id="live-mode-indicator">In Class</span></div>
+    <div class="quick-focus-desc">Collapse UI. Show only Live Notes & Class Resources.</div>
+    <button class="btn-live" id="btn-class-toggle" onclick="toggleInClassState()">🎓 Start Class</button>
   </div>
   <div class="cmd-palette">
     <span>Command Palette</span>
@@ -1349,8 +1450,11 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <span class="topbar-title">Scholar's Command Center</span>
+    <span class="streak-badge" id="focus-streak">🔥 4-day streak</span>
     <span class="topbar-date" id="topbar-date"></span>
     <span class="topbar-clock" id="clock"></span>
+    <span class="pomodoro" id="pomodoro-timer" title="Pomodoro Focus Timer">🍅 25:00</span>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️/🌙</button>
     <div class="btn-bell" title="Notifications" onclick="toggleNotifications()">
       🔔
       <div class="notif-dot" id="notif-dot"></div>
@@ -1508,40 +1612,40 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="health-item" onclick="showImprovementTips('Java', 82)">
+          <div class="health-item" data-score="82" onclick="showImprovementTips('Java', 82)">
             <div class="health-name">Java</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:82%"></div></div>
-            <div class="health-val">82%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">82</div>
             <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
-          <div class="health-item" onclick="showImprovementTips('OOP', 76)">
+          <div class="health-item" data-score="76" onclick="showImprovementTips('OOP', 76)">
             <div class="health-name">OOP</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:76%"></div></div>
-            <div class="health-val">76%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">76</div>
             <div class="health-trend" style="color:var(--text-dim)">→</div>
           </div>
-          <div class="health-item" onclick="showImprovementTips('DBMS', 61)">
+          <div class="health-item" data-score="61" onclick="showImprovementTips('DBMS', 61)">
             <div class="health-name">DBMS</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-ok" style="width:61%"></div></div>
-            <div class="health-val">61%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">61</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
           </div>
-          <div class="health-item" onclick="showImprovementTips('Maths', 44)">
+          <div class="health-item" data-score="44" onclick="showImprovementTips('Maths', 44)">
             <div class="health-name">Maths</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-warn" style="width:44%"></div></div>
-            <div class="health-val">44%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">44</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
           </div>
-          <div class="health-item" onclick="showImprovementTips('Stats', 69)">
+          <div class="health-item" data-score="69" onclick="showImprovementTips('Stats', 69)">
             <div class="health-name">Stats</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-ok" style="width:69%"></div></div>
-            <div class="health-val">69%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">69</div>
             <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
-          <div class="health-item" onclick="showImprovementTips('Networks', 88)">
+          <div class="health-item" data-score="88" onclick="showImprovementTips('Networks', 88)">
             <div class="health-name">Networks</div>
-            <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:88%"></div></div>
-            <div class="health-val">88%</div>
+            <div class="health-grid"></div>
+            <div class="health-val">88</div>
             <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
         </div>
@@ -2053,7 +2157,7 @@
     list.innerHTML = '';
     tasks.forEach(task => {
       const item = document.createElement('div');
-      item.className = 'task-item';
+      item.className = `task-item ${task.priority}`;
       item.dataset.taskId = task.id;
       item.dataset.date = task.date;
       item.dataset.month = task.month;
@@ -2923,6 +3027,106 @@
     document.getElementById('notif-popup').classList.remove('show');
   }
 
+  // HEALTH HEATMAP RENDERING
+  function updateHealthHeatmap() {
+    document.querySelectorAll('.health-item').forEach(item => {
+      const score = Number(item.dataset.score ||0);
+      const grid = item.querySelector('.health-grid');
+      if (!grid) return;
+      
+      grid.innerHTML = '';
+      const filled = Math.round((score / 100) * 20);
+      const half = Math.round((20 - filled) * 0.6);
+      
+      for (let i = 0; i < 20; i++) {
+        const cell = document.createElement('div');
+        
+        if (i < filled) {
+          cell.className = 'heat-cell high';
+          cell.title = `Session ${i + 1}: strong`;
+        } else if (i < filled + half) {
+          cell.className = 'heat-cell mid';
+          cell.title = `Session ${i + 1}: moderate`;
+        } else {
+          cell.className = 'heat-cell low';
+          cell.title = `Session ${i + 1}: weak`;
+        }
+        
+        grid.appendChild(cell);
+      }
+    });
+  }
+
+  // HEALTH TREND PULSE
+  function updateHealthTrendPulse() {
+    document.querySelectorAll('.health-item').forEach(item => {
+      const trendEl = item.querySelector('.health-trend');
+      if (!trendEl) return;
+      
+      if (trendEl.textContent.trim() === '↓') {
+        item.classList.add('pulse');
+      } else {
+        item.classList.remove('pulse');
+      }
+    });
+  }
+
+  // FOCUS MODE TOGGLE
+  function toggleFocusMode() {
+    const root = document.documentElement;
+    const isActive = root.classList.toggle('live-focus-on');
+    
+    const btn = document.getElementById('btn-live-toggle');
+    if (btn) btn.textContent = isActive ? '🔒 Disable Live Class Mode' : 'Enable Live Class Mode';
+    
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => card.classList.remove('focus-target'));
+    const target = document.querySelector('.priority-card');
+    if (target) target.classList.toggle('focus-target', isActive);
+  }
+
+  // IN-CLASS STATE TOGGLE: Collapse layout to show only Live Notes + Class Resources
+  function toggleInClassState() {
+    const root = document.documentElement;
+    const isActive = root.classList.toggle('in-class-state');
+    
+    const btn = document.getElementById('btn-class-toggle');
+    if (btn) btn.textContent = isActive ? '🎓 In Class Now' : '🎓 Start Class';
+    
+    const indicator = document.getElementById('live-mode-indicator');
+    if (indicator) indicator.textContent = isActive ? '🎓 In Class' : 'In Class';
+    
+    // Save state to localStorage
+    localStorage.setItem('inClassState', isActive ? 'true' : 'false');
+  }
+
+  // THEME TOGGLE
+  function toggleTheme() {
+    const root = document.documentElement;
+    const currentBg = getComputedStyle(root).getPropertyValue('--bg').trim();
+    if (currentBg === '#0d1117' || currentBg === '#050608') {
+      root.style.setProperty('--bg', '#f5f7ff');
+      root.style.setProperty('--surface', '#ffffff');
+      root.style.setProperty('--surface2', '#f5f7fa');
+      root.style.setProperty('--surface3', '#efefff');
+      root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
+      root.style.setProperty('--border2', 'rgba(0,0,0,0.12)');
+      root.style.setProperty('--text', '#1a1a1a');
+      root.style.setProperty('--text-muted', '#666666');
+      root.style.setProperty('--text-dim', '#999999');
+    } else {
+      root.style.setProperty('--bg', '#0d1117');
+      root.style.setProperty('--surface', '#161b22');
+      root.style.setProperty('--surface2', '#1c2230');
+      root.style.setProperty('--surface3', '#21283a');
+      root.style.setProperty('--border', '#2a3347');
+      root.style.setProperty('--border2', '#334155');
+      root.style.setProperty('--text', '#e6edf3');
+      root.style.setProperty('--text-muted', '#7d8fa3');
+      root.style.setProperty('--text-dim', '#4a5568');
+    }
+  }
+
   // Show notification dot on load
   document.addEventListener('DOMContentLoaded', () => {
     const notifDot = document.getElementById('notif-dot');
@@ -2933,9 +3137,23 @@
 
   // INITIALIZE
   document.addEventListener('DOMContentLoaded', () => {
+    updateHealthHeatmap();
+    updateHealthTrendPulse();
     showView('dashboard');
     renderColleges();
     renderCourses();
+    
+    // Restore in-class state from localStorage
+    const savedInClassState = localStorage.getItem('inClassState') === 'true';
+    if (savedInClassState) {
+      const root = document.documentElement;
+      root.classList.add('in-class-state');
+      const btn = document.getElementById('btn-class-toggle');
+      if (btn) btn.textContent = '🎓 In Class Now';
+      const indicator = document.getElementById('live-mode-indicator');
+      if (indicator) indicator.textContent = '🎓 In Class';
+    }
+    
     // Add event listeners for filters
     const cgpaInput = document.getElementById('cgpa-input');
     if (cgpaInput) cgpaInput.addEventListener('input', renderColleges);
