@@ -254,19 +254,33 @@
     border-radius: 6px;
   }
   .btn-theme-toggle {
-    width: 32px;
-    height: 32px;
-    background: var(--surface2);
+    width: 36px;
+    height: 36px;
+    background: transparent;
     border: 1px solid var(--border);
-    border-radius: 7px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 14px;
-    transition: all 0.15s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-theme-toggle:hover { border-color: var(--border2); background: var(--surface3); }
+  .btn-theme-toggle:hover {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
+  }
+  .btn-theme-toggle:active {
+    transform: scale(0.95);
+  }
+  #themeIcon {
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+  }
   .search-bar {
     display: flex;
     align-items: center;
@@ -1454,7 +1468,9 @@
     <span class="topbar-date" id="topbar-date"></span>
     <span class="topbar-clock" id="clock"></span>
     <span class="pomodoro" id="pomodoro-timer" title="Pomodoro Focus Timer">🍅 25:00</span>
-    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️/🌙</button>
+    <button class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()">
+      <span id="themeIcon">🌙</span>
+    </button>
     <div class="btn-bell" title="Notifications" onclick="toggleNotifications()">
       🔔
       <div class="notif-dot" id="notif-dot"></div>
@@ -3101,20 +3117,14 @@
   }
 
   // THEME TOGGLE
-  function toggleTheme() {
+  let isDarkMode = localStorage.getItem('theme') !== 'light'; // Default to dark mode
+
+  function applyTheme() {
     const root = document.documentElement;
-    const currentBg = getComputedStyle(root).getPropertyValue('--bg').trim();
-    if (currentBg === '#0d1117' || currentBg === '#050608') {
-      root.style.setProperty('--bg', '#f5f7ff');
-      root.style.setProperty('--surface', '#ffffff');
-      root.style.setProperty('--surface2', '#f5f7fa');
-      root.style.setProperty('--surface3', '#efefff');
-      root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
-      root.style.setProperty('--border2', 'rgba(0,0,0,0.12)');
-      root.style.setProperty('--text', '#1a1a1a');
-      root.style.setProperty('--text-muted', '#666666');
-      root.style.setProperty('--text-dim', '#999999');
-    } else {
+    const themeIcon = document.getElementById('themeIcon');
+
+    if (isDarkMode) {
+      // Apply dark mode
       root.style.setProperty('--bg', '#0d1117');
       root.style.setProperty('--surface', '#161b22');
       root.style.setProperty('--surface2', '#1c2230');
@@ -3124,8 +3134,34 @@
       root.style.setProperty('--text', '#e6edf3');
       root.style.setProperty('--text-muted', '#7d8fa3');
       root.style.setProperty('--text-dim', '#4a5568');
+      themeIcon.textContent = '🌙';
+      themeIcon.style.transform = 'rotate(0deg)';
+    } else {
+      // Apply light mode
+      root.style.setProperty('--bg', '#f5f7ff');
+      root.style.setProperty('--surface', '#ffffff');
+      root.style.setProperty('--surface2', '#f5f7fa');
+      root.style.setProperty('--surface3', '#efefff');
+      root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
+      root.style.setProperty('--border2', 'rgba(0,0,0,0.12)');
+      root.style.setProperty('--text', '#1a1a1a');
+      root.style.setProperty('--text-muted', '#666666');
+      root.style.setProperty('--text-dim', '#999999');
+      themeIcon.textContent = '☀️';
+      themeIcon.style.transform = 'rotate(180deg)';
     }
   }
+
+  function toggleTheme() {
+    isDarkMode = !isDarkMode;
+    applyTheme();
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }
+
+  // Initialize theme on load
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme();
+  });
 
   // Show notification dot on load
   document.addEventListener('DOMContentLoaded', () => {
