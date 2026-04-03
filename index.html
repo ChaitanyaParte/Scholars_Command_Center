@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scholar's Command Center — Nexus-Uni</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="dashboard.css">
 <style>
   :root {
     --bg: #0d1117;
@@ -26,9 +25,7 @@
     --purple: #a78bfa;
     --sidebar-w: 220px;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     font-family: 'Space Grotesk', sans-serif;
     background: var(--bg);
@@ -38,7 +35,6 @@
     overflow: hidden;
     font-size: 14px;
   }
-
   /* SIDEBAR */
   .sidebar {
     width: var(--sidebar-w);
@@ -50,16 +46,13 @@
     overflow-y: auto;
     padding-bottom: 16px;
   }
-
   .sidebar::-webkit-scrollbar { width: 4px; }
   .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
   .brand {
     padding: 18px 16px 14px;
     border-bottom: 1px solid var(--border);
     margin-bottom: 8px;
   }
-
   .brand-label {
     font-size: 9px;
     font-weight: 600;
@@ -68,7 +61,6 @@
     text-transform: uppercase;
     margin-bottom: 6px;
   }
-
   .brand-name {
     display: flex;
     align-items: center;
@@ -77,7 +69,6 @@
     font-weight: 700;
     color: var(--text);
   }
-
   .brand-icon {
     width: 26px; height: 26px;
     background: linear-gradient(135deg, var(--accent2), var(--accent));
@@ -87,14 +78,12 @@
     color: white;
     flex-shrink: 0;
   }
-
   .brand-subtitle {
     font-size: 11px;
     color: var(--text-muted);
     margin-top: 3px;
     padding-left: 34px;
   }
-
   .nav-section-label {
     font-size: 9px;
     font-weight: 700;
@@ -103,7 +92,6 @@
     text-transform: uppercase;
     padding: 10px 16px 4px;
   }
-
   .nav-item {
     display: flex;
     align-items: center;
@@ -118,17 +106,13 @@
     transition: all 0.15s;
     position: relative;
   }
-
   .nav-item:hover { background: var(--surface2); color: var(--text); }
-
   .nav-item.active {
     background: rgba(56, 189, 248, 0.1);
     color: var(--accent);
     border: 1px solid rgba(56, 189, 248, 0.2);
   }
-
   .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
-
   .nav-badge {
     margin-left: auto;
     font-size: 9px;
@@ -139,7 +123,6 @@
     padding: 2px 6px;
     border-radius: 4px;
   }
-
   .quick-focus {
     margin: auto 10px 10px;
     background: var(--surface2);
@@ -147,7 +130,6 @@
     border-radius: 10px;
     padding: 12px;
   }
-
   .quick-focus-label {
     font-size: 9px;
     font-weight: 700;
@@ -156,21 +138,18 @@
     text-transform: uppercase;
     margin-bottom: 6px;
   }
-
   .quick-focus-title {
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
     margin-bottom: 4px;
   }
-
   .quick-focus-desc {
     font-size: 11px;
     color: var(--text-muted);
     line-height: 1.5;
     margin-bottom: 10px;
   }
-
   .btn-live {
     width: 100%;
     background: linear-gradient(135deg, var(--accent), var(--accent3));
@@ -185,9 +164,7 @@
     transition: all 0.2s;
     letter-spacing: 0.02em;
   }
-
   .btn-live:hover { opacity: 0.9; transform: translateY(-1px); }
-
   .cmd-palette {
     margin: 6px;
     padding: 8px 12px;
@@ -201,9 +178,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .cmd-palette:hover { border-color: var(--border2); color: var(--text); }
-
   .kbd {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -213,7 +188,6 @@
     border-radius: 4px;
     color: var(--text-dim);
   }
-
   /* MAIN */
   .main {
     flex: 1;
@@ -221,7 +195,6 @@
     flex-direction: column;
     overflow: hidden;
   }
-
   /* TOPBAR */
   .topbar {
     height: 52px;
@@ -233,20 +206,17 @@
     background: var(--surface);
     flex-shrink: 0;
   }
-
   .topbar-title {
     font-size: 16px;
     font-weight: 700;
     color: var(--text);
   }
-
   .topbar-date {
     font-size: 12px;
     color: var(--text-muted);
     margin-right: auto;
     margin-left: 6px;
   }
-
   .topbar-clock {
     font-family: 'JetBrains Mono', monospace;
     font-size: 15px;
@@ -254,7 +224,6 @@
     color: var(--text);
     letter-spacing: 0.05em;
   }
-
   .search-bar {
     display: flex;
     align-items: center;
@@ -269,11 +238,7 @@
     width: 200px;
     transition: all 0.15s;
   }
-
   .search-bar:hover { border-color: var(--border2); }
-
-  .search-bar span { margin-left: auto; }
-
   .btn-bell {
     width: 32px; height: 32px;
     background: var(--surface2);
@@ -285,9 +250,7 @@
     position: relative;
     transition: all 0.15s;
   }
-
   .btn-bell:hover { border-color: var(--border2); }
-
   .notif-dot {
     position: absolute;
     top: 5px; right: 5px;
@@ -296,7 +259,6 @@
     border-radius: 50%;
     border: 1.5px solid var(--surface);
   }
-
   .btn-add {
     display: flex;
     align-items: center;
@@ -313,9 +275,7 @@
     transition: all 0.2s;
     letter-spacing: 0.02em;
   }
-
   .btn-add:hover { background: #7dd3fc; transform: translateY(-1px); }
-
   .avatar {
     width: 30px; height: 30px;
     background: linear-gradient(135deg, var(--accent2), var(--pink));
@@ -326,7 +286,64 @@
     color: white;
     cursor: pointer;
   }
-
+  /* NOTIFICATION POPUP */
+  .notif-popup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+  }
+  .notif-popup.show { display: block; }
+  .notif-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .notif-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .notif-item:hover { background: var(--surface2); }
+  .notif-item:last-child { border-bottom: none; }
+  .notif-icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+  }
+  .notif-content {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 30px);
+  }
+  .notif-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .notif-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .notif-time {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
   /* CONTENT */
   .content {
     flex: 1;
@@ -336,9 +353,14 @@
     flex-direction: column;
     gap: 16px;
   }
-
   .content::-webkit-scrollbar { width: 5px; }
   .content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* FIX: dashboard view scroll */
+  #dashboard-view {
+    height: auto;
+    min-height: 0;
+  }
 
   /* TOP GRID */
   .top-grid {
@@ -347,7 +369,6 @@
     grid-template-rows: auto auto;
     gap: 14px;
   }
-
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -355,9 +376,7 @@
     overflow: hidden;
     transition: border-color 0.15s;
   }
-
   .card:hover { border-color: var(--border2); }
-
   .card-header {
     display: flex;
     align-items: flex-start;
@@ -365,24 +384,19 @@
     padding: 14px 16px 10px;
     border-bottom: 1px solid var(--border);
   }
-
   .card-icon { font-size: 16px; }
-
   .card-title-group { flex: 1; }
-
   .card-title {
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
     margin-bottom: 2px;
   }
-
   .card-subtitle {
     font-size: 10px;
     color: var(--text-dim);
     line-height: 1.4;
   }
-
   .card-meta {
     font-size: 11px;
     color: var(--text-muted);
@@ -392,12 +406,9 @@
     border-radius: 6px;
     white-space: nowrap;
   }
-
   .card-body { padding: 12px 16px; }
-
   /* PRIORITY HUB */
   .priority-card { grid-column: 1; grid-row: 1 / 3; }
-
   .add-task-btn {
     display: flex;
     align-items: center;
@@ -415,13 +426,11 @@
     transition: all 0.15s;
     margin-bottom: 10px;
   }
-
   .add-task-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
     background: rgba(56, 189, 248, 0.05);
   }
-
   .task-item {
     display: flex;
     align-items: center;
@@ -434,9 +443,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .task-item:hover { border-color: var(--border2); }
-
   .task-check {
     width: 16px; height: 16px;
     border-radius: 50%;
@@ -447,14 +454,10 @@
     transition: all 0.15s;
     cursor: pointer;
   }
-
   .task-check:hover { border-color: var(--accent3); }
-
   .task-check.done { background: var(--accent3); border-color: var(--accent3); color: white; }
-
   .task-label { flex: 1; font-size: 12px; color: var(--text); }
   .task-label.done { text-decoration: line-through; color: var(--text-dim); }
-
   .task-priority {
     font-size: 9px;
     font-weight: 700;
@@ -463,11 +466,9 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
-
   .tp-high { background: rgba(248, 113, 113, 0.15); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
-  .tp-med { background: rgba(245, 158, 11, 0.15); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.3); }
-  .tp-low { background: rgba(52, 211, 153, 0.15); color: var(--accent3); border: 1px solid rgba(52, 211, 153, 0.3); }
-
+  .tp-med  { background: rgba(245, 158, 11, 0.15);  color: var(--warn);   border: 1px solid rgba(245, 158, 11, 0.3); }
+  .tp-low  { background: rgba(52, 211, 153, 0.15);  color: var(--accent3);border: 1px solid rgba(52, 211, 153, 0.3); }
   .task-subject {
     font-size: 9px;
     font-weight: 600;
@@ -476,34 +477,233 @@
     background: var(--surface3);
     color: var(--text-muted);
   }
+  .task-date-tag {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--accent);
+    margin-left: 6px;
+  }
+  .priority-filter-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .priority-filter-row select,
+  .priority-filter-row button {
+    font-size: 11px;
+    min-width: 85px;
+  }
+  .priority-filter-row .pv-btn {
+    padding: 7px 10px;
+  }
+  .task-time-tag {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(129, 140, 248, 0.12);
+    color: var(--accent2);
+    margin-left: 4px;
+  }
+  .task-link-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56,189,248,0.22), rgba(99,102,241,0.15));
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    border-radius: 50%;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    flex-shrink: 0;
+    padding: 2px;
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.3);
+  }
+  .task-link-btn:hover {
+    background: linear-gradient(135deg, rgba(56,189,248,0.38), rgba(99,102,241,0.21));
+    border-color: rgba(56, 189, 248, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(56, 189, 248, 0.25);
+  }
+  .task-link-btn:active {
+    transform: scale(0.95);
+  }
 
+  .page-alert {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 2000;
+    background: rgba(30, 41, 59, 0.95);
+    color: #fff;
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    backdrop-filter: blur(4px);
+    max-width: 280px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    display: none;
+  }
+  .page-alert.show {
+    display: block;
+    animation: fadeSlide 0.3s ease;
+  }
+  @keyframes fadeSlide {
+    from {opacity: 0; transform: translateY(-8px);}
+    to   {opacity: 1; transform: translateY(0);}
+  }
+  /* TASK DETAIL VIEW */
+  .task-detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  .task-detail-overlay.open { display: flex; }
+  .task-detail-panel {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 24px;
+    width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .task-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .task-detail-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .task-detail-close {
+    width: 32px; height: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.15s;
+  }
+  .task-detail-close:hover { border-color: var(--accent); color: var(--accent); }
+  .task-detail-info {
+    margin-bottom: 16px;
+  }
+  .task-detail-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .task-detail-value {
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface2);
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .task-detail-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  .task-detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .task-detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .task-detail-edit,
+  .task-detail-delete {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .task-detail-edit {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .task-detail-edit:hover { background: #7dd3fc; }
+  .task-detail-delete {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .task-detail-delete:hover { border-color: var(--danger); color: var(--danger); }
   /* SUBJECT HEALTH */
   .health-card { grid-column: 2; grid-row: 1; }
-
   .health-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 0;
+    padding: 8px;
     border-bottom: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
   }
-
+  .health-item:hover {
+    background: var(--surface2);
+    border-radius: 6px;
+  }
   .health-item:last-child { border-bottom: none; }
-
   .health-name { font-size: 12px; font-weight: 600; color: var(--text); width: 80px; flex-shrink: 0; }
-
   .health-bar-wrap { flex: 1; background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; }
-
   .health-bar {
     height: 100%;
     border-radius: 4px;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
   .hb-good { background: linear-gradient(90deg, var(--accent3), #6ee7b7); }
-  .hb-ok { background: linear-gradient(90deg, var(--warn), #fbbf24); }
+  .hb-ok   { background: linear-gradient(90deg, var(--warn), #fbbf24); }
   .hb-warn { background: linear-gradient(90deg, var(--danger), #fca5a5); }
-
   .health-val {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -512,22 +712,10 @@
     width: 30px;
     text-align: right;
   }
-
-  .health-trend {
-    font-size: 10px;
-    width: 12px;
-    text-align: center;
-  }
-
+  .health-trend { font-size: 10px; width: 12px; text-align: center; }
   /* RESOURCE SHELF */
   .resource-card { grid-column: 3; grid-row: 1 / 3; }
-
-  .resource-search-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
+  .resource-search-bar { display: flex; gap: 8px; margin-bottom: 10px; }
   .resource-search {
     flex: 1;
     background: var(--surface2);
@@ -540,10 +728,8 @@
     outline: none;
     transition: all 0.15s;
   }
-
   .resource-search::placeholder { color: var(--text-dim); }
   .resource-search:focus { border-color: var(--accent); }
-
   .resource-filter {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -555,7 +741,6 @@
     outline: none;
     cursor: pointer;
   }
-
   .resource-item {
     display: flex;
     align-items: center;
@@ -568,9 +753,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .resource-item:hover { border-color: var(--border2); }
-
   .resource-icon {
     width: 30px; height: 30px;
     border-radius: 7px;
@@ -578,16 +761,13 @@
     font-size: 14px;
     flex-shrink: 0;
   }
-
-  .ri-pdf { background: rgba(248, 113, 113, 0.15); }
-  .ri-vid { background: rgba(56, 189, 248, 0.15); }
+  .ri-pdf  { background: rgba(248, 113, 113, 0.15); }
+  .ri-vid  { background: rgba(56, 189, 248, 0.15); }
   .ri-link { background: rgba(167, 139, 250, 0.15); }
-  .ri-doc { background: rgba(52, 211, 153, 0.15); }
-
+  .ri-doc  { background: rgba(52, 211, 153, 0.15); }
   .resource-info { flex: 1; min-width: 0; }
   .resource-name { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .resource-tag { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
-
+  .resource-tag  { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
   .resource-badge {
     font-size: 9px;
     font-weight: 700;
@@ -597,10 +777,8 @@
     color: var(--text-muted);
     border: 1px solid var(--border);
   }
-
   /* FEEDBACK LOOP */
   .feedback-card { grid-column: 2; grid-row: 2; }
-
   .feedback-badge {
     font-size: 10px;
     font-weight: 700;
@@ -610,7 +788,6 @@
     color: var(--pink);
     border: 1px solid rgba(236, 72, 153, 0.3);
   }
-
   .feedback-item {
     padding: 10px;
     border-radius: 8px;
@@ -620,18 +797,14 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .feedback-item:hover { border-color: var(--border2); }
-
   .feedback-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 5px;
   }
-
   .feedback-subject { font-size: 11px; font-weight: 700; color: var(--text); }
-
   .feedback-status {
     font-size: 9px;
     font-weight: 700;
@@ -640,20 +813,18 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-
-  .fs-open { background: rgba(245, 158, 11, 0.15); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.3); }
-  .fs-resolved { background: rgba(52, 211, 153, 0.15); color: var(--accent3); border: 1px solid rgba(52, 211, 153, 0.3); }
-
+  .fs-open     { background: rgba(245, 158, 11, 0.15); color: var(--warn);   border: 1px solid rgba(245, 158, 11, 0.3); }
+  .fs-resolved { background: rgba(52, 211, 153, 0.15); color: var(--accent3);border: 1px solid rgba(52, 211, 153, 0.3); }
   .feedback-text { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-
   /* KNOWLEDGE GRAPH */
   .knowledge-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
+    flex-shrink: 0;
+    min-height: 200px;
   }
-
   .knowledge-header {
     display: flex;
     align-items: center;
@@ -661,7 +832,6 @@
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
   }
-
   .knowledge-title {
     display: flex;
     align-items: center;
@@ -670,7 +840,6 @@
     font-weight: 700;
     color: var(--text);
   }
-
   .toggle-btn {
     font-size: 11px;
     color: var(--text-muted);
@@ -682,58 +851,17 @@
     font-family: 'Space Grotesk', sans-serif;
     transition: all 0.15s;
   }
-
   .toggle-btn:hover { border-color: var(--border2); color: var(--text); }
-
   .knowledge-body {
-    padding: 16px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-    min-height: 100px;
+    padding: 8px 0;
     position: relative;
     overflow: hidden;
   }
 
-  .graph-canvas {
-    position: absolute;
-    inset: 0;
-    opacity: 0.08;
-  }
-
-  .subject-node {
-    padding: 7px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    background: var(--surface2);
-    border: 1.5px solid var(--border2);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    z-index: 1;
-  }
-
-  .subject-node:hover {
-    transform: translateY(-2px);
-    color: var(--text);
-    border-color: var(--accent);
-    background: rgba(56, 189, 248, 0.1);
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
-  }
-
-  .sn-java { border-color: rgba(245, 158, 11, 0.5); color: var(--warn); }
-  .sn-oop { border-color: rgba(167, 139, 250, 0.5); color: var(--purple); }
-  .sn-dbms { border-color: rgba(56, 189, 248, 0.5); color: var(--accent); }
-  .sn-sql { border-color: rgba(52, 211, 153, 0.5); color: var(--accent3); }
-  .sn-maths { border-color: rgba(236, 72, 153, 0.5); color: var(--pink); }
-  .sn-stats { border-color: rgba(248, 113, 113, 0.5); color: var(--danger); }
-  .sn-cn { border-color: rgba(129, 140, 248, 0.5); color: var(--accent2); }
-  .sn-net { border-color: rgba(245, 158, 11, 0.5); color: var(--warn); }
-  .sn-dp { border-color: rgba(167, 139, 250, 0.5); color: var(--purple); }
-
+  /* Knowledge graph SVG node hover */
+  .kg-node { cursor: pointer; transition: opacity 0.15s; }
+  .kg-node:hover { opacity: 0.85; }
+  .kg-node:hover circle { filter: brightness(1.1); }
   /* MODAL */
   .modal-overlay {
     display: none;
@@ -745,9 +873,7 @@
     align-items: center;
     justify-content: center;
   }
-
   .modal-overlay.open { display: flex; }
-
   .modal {
     background: var(--surface);
     border: 1px solid var(--border2);
@@ -756,14 +882,11 @@
     width: 360px;
     animation: fadeUp 0.2s ease;
   }
-
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
   .modal-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
-
   .modal-input {
     width: 100%;
     background: var(--surface2);
@@ -777,15 +900,8 @@
     margin-bottom: 10px;
     transition: border-color 0.15s;
   }
-
   .modal-input:focus { border-color: var(--accent); }
-
-  .modal-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
+  .modal-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .modal-select {
     flex: 1;
     background: var(--surface2);
@@ -798,9 +914,7 @@
     outline: none;
     cursor: pointer;
   }
-
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
-
   .btn-cancel {
     padding: 7px 14px;
     background: transparent;
@@ -812,9 +926,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .btn-cancel:hover { border-color: var(--border2); color: var(--text); }
-
   .btn-submit {
     padding: 7px 14px;
     background: var(--accent);
@@ -827,15 +939,131 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .btn-submit:hover { background: #7dd3fc; }
-
+  /* IMPROVEMENT MODAL */
+  .improvement-modal {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 24px;
+    width: 420px;
+    animation: fadeUp 0.2s ease;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .improvement-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .improvement-icon {
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .improvement-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .improvement-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .improvement-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .improvement-section {
+    margin-bottom: 16px;
+  }
+  .improvement-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .improvement-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .improvement-item::before {
+    content: "✓";
+    color: var(--accent3);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .improvement-action {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .improvement-action:hover {
+    background: var(--surface3);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .improvement-close {
+    width: 100%;
+    background: var(--accent);
+    color: #0d1117;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.15s;
+  }
+  .improvement-close:hover { background: #7dd3fc; }
   /* ANIMATIONS */
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
   }
-
   .live-dot {
     width: 6px; height: 6px;
     background: var(--accent3);
@@ -844,20 +1072,249 @@
     display: inline-block;
     margin-right: 5px;
   }
-
-  .card-fade-in {
-    animation: fadeUp 0.4s ease both;
-  }
-
+  .card-fade-in { animation: fadeUp 0.4s ease both; }
   .card-fade-in:nth-child(1) { animation-delay: 0.05s; }
   .card-fade-in:nth-child(2) { animation-delay: 0.1s; }
   .card-fade-in:nth-child(3) { animation-delay: 0.15s; }
   .card-fade-in:nth-child(4) { animation-delay: 0.2s; }
   .card-fade-in:nth-child(5) { animation-delay: 0.25s; }
+  /* PAGE VIEWS */
+  .pv-header {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .pv-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .pv-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .pv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .pv-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .pv-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .pv-input,
+  .pv-select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.15s;
+  }
+  .pv-input:focus,
+  .pv-select:focus { border-color: var(--accent); }
+  .pv-input::placeholder { color: var(--text-dim); }
+  .pv-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #0d1117;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+  .pv-btn:hover { background: #7dd3fc; transform: translateY(-1px); }
+  /* COLLEGE CARDS */
+  .college-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+  }
+  .college-card:hover { border-color: var(--border2); }
+  .cc-rank {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-dim);
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .cc-info { flex: 1; min-width: 0; }
+  .cc-name {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+  .cc-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .cc-bar-bg {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface3);
+    margin-top: 8px;
+  }
+  .cc-bar-fill {
+    height: 6px;
+    border-radius: 3px;
+  }
+  .cc-pct {
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .cc-type {
+    font-size: 10px;
+    border-radius: 6px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+  }
+  .type-govt { background: rgba(52, 211, 153, 0.15); color: var(--accent3); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .type-pvt { background: rgba(167, 139, 250, 0.15); color: var(--purple); border: 1px solid rgba(167, 139, 250, 0.3); }
+  .type-deemed { background: rgba(245, 158, 11, 0.15); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.3); }
+  /* COURSE CARDS */
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .course-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+  }
+  .course-card.selected {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.05);
+  }
+  .cs-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .cs-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cs-credits {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .cs-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .cs-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .cs-tag {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .cs-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--warn);
+  }
+  .cs-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cs-prereq {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .cs-add {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cs-add:hover { background: rgba(56, 189, 248, 0.2); }
+  .cs-add.added {
+    background: rgba(52, 211, 153, 0.1);
+    color: var(--accent3);
+  }
+  /* FILTER CHIPS */
+  .chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface2);
+  }
+  .chip:hover,
+  .chip.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+  }
 </style>
 </head>
 <body>
-
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="brand">
@@ -868,182 +1325,237 @@
     </div>
     <div class="brand-subtitle">The Scholar's Command Center</div>
   </div>
-
+  <!-- MAIN section: Dashboard only -->
   <div class="nav-section-label">Main</div>
-  <div class="nav-item active" data-view="dashboard"><span class="icon">⚡</span> Dashboard</div>
-
-  <div class="nav-item"><span class="icon">🎯</span> Priority Hub</div>
-  <div class="nav-item"><span class="icon">📚</span> Subjects</div>
-  <div class="nav-item"><span class="icon">📝</span> Notes</div>
-  <div class="nav-item"><span class="icon">📦</span> Resources</div>
-  <div class="nav-item"><span class="icon">💬</span> Feedback</div>
-  <div class="nav-item"><span class="icon">🔗</span> Knowledge Graph</div>
-  <div class="nav-item"><span class="icon">📅</span> Calendar</div>
-
+  <div class="nav-item active" onclick="showView('dashboard')"><span class="icon">⚡</span> Dashboard</div>
+  <!-- TOOLS section -->
   <div class="nav-section-label">Tools</div>
-  <div class="nav-item"><span class="icon">🏛️</span> College Predictor <span class="nav-badge">NEW</span></div>
-  <div class="nav-item"><span class="icon">📋</span> Course Selector <span class="nav-badge">NEW</span></div>
-  <div class="nav-item"><span class="icon">⚙️</span> Settings</div>
-
+  <div class="nav-item" onclick="showView('predictor')"><span class="icon">🏛️</span> College Predictor <span class="nav-badge">NEW</span></div>
+  <div class="nav-item" onclick="showView('courses')"><span class="icon">📋</span> Course Selector <span class="nav-badge">NEW</span></div>
+  <div class="nav-item" onclick="showView('settings')"><span class="icon">⚙️</span> Settings</div>
   <div class="quick-focus">
     <div class="quick-focus-label">Quick Focus</div>
     <div class="quick-focus-title"><span class="live-dot"></span>Live Class Mode</div>
     <div class="quick-focus-desc">Hide distractions. Show only notes & class resources.</div>
     <button class="btn-live">Enable Now</button>
   </div>
-
   <div class="cmd-palette">
     <span>Command Palette</span>
     <span class="kbd">Ctrl K</span>
   </div>
 </aside>
-
 <!-- MAIN AREA -->
 <div class="main">
   <!-- TOPBAR -->
   <div class="topbar">
     <span class="topbar-title">Scholar's Command Center</span>
-    <span class="topbar-date">Friday 3 April</span>
-    <span class="topbar-clock" id="clock">21:00</span>
-    <div class="search-bar">
-      <span>🔍</span>
-      <span style="flex:1; color: var(--text-dim)">Search anything…</span>
-      <span class="kbd">⌘K</span>
-    </div>
-    <div class="btn-bell" title="Notifications">
+    <span class="topbar-date" id="topbar-date"></span>
+    <span class="topbar-clock" id="clock"></span>
+    <div class="btn-bell" title="Notifications" onclick="toggleNotifications()">
       🔔
-      <div class="notif-dot"></div>
+      <div class="notif-dot" id="notif-dot"></div>
+      <div class="notif-popup" id="notif-popup">
+        <div class="notif-header">Notifications</div>
+        <div class="notif-item" onclick="focusFeedback()">
+          <span class="notif-icon">💬</span>
+          <div class="notif-content">
+            <div class="notif-title">Feedback Loop</div>
+            <div class="notif-desc">2 new professor comments awaiting review</div>
+            <div class="notif-time">2 mins ago</div>
+          </div>
+        </div>
+        <div class="notif-item" onclick="focusResources()">
+          <span class="notif-icon">📚</span>
+          <div class="notif-content">
+            <div class="notif-title">Resource Shelf</div>
+            <div class="notif-desc">3 new study materials added to DBMS section</div>
+            <div class="notif-time">15 mins ago</div>
+          </div>
+        </div>
+        <div class="notif-item" onclick="focusLiveSession()">
+          <span class="notif-icon">🎓</span>
+          <div class="notif-content">
+            <div class="notif-title">Live Session</div>
+            <div class="notif-desc">DBMS lecture starts in 30 minutes</div>
+            <div class="notif-time">30 mins ago</div>
+          </div>
+        </div>
+      </div>
     </div>
     <button class="btn-add" onclick="openModal()">+ Quick Add</button>
     <div class="avatar">PB</div>
   </div>
-
   <!-- CONTENT -->
-  <div class="content">
+  <div class="content" id="dashboard-view">
     <div class="top-grid">
-
       <!-- PRIORITY HUB -->
       <div class="card priority-card card-fade-in">
         <div class="card-header">
           <span class="card-icon">⚡</span>
           <div class="card-title-group">
             <div class="card-title">Priority Hub</div>
-            <div class="card-subtitle">Urgency × Grade Weight · Drag to reorder · Filter by subject</div>
+            <div class="card-subtitle">Urgency × Grade Weight · Click ✓ to complete</div>
           </div>
           <div class="card-meta" id="task-count">0/6 done</div>
         </div>
         <div class="card-body">
-          <button class="add-task-btn" onclick="openModal()">+ Add task via Cmd+K or click</button>
+          <div class="priority-filter-row">
+            <select class="modal-select" id="taskDateFilter" onchange="applyDateMonthFilter()">
+              <option value="Any">Any Date</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+            </select>
+            <select class="modal-select" id="taskMonthFilter" onchange="applyDateMonthFilter()">
+              <option value="Any">Any Month</option>
+              <option value="Jan">Jan</option>
+              <option value="Feb">Feb</option>
+              <option value="Mar">Mar</option>
+              <option value="Apr">Apr</option>
+              <option value="May">May</option>
+              <option value="Jun">Jun</option>
+              <option value="Jul">Jul</option>
+              <option value="Aug">Aug</option>
+              <option value="Sep">Sep</option>
+              <option value="Oct">Oct</option>
+              <option value="Nov">Nov</option>
+              <option value="Dec">Dec</option>
+            </select>
+            <button class="pv-btn" onclick="resetDateMonthFilter()">Reset</button>
+          </div>
+          <button class="add-task-btn" onclick="openModal()">+ Add task via Ctrl+K or click</button>
           <div id="task-list">
-            <div class="task-item">
+            <div class="task-item" data-date="10" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Submit DBMS Assignment 3</span>
               <span class="task-subject">DBMS</span>
+              <span class="task-date-tag">10 Mar</span>
               <span class="task-priority tp-high">High</span>
             </div>
-            <div class="task-item">
+            <div class="task-item" data-date="14" data-month="Apr">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Revise OOP Polymorphism chapter</span>
               <span class="task-subject">OOP</span>
+              <span class="task-date-tag">14 Apr</span>
               <span class="task-priority tp-med">Med</span>
             </div>
-            <div class="task-item">
+            <div class="task-item" data-date="20" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Statistics problem set Week 8</span>
               <span class="task-subject">Stats</span>
+              <span class="task-date-tag">20 Mar</span>
               <span class="task-priority tp-high">High</span>
             </div>
-            <div class="task-item">
+            <div class="task-item" data-date="22" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Read CN Chapter 5 — IP Routing</span>
               <span class="task-subject">CN</span>
+              <span class="task-date-tag">22 Mar</span>
               <span class="task-priority tp-med">Med</span>
             </div>
-            <div class="task-item">
+            <div class="task-item" data-date="26" data-month="Apr">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Design Patterns quiz prep</span>
               <span class="task-subject">DP</span>
+              <span class="task-date-tag">26 Apr</span>
               <span class="task-priority tp-low">Low</span>
             </div>
-            <div class="task-item">
+            <div class="task-item" data-date="30" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Maths integration practice sheet</span>
               <span class="task-subject">Maths</span>
+              <span class="task-date-tag">30 Mar</span>
               <span class="task-priority tp-low">Low</span>
             </div>
           </div>
         </div>
       </div>
-
       <!-- SUBJECT HEALTH BARS -->
       <div class="card health-card card-fade-in">
         <div class="card-header">
           <span class="card-icon">🩺</span>
           <div class="card-title-group">
             <div class="card-title">Subject Health Bars</div>
-            <div class="card-subtitle">Animated life bar · Trend arrow · Click → deep-dive in graph</div>
+            <div class="card-subtitle">Animated life bar · Trend arrow · Hover for details</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('Java', 82)">
             <div class="health-name">Java</div>
             <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:82%"></div></div>
             <div class="health-val">82%</div>
-            <div class="health-trend">↑</div>
+            <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('OOP', 76)">
             <div class="health-name">OOP</div>
             <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:76%"></div></div>
             <div class="health-val">76%</div>
             <div class="health-trend" style="color:var(--text-dim)">→</div>
           </div>
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('DBMS', 61)">
             <div class="health-name">DBMS</div>
             <div class="health-bar-wrap"><div class="health-bar hb-ok" style="width:61%"></div></div>
             <div class="health-val">61%</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
           </div>
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('Maths', 44)">
             <div class="health-name">Maths</div>
             <div class="health-bar-wrap"><div class="health-bar hb-warn" style="width:44%"></div></div>
             <div class="health-val">44%</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
           </div>
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('Stats', 69)">
             <div class="health-name">Stats</div>
             <div class="health-bar-wrap"><div class="health-bar hb-ok" style="width:69%"></div></div>
             <div class="health-val">69%</div>
-            <div class="health-trend">↑</div>
+            <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
-          <div class="health-item">
+          <div class="health-item" onclick="showImprovementTips('Networks', 88)">
             <div class="health-name">Networks</div>
             <div class="health-bar-wrap"><div class="health-bar hb-good" style="width:88%"></div></div>
             <div class="health-val">88%</div>
-            <div class="health-trend">↑</div>
+            <div class="health-trend" style="color:var(--accent3)">↑</div>
           </div>
         </div>
       </div>
-
       <!-- RESOURCE SHELF -->
       <div class="card resource-card card-fade-in">
         <div class="card-header">
           <span class="card-icon">📚</span>
           <div class="card-title-group">
             <div class="card-title">Resource Shelf</div>
-            <div class="card-subtitle">Searchable · Tagged · Quick Preview · Collapses in class</div>
+            <div class="card-subtitle">Tagged · Filter by subject</div>
           </div>
         </div>
         <div class="card-body">
-          <div class="resource-search-bar">
-            <input class="resource-search" type="text" placeholder="Search by name or #tag…" id="resourceSearch" oninput="filterResources()">
-            <select class="resource-filter" id="resourceFilter" onchange="filterResources()">
-              <option value="">All</option>
-              <option value="DBMS">DBMS</option>
-              <option value="Java">Java</option>
-              <option value="CN">CN</option>
-              <option value="Maths">Maths</option>
-            </select>
-          </div>
           <div id="resource-list">
             <div class="resource-item" data-tag="DBMS">
               <div class="resource-icon ri-pdf">📄</div>
@@ -1088,14 +1600,13 @@
           </div>
         </div>
       </div>
-
       <!-- FEEDBACK LOOP -->
       <div class="card feedback-card card-fade-in">
         <div class="card-header">
           <span class="card-icon">💬</span>
           <div class="card-title-group">
             <div class="card-title">Feedback Loop</div>
-            <div class="card-subtitle">Professor comments as issues · Open / Resolved / Replied</div>
+            <div class="card-subtitle">Professor comments · Open / Resolved</div>
           </div>
           <div class="feedback-badge">2 open</div>
         </div>
@@ -1123,38 +1634,281 @@
           </div>
         </div>
       </div>
-
     </div>
-
     <!-- KNOWLEDGE GRAPH -->
     <div class="knowledge-card card-fade-in">
       <div class="knowledge-header">
-        <div class="knowledge-title">
-          🔗 Knowledge Graph — full-width · tags link subjects visually
-        </div>
+        <div class="knowledge-title">🔗 Knowledge Graph — subjects linked by shared concepts</div>
         <button class="toggle-btn" onclick="toggleGraph()">Toggle ↕</button>
       </div>
       <div class="knowledge-body" id="graphBody">
-        <svg class="graph-canvas" id="graphSvg"></svg>
-        <div class="subject-node sn-java">Java</div>
-        <div class="subject-node sn-oop">OOP</div>
-        <div class="subject-node sn-dbms">DBMS</div>
-        <div class="subject-node sn-sql">SQL</div>
-        <div class="subject-node sn-maths">Maths</div>
-        <div class="subject-node sn-stats">Statistics</div>
-        <div class="subject-node sn-cn">CN</div>
-        <div class="subject-node sn-net">Networks</div>
-        <div class="subject-node sn-dp">Design Patterns</div>
+        <svg width="100%" viewBox="0 0 780 300" style="display:block; padding: 0 8px;">
+          <defs>
+            <!-- solid edge marker -->
+            <marker id="kg-arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                    markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- ── EDGES (drawn before nodes so nodes sit on top) ── -->
+
+          <!-- OOP cluster: Java ↔ OOP, OOP ↔ Design Patterns, Java ↔ Design Patterns -->
+          <line x1="140" y1="90"  x2="255" y2="65"  stroke="#7F77DD" stroke-width="1.8" opacity="0.55" fill="none"/>
+          <line x1="255" y1="65"  x2="285" y2="170" stroke="#7F77DD" stroke-width="2.2" opacity="0.7"  fill="none"/>
+          <line x1="140" y1="90"  x2="285" y2="170" stroke="#7F77DD" stroke-width="1.2" opacity="0.35" fill="none"/>
+
+          <!-- Data cluster: DBMS ↔ SQL -->
+          <line x1="530" y1="75"  x2="640" y2="150" stroke="#1D9E75" stroke-width="2.2" opacity="0.7"  fill="none"/>
+
+          <!-- Network cluster: CN ↔ Networks -->
+          <line x1="530" y1="210" x2="640" y2="150" stroke="#185FA5" stroke-width="2.2" opacity="0.65" fill="none"/>
+
+          <!-- Quantitative cluster: Maths ↔ Stats -->
+          <line x1="140" y1="230" x2="370" y2="255" stroke="#BA7517" stroke-width="1.8" opacity="0.55" fill="none"/>
+
+          <!-- Cross-domain dashed links -->
+          <!-- Java → DBMS -->
+          <line x1="140" y1="90"  x2="530" y2="75"  stroke="#4a5568" stroke-width="1" opacity="0.3" stroke-dasharray="5 4" fill="none"/>
+          <!-- Stats → DBMS -->
+          <line x1="370" y1="255" x2="530" y2="75"  stroke="#4a5568" stroke-width="1" opacity="0.25" stroke-dasharray="5 4" fill="none"/>
+          <!-- CN → DBMS -->
+          <line x1="530" y1="210" x2="530" y2="75"  stroke="#4a5568" stroke-width="1" opacity="0.2"  stroke-dasharray="5 4" fill="none"/>
+
+          <!-- Edge relationship micro-labels -->
+          <text x="195" y="68"  text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#AFA9EC" opacity="0.85">inheritance</text>
+          <text x="275" y="125" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#AFA9EC" opacity="0.85">patterns</text>
+          <text x="592" y="103" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#5DCAA5" opacity="0.85">queries</text>
+          <text x="595" y="193" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#85B7EB" opacity="0.85">protocols</text>
+          <text x="253" y="252" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#FAC775" opacity="0.85">probability</text>
+
+          <!-- ── NODES ── -->
+
+          <!-- Java (purple) -->
+          <g class="kg-node" onclick="showImprovementTips('Java', 82)" title="Java">
+            <circle cx="140" cy="90" r="34" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
+            <circle cx="140" cy="90" r="26" fill="#EEEDFE" fill-opacity="0.12" stroke="none"/>
+            <text x="140" y="85" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#AFA9EC">Java</text>
+            <text x="140" y="103" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#7F77DD" opacity="0.8">82% ↑</text>
+          </g>
+
+          <!-- OOP (purple) -->
+          <g class="kg-node" onclick="showImprovementTips('OOP', 76)" title="OOP">
+            <circle cx="255" cy="65" r="32" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
+            <text x="255" y="60" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#AFA9EC">OOP</text>
+            <text x="255" y="78" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#7F77DD" opacity="0.8">76% →</text>
+          </g>
+
+          <!-- Design Patterns (purple) -->
+          <g class="kg-node" title="Design Patterns">
+            <circle cx="285" cy="175" r="38" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
+            <text x="285" y="169" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#AFA9EC">Design</text>
+            <text x="285" y="183" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#AFA9EC">Patterns</text>
+          </g>
+
+          <!-- DBMS (teal) -->
+          <g class="kg-node" onclick="showImprovementTips('DBMS', 61)" title="DBMS">
+            <circle cx="530" cy="75" r="34" fill="#041a12" stroke="#0F6E56" stroke-width="1.8"/>
+            <text x="530" y="70" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">DBMS</text>
+            <text x="530" y="88" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#1D9E75" opacity="0.8">61% ↓</text>
+          </g>
+
+          <!-- SQL (teal) -->
+          <g class="kg-node" title="SQL">
+            <circle cx="640" cy="150" r="30" fill="#041a12" stroke="#0F6E56" stroke-width="1.8"/>
+            <text x="640" y="145" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">SQL</text>
+            <text x="640" y="163" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#1D9E75" opacity="0.8">queries</text>
+          </g>
+
+          <!-- CN (blue) -->
+          <g class="kg-node" title="CN">
+            <circle cx="530" cy="210" r="30" fill="#020c18" stroke="#185FA5" stroke-width="1.8"/>
+            <text x="530" y="205" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#85B7EB">CN</text>
+            <text x="530" y="223" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#378ADD" opacity="0.8">OSI / TCP</text>
+          </g>
+
+          <!-- Networks (blue) -->
+          <g class="kg-node" onclick="showImprovementTips('Networks', 88)" title="Networks">
+            <circle cx="730" cy="200" r="34" fill="#020c18" stroke="#185FA5" stroke-width="1.8"/>
+            <text x="730" y="195" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#85B7EB">Networks</text>
+            <text x="730" y="209" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#378ADD" opacity="0.8">88% ↑</text>
+          </g>
+
+          <!-- CN → Networks edge -->
+          <line x1="560" y1="220" x2="698" y2="200" stroke="#185FA5" stroke-width="1.8" opacity="0.55" fill="none"/>
+
+          <!-- Maths (amber) -->
+          <g class="kg-node" onclick="showImprovementTips('Maths', 44)" title="Maths">
+            <circle cx="140" cy="230" r="32" fill="#180d00" stroke="#854F0B" stroke-width="1.8"/>
+            <text x="140" y="225" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#FAC775">Maths</text>
+            <text x="140" y="243" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#BA7517" opacity="0.8">44% ↓</text>
+          </g>
+
+          <!-- Stats (amber) -->
+          <g class="kg-node" onclick="showImprovementTips('Stats', 69)" title="Stats">
+            <circle cx="370" cy="255" r="34" fill="#180d00" stroke="#854F0B" stroke-width="1.8"/>
+            <text x="370" y="250" text-anchor="middle" dominant-baseline="central"
+                  font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#FAC775">Statistics</text>
+            <text x="370" y="268" text-anchor="middle"
+                  font-family="'Space Grotesk', sans-serif" font-size="9" fill="#BA7517" opacity="0.8">69% ↑</text>
+          </g>
+
+          <!-- Legend -->
+          <circle cx="28" cy="280" r="5" fill="#1a1830" stroke="#534AB7" stroke-width="1.5"/>
+          <text x="38" y="284" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#7d8fa3">OOP cluster</text>
+          <circle cx="118" cy="280" r="5" fill="#041a12" stroke="#0F6E56" stroke-width="1.5"/>
+          <text x="128" y="284" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#7d8fa3">Data cluster</text>
+          <circle cx="208" cy="280" r="5" fill="#020c18" stroke="#185FA5" stroke-width="1.5"/>
+          <text x="218" y="284" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#7d8fa3">Network cluster</text>
+          <circle cx="318" cy="280" r="5" fill="#180d00" stroke="#854F0B" stroke-width="1.5"/>
+          <text x="328" y="284" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#7d8fa3">Quantitative</text>
+          <line x1="428" y1="280" x2="458" y2="280" stroke="#4a5568" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="464" y="284" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#7d8fa3">cross-domain</text>
+        </svg>
       </div>
     </div>
+  </div>
 
+  <!-- COLLEGE PREDICTOR VIEW -->
+  <div class="content" id="predictor-view" style="display: none;">
+    <div class="pv-header">
+      <h2>🏛️ College Predictor</h2>
+      <p>Enter your academic profile to find the best-matched colleges based on CGPA and preferences.</p>
+    </div>
+    <div class="pv-grid">
+      <div class="pv-card">
+        <div class="pv-label">Your Academic Profile</div>
+        <label style="font-size:11px;color:var(--text-dim)">Current CGPA (out of 10)</label>
+        <input class="pv-input" id="cgpa-input" type="number" min="0" max="10" step="0.1" value="7.8" oninput="renderColleges()" />
+        <label style="font-size:11px;color:var(--text-dim)">Preferred Course</label>
+        <select class="pv-select">
+          <option>Computer Science</option>
+          <option>Electronics</option>
+          <option>Mechanical</option>
+          <option>Biotechnology</option>
+          <option>MBA</option>
+          <option>Data Science</option>
+        </select>
+        <label style="font-size:11px;color:var(--text-dim)">College Type</label>
+        <select class="pv-select" id="college-type-filter" onchange="renderColleges()">
+          <option value="All">All Types</option>
+          <option value="govt">Government / NIT / IIT</option>
+          <option value="pvt">Private</option>
+          <option value="deemed">Deemed University</option>
+        </select>
+        <label style="font-size:11px;color:var(--text-dim)">Preferred State</label>
+        <select class="pv-select">
+          <option>Any State</option>
+          <option>Maharashtra</option>
+          <option>Tamil Nadu</option>
+          <option>Karnataka</option>
+          <option>Delhi</option>
+          <option>Rajasthan</option>
+        </select>
+        <button class="pv-btn" onclick="renderColleges()">🔍 Predict Colleges</button>
+      </div>
+      <div class="pv-card">
+        <div class="pv-label">Match Results</div>
+        <div id="college-list">
+          <p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Click Predict to see results.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COURSE SELECTOR VIEW -->
+  <div class="content" id="courses-view" style="display: none;">
+    <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;flex-direction:row">
+      <div>
+        <h2>📋 Course Selector</h2>
+        <p>Browse electives, check prerequisites, and build your semester plan.</p>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--accent)" id="selected-credits">0 credits selected</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="chip-row" style="margin:0">
+        <span class="chip active" onclick="setCourseFilter('All',this)">All Areas</span>
+        <span class="chip" onclick="setCourseFilter('AI/ML',this)">AI/ML</span>
+        <span class="chip" onclick="setCourseFilter('Core CS',this)">Core CS</span>
+        <span class="chip" onclick="setCourseFilter('Data',this)">Data</span>
+        <span class="chip" onclick="setCourseFilter('Infrastructure',this)">Infrastructure</span>
+        <span class="chip" onclick="setCourseFilter('Security',this)">Security</span>
+        <span class="chip" onclick="setCourseFilter('Development',this)">Development</span>
+        <span class="chip" onclick="setCourseFilter('Design',this)">Design</span>
+      </div>
+      <select class="pv-select" id="course-area-filter" style="width:auto;margin:0" onchange="renderCourses()">
+        <option>All</option>
+        <option>AI/ML</option>
+        <option>Core CS</option>
+        <option>Data</option>
+        <option>Infrastructure</option>
+        <option>Security</option>
+        <option>Development</option>
+        <option>Design</option>
+      </select>
+    </div>
+    <div class="pv-grid" id="course-list"></div>
+  </div>
+
+  <!-- SETTINGS VIEW -->
+  <div class="content" id="settings-view" style="display: none;">
+    <div class="pv-header">
+      <h2>⚙️ Settings</h2>
+      <p>Customize your Scholar's Command Center experience.</p>
+    </div>
+    <div class="pv-grid">
+      <div class="pv-card">
+        <div class="pv-label">Appearance</div>
+        <label style="font-size:11px;color:var(--text-dim)">Theme</label>
+        <select class="pv-select">
+          <option>Dark (Default)</option>
+          <option>Light</option>
+          <option>Auto</option>
+        </select>
+        <label style="font-size:11px;color:var(--text-dim)">Sidebar Position</label>
+        <select class="pv-select">
+          <option>Left</option>
+          <option>Right</option>
+        </select>
+      </div>
+      <div class="pv-card">
+        <div class="pv-label">Notifications</div>
+        <label style="font-size:11px;color:var(--text-dim)">Task Reminders</label>
+        <select class="pv-select">
+          <option>Enabled</option>
+          <option>Disabled</option>
+        </select>
+        <label style="font-size:11px;color:var(--text-dim)">Feedback Alerts</label>
+        <select class="pv-select">
+          <option>Enabled</option>
+          <option>Disabled</option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
-
 <!-- ADD TASK MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModalOnBg(event)">
   <div class="modal">
     <div class="modal-title">+ Quick Add Task</div>
+    <input type="hidden" id="taskId" value="">
     <input class="modal-input" type="text" id="taskInput" placeholder="Task description…">
     <div class="modal-row">
       <select class="modal-select" id="taskSubject">
@@ -1165,6 +1919,31 @@
         <option value="Stats">Stats</option>
         <option value="CN">CN</option>
         <option value="DP">DP</option>
+        <option value="Python">Python</option>
+        <option value="C++">C++</option>
+        <option value="C">C</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="HTML">HTML</option>
+        <option value="CSS">CSS</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="English">English</option>
+        <option value="History">History</option>
+        <option value="Geography">Geography</option>
+        <option value="Economics">Economics</option>
+        <option value="Accounting">Accounting</option>
+        <option value="Business">Business</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Management">Management</option>
+        <option value="Law">Law</option>
+        <option value="Philosophy">Philosophy</option>
+        <option value="Psychology">Psychology</option>
+        <option value="Sociology">Sociology</option>
+        <option value="Art">Art</option>
+        <option value="Music">Music</option>
+        <option value="Physical Education">Physical Education</option>
+        <option value="Other">Other</option>
       </select>
       <select class="modal-select" id="taskPriority">
         <option value="high">High Priority</option>
@@ -1172,71 +1951,520 @@
         <option value="low">Low Priority</option>
       </select>
     </div>
+    <div class="modal-row">
+      <select class="modal-select" id="taskDate">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+      </select>
+      <select class="modal-select" id="taskMonth">
+        <option value="Jan">Jan</option>
+        <option value="Feb">Feb</option>
+        <option value="Mar">Mar</option>
+        <option value="Apr">Apr</option>
+        <option value="May">May</option>
+        <option value="Jun">Jun</option>
+        <option value="Jul">Jul</option>
+        <option value="Aug">Aug</option>
+        <option value="Sep">Sep</option>
+        <option value="Oct">Oct</option>
+        <option value="Nov">Nov</option>
+        <option value="Dec">Dec</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <input class="modal-input" type="time" id="taskStartTime" placeholder="Start Time">
+      <input class="modal-input" type="time" id="taskEndTime" placeholder="End Time">
+    </div>
+    <div class="modal-row">
+      <input class="modal-input" type="url" id="taskLink" placeholder="Link (optional) e.g. https://example.com">
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-submit" onclick="addTask()">Add Task</button>
+      <button class="btn-submit" id="addTaskButton" onclick="addTask()">Add Task</button>
     </div>
   </div>
 </div>
-
+<!-- IMPROVEMENT SUGGESTIONS MODAL -->
+<div class="modal-overlay" id="improvement-modal" onclick="closeImprovementModal(event)">
+  <div class="improvement-modal" id="improvement-content">
+    <!-- Content will be dynamically inserted -->
+  </div>
+</div>
+<!-- TASK DETAIL VIEW -->
+<div class="task-detail-overlay" id="taskDetailOverlay" onclick="closeTaskDetail(event)">
+  <div class="task-detail-panel" id="taskDetailPanel">
+    <!-- Task details will be dynamically inserted -->
+  </div>
+</div>
 <script>
-  // CLOCK
+  const STORAGE_KEY = 'priorityHubTasks';
+  let tasks = [];
+
+  const defaults = [
+    {id:'t1',text:'Submit DBMS Assignment 3',subject:'DBMS',priority:'high',date:'10',month:'Mar',startTime:'09:00',endTime:'11:00',link:'https://classroom.google.com/c/DBMS',done:false},
+    {id:'t2',text:'Revise OOP Polymorphism chapter',subject:'OOP',priority:'med',date:'14',month:'Apr',startTime:'14:00',endTime:'16:30',link:'https://www.geeksforgeeks.org/polymorphism',done:false},
+    {id:'t3',text:'Statistics problem set Week 8',subject:'Stats',priority:'high',date:'20',month:'Mar',startTime:'10:00',endTime:'12:00',link:'https://example.com/stats-week8',done:false},
+    {id:'t4',text:'Read CN Chapter 5 — IP Routing',subject:'CN',priority:'med',date:'22',month:'Mar',startTime:'15:00',endTime:'17:00',link:'https://example.com/cn-chapter5',done:false},
+    {id:'t5',text:'Design Patterns quiz prep',subject:'DP',priority:'low',date:'26',month:'Apr',startTime:'18:00',endTime:'19:30',link:'https://refactoring.guru/design-patterns',done:false},
+    {id:'t6',text:'Maths integration practice sheet',subject:'Maths',priority:'low',date:'30',month:'Mar',startTime:'11:00',endTime:'13:00',link:'https://example.com/maths-integration',done:false},
+  ];
+
+  function saveTasks() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }
+
+  function loadTasks() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    tasks = data ? JSON.parse(data) : defaults.slice();
+    renderTasks();
+  }
+
+  function renderTasks() {
+    const list = document.getElementById('task-list');
+    list.innerHTML = '';
+    tasks.forEach(task => {
+      const item = document.createElement('div');
+      item.className = 'task-item';
+      item.dataset.taskId = task.id;
+      item.dataset.date = task.date;
+      item.dataset.month = task.month;
+      const timeDisplay = task.startTime && task.endTime ? `${task.startTime} - ${task.endTime}` : 'No time';
+      item.innerHTML = `
+        <div class="task-check ${task.done ? 'done' : ''}" onclick="toggleTask(event)">${task.done ? '✓' : ''}</div>
+        <span class="task-label ${task.done ? 'done' : ''}">${task.text}</span>
+        <span class="task-subject">${task.subject}</span>
+        <span class="task-date-tag">${task.date} ${task.month}</span>
+        <span class="task-time-tag">${timeDisplay}</span>
+        ${task.link ? `<button class="task-link-btn" data-link="${task.link}" title="Open Link">🧷</button>` : ''}
+        <span class="task-priority tp-${task.priority}">${task.priority === 'high' ? 'High' : task.priority === 'med' ? 'Med' : 'Low'}</span>
+      `;
+      item.addEventListener('click', (ev) => {
+        if (ev.target.classList.contains('task-check')) return;
+        if (ev.target.classList.contains('task-link-btn')) return;
+        showTaskDetail(task.id);
+      });
+      
+      // Add link button click handler
+      const linkBtn = item.querySelector('.task-link-btn');
+      if (linkBtn) {
+        linkBtn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const link = linkBtn.getAttribute('data-link');
+          if (link) window.open(link, '_blank');
+        });
+      }
+      list.appendChild(item);
+    });
+    applyDateMonthFilter(false);
+    updateTaskCount();
+  }
+
+  // CLOCK & DATE
   function updateClock() {
     const now = new Date();
     const h = String(now.getHours()).padStart(2,'0');
     const m = String(now.getMinutes()).padStart(2,'0');
     document.getElementById('clock').textContent = `${h}:${m}`;
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('topbar-date').textContent = `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}`;
   }
   updateClock();
   setInterval(updateClock, 10000);
 
-  // TASK TOGGLE
-  let doneCount = 0;
-  const totalTasks = () => document.querySelectorAll('.task-check').length;
-
-  function toggleTask(el) {
-    el.classList.toggle('done');
-    if (el.classList.contains('done')) {
-      el.textContent = '✓';
-      el.nextElementSibling.classList.add('done');
-      doneCount++;
-    } else {
-      el.textContent = '';
-      el.nextElementSibling.classList.remove('done');
-      doneCount--;
-    }
-    document.getElementById('task-count').textContent = `${doneCount}/${totalTasks()} done`;
+  function updateTaskCount() {
+    const allTasks = Array.from(document.querySelectorAll('.task-item'));
+    const visibleTasks = allTasks.filter(item => item.style.display !== 'none');
+    const doneTasks = visibleTasks.filter(item => item.querySelector('.task-check').classList.contains('done'));
+    const remaining = Math.max(0, visibleTasks.length - doneTasks.length);
+    document.getElementById('task-count').textContent = `${doneTasks.length}/${visibleTasks.length} done · ${remaining} remaining`;
   }
 
-  // MODAL
-  function openModal() {
-    document.getElementById('modal').classList.add('open');
+  const notificationCache = new Set();
+
+  function normalizeMonth(monthStr) {
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return m.indexOf(monthStr) >= 0 ? m.indexOf(monthStr) : new Date().getMonth();
+  }
+
+  function parseTaskDateTime(task, timeValue) {
+    if (!timeValue) return null;
+    const year = new Date().getFullYear();
+    const month = normalizeMonth(task.month);
+    const day = parseInt(task.date, 10) || new Date().getDate();
+    const [hours, minutes] = timeValue.split(':').map(n => parseInt(n, 10));
+    if (Number.isNaN(hours) || Number.isNaN(minutes)) return null;
+    return new Date(year, month, day, hours, minutes);
+  }
+
+  function playAlertSound() {
+    return new Promise((resolve) => {
+      try {
+        const audioPaths = [
+          'https://www.myinstants.com/media/sounds/fahhhhhhhhhhhhhh.mp3',
+          'faa.mp3',
+          'fahhhhh.mp3'
+        ];
+        let audio = document.getElementById('taskAlertAudio');
+        if (!audio) {
+          audio = document.createElement('audio');
+          audio.id = 'taskAlertAudio';
+          audio.preload = 'auto';
+          audio.style.display = 'none';
+          document.body.appendChild(audio);
+
+          audio.addEventListener('error', () => {
+            // Try alternate audio file if first fails
+            const current = audio.getAttribute('data-current-src');
+            const nextIndex = audioPaths.indexOf(current) + 1;
+            if (nextIndex < audioPaths.length) {
+              audio.src = audioPaths[nextIndex];
+              audio.setAttribute('data-current-src', audioPaths[nextIndex]);
+              audio.load();
+              audio.play().then(resolve).catch(e2 => {
+                console.error('Second audio play failed, oscillator fallback:', e2);
+                playOscillatorTone();
+                resolve();
+              });
+            } else {
+              console.warn('No MP3 available, using oscillator tone.');
+              playOscillatorTone();
+              resolve();
+            }
+          });
+        }
+
+        if (!audio.getAttribute('data-current-src')) {
+          audio.src = audioPaths[0];
+          audio.setAttribute('data-current-src', audioPaths[0]);
+        }
+
+        audio.currentTime = 0;
+        audio.play().then(() => {
+          resolve();
+        }).catch(e => {
+          console.error('Audio play failed, using oscillator fallback:', e);
+          playOscillatorTone();
+          resolve();
+        });
+      } catch (e) {
+        console.error('Sound alert failed, using oscillator fallback:', e);
+        playOscillatorTone();
+        resolve();
+      }
+    });
+  }
+
+  function playOscillatorTone() {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 0.18);
+      oscillator.onended = () => ctx.close();
+    } catch (e) {
+      console.error('Oscillator fallback failed', e);
+    }
+  }
+
+  function showPageAlert(message, duration = 7000) {
+    let alertBox = document.getElementById('pageAlertBox');
+    if (!alertBox) {
+      alertBox = document.createElement('div');
+      alertBox.id = 'pageAlertBox';
+      alertBox.className = 'page-alert';
+      document.body.appendChild(alertBox);
+    }
+    alertBox.textContent = message;
+    alertBox.classList.add('show');
+    setTimeout(() => alertBox.classList.remove('show'), duration);
+  }
+
+  function notifyTaskEvent(task, type) {
+    const key = `${task.id}-${type}`;
+    if (notificationCache.has(key)) return;
+    notificationCache.add(key);
+    const title = type === 'start' ? 'Task starts soon' : 'Task ends soon';
+    const body = `${task.text} (${task.date} ${task.month} ${task.startTime} - ${task.endTime})`;
+    const message = `${title}: ${body}`;
+
+    // page toast + sound first, then native alert
+    showPageAlert(message);
+    playAlertSound().finally(() => {
+      try { alert(message); } catch (e) { console.warn('Browser alert blocked:', e); }
+    });
+
+    // Web notification via Notification API (if granted)
+    if (window.Notification && Notification.permission === 'granted') {
+      new Notification(title, { body });
+    }
+  }
+
+  function checkTaskNotifications() {
+    const now = new Date();
+    tasks.forEach(task => {
+      if (task.done) return;
+      if (!task.startTime || !task.endTime) return;
+      const startDt = parseTaskDateTime(task, task.startTime);
+      const endDt = parseTaskDateTime(task, task.endTime);
+      if (!startDt || !endDt) return;
+      const diffStart = startDt - now;
+      const diffEnd = endDt - now;
+      const startWindow = diffStart >= -60 * 1000 && diffStart <= 10 * 60 * 1000;
+      const endWindow = diffEnd >= -60 * 1000 && diffEnd <= 10 * 60 * 1000;
+      if (startWindow) {
+        notifyTaskEvent(task, 'start');
+      }
+      if (endWindow) {
+        notifyTaskEvent(task, 'end');
+      }
+    });
+  }
+
+  function requestNotificationPermission() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          checkTaskNotifications();
+        }
+      });
+    }
+  }
+
+  function toggleTask(event) {
+    event.stopPropagation();
+    const el = event.target;
+    const taskItem = el.closest('.task-item');
+    const taskId = taskItem.dataset.taskId;
+    const task = tasks.find(t => t.id === taskId);
+    task.done = !task.done;
+    el.classList.toggle('done');
+    el.textContent = task.done ? '✓' : '';
+    const label = el.nextElementSibling;
+    label.classList.toggle('done', task.done);
+    saveTasks();
+    updateTaskCount();
+  }
+
+  function applyDateMonthFilter(refreshCount = true) {
+    const selectedDate = document.getElementById('taskDateFilter').value;
+    const selectedMonth = document.getElementById('taskMonthFilter').value;
+    document.querySelectorAll('.task-item').forEach(item => {
+      const taskDate = item.dataset.date || '';
+      const taskMonth = item.dataset.month || '';
+      const matchDate = selectedDate === 'Any' || taskDate === selectedDate;
+      const matchMonth = selectedMonth === 'Any' || taskMonth === selectedMonth;
+      item.style.display = matchDate && matchMonth ? '' : 'none';
+    });
+    if (refreshCount) updateTaskCount();
+  }
+
+  function resetDateMonthFilter() {
+    document.getElementById('taskDateFilter').value = 'Any';
+    document.getElementById('taskMonthFilter').value = 'Any';
+    applyDateMonthFilter();
+  }
+
+  function openModal(editId = null) {
+    const modal = document.getElementById('modal');
+    const title = modal.querySelector('.modal-title');
+    const submit = document.getElementById('addTaskButton');
+    const tripId = document.getElementById('taskId');
+
+    if (editId) {
+      const task = tasks.find(t => t.id === editId);
+      document.getElementById('taskInput').value = task.text;
+      document.getElementById('taskSubject').value = task.subject;
+      document.getElementById('taskPriority').value = task.priority;
+      document.getElementById('taskDate').value = task.date;
+      document.getElementById('taskMonth').value = task.month;
+      document.getElementById('taskStartTime').value = task.startTime || '';
+      document.getElementById('taskEndTime').value = task.endTime || '';
+      document.getElementById('taskLink').value = task.link || '';
+      title.textContent = '✏️ Edit Task';
+      submit.textContent = 'Update Task';
+      tripId.value = editId;
+    } else {
+      document.getElementById('taskInput').value = '';
+      document.getElementById('taskSubject').value = 'Java';
+      document.getElementById('taskPriority').value = 'high';
+      document.getElementById('taskDate').value = (new Date()).getDate();
+      document.getElementById('taskMonth').value = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][(new Date()).getMonth()];
+      document.getElementById('taskStartTime').value = '';
+      document.getElementById('taskEndTime').value = '';
+      document.getElementById('taskLink').value = '';
+      title.textContent = '+ Quick Add Task';
+      submit.textContent = 'Add Task';
+      tripId.value = '';
+    }
+
+    modal.classList.add('open');
     setTimeout(() => document.getElementById('taskInput').focus(), 100);
   }
-  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('taskInput').value = '';
+    document.getElementById('taskId').value = '';
+  }
+
   function closeModalOnBg(e) { if (e.target.id === 'modal') closeModal(); }
 
   function addTask() {
+    const taskId = document.getElementById('taskId').value;
     const label = document.getElementById('taskInput').value.trim();
     if (!label) return;
     const subject = document.getElementById('taskSubject').value;
     const pVal = document.getElementById('taskPriority').value;
-    const pLabel = pVal === 'high' ? 'High' : pVal === 'med' ? 'Med' : 'Low';
-    const pClass = `tp-${pVal}`;
+    const dueDate = document.getElementById('taskDate').value;
+    const dueMonth = document.getElementById('taskMonth').value;
+    const startTime = document.getElementById('taskStartTime').value || '09:00';
+    const endTime = document.getElementById('taskEndTime').value || '10:00';
+    const link = document.getElementById('taskLink').value.trim() || '';
 
-    const item = document.createElement('div');
-    item.className = 'task-item';
-    item.innerHTML = `
-      <div class="task-check" onclick="toggleTask(this)"></div>
-      <span class="task-label">${label}</span>
-      <span class="task-subject">${subject}</span>
-      <span class="task-priority ${pClass}">${pLabel}</span>
-    `;
-    document.getElementById('task-list').appendChild(item);
-    document.getElementById('task-count').textContent = `${doneCount}/${totalTasks()} done`;
-    document.getElementById('taskInput').value = '';
+    if (taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      task.text = label;
+      task.subject = subject;
+      task.priority = pVal;
+      task.date = dueDate;
+      task.month = dueMonth;
+      task.startTime = startTime;
+      task.endTime = endTime;
+      task.link = link;
+    } else {
+      tasks.push({
+        id: `t${Date.now()}`,
+        text: label,
+        subject: subject,
+        priority: pVal,
+        date: dueDate,
+        month: dueMonth,
+        startTime: startTime,
+        endTime: endTime,
+        link: link,
+        done: false
+      });
+    }
+
+    saveTasks();
+    renderTasks();
     closeModal();
   }
+
+  document.getElementById('taskDateFilter').addEventListener('change', applyDateMonthFilter);
+  document.getElementById('taskMonthFilter').addEventListener('change', applyDateMonthFilter);
+
+  function showTaskDetail(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const panel = document.getElementById('taskDetailPanel');
+    const statusText = task.done ? 'Completed' : 'Pending';
+    const statusColor = task.done ? 'rgba(52, 211, 153, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+    const statusTextColor = task.done ? 'var(--accent3)' : 'var(--warn)';
+    const priorityLabel = task.priority === 'high' ? 'High Priority' : task.priority === 'med' ? 'Medium Priority' : 'Low Priority';
+    const priorityColor = task.priority === 'high' ? 'rgba(248, 113, 113, 0.15)' : task.priority === 'med' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(52, 211, 153, 0.15)';
+    const priorityTextColor = task.priority === 'high' ? 'var(--danger)' : task.priority === 'med' ? 'var(--warn)' : 'var(--accent3)';
+
+    let linkSection = '';
+    
+    panel.innerHTML = `
+      <div class="task-detail-header">
+        <div class="task-detail-title">${task.text}</div>
+        <div class="task-detail-close" onclick="closeTaskDetail()">×</div>
+      </div>
+      
+      <div class="task-detail-info">
+        <div class="task-detail-label">Status</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <div class="task-detail-badge" style="background:${statusColor};color:${statusTextColor};">${statusText}</div>
+          <div class="task-detail-badge" style="background:${priorityColor};color:${priorityTextColor};">${priorityLabel}</div>
+          <div class="task-detail-badge" style="background:rgba(56,189,248,0.15);color:var(--accent);">${task.subject}</div>
+        </div>
+      </div>
+
+      <div class="task-detail-row">
+        <div class="task-detail-info">
+          <div class="task-detail-label">Date</div>
+          <div class="task-detail-value">${task.date} ${task.month}</div>
+        </div>
+        <div class="task-detail-info">
+          <div class="task-detail-label">Time</div>
+          <div class="task-detail-value">${task.startTime} - ${task.endTime}</div>
+        </div>
+      </div>
+
+      <div class="task-detail-info">
+        <div class="task-detail-label">Description</div>
+        <div class="task-detail-value">${task.text}</div>
+      </div>
+
+      <div class="task-detail-actions">
+        <button class="task-detail-edit" onclick="openModal('${taskId}'); closeTaskDetail();">Edit Task</button>
+        <button class="task-detail-delete" onclick="deleteTask('${taskId}');">Delete</button>
+      </div>
+    `;
+
+    document.getElementById('taskDetailOverlay').classList.add('open');
+  }
+
+  function closeTaskDetail(event) {
+    if (event && event.target.id !== 'taskDetailOverlay') return;
+    document.getElementById('taskDetailOverlay').classList.remove('open');
+  }
+
+  function deleteTask(taskId) {
+    if (confirm('Are you sure you want to delete this task?')) {
+      tasks = tasks.filter(t => t.id !== taskId);
+      saveTasks();
+      renderTasks();
+      closeTaskDetail();
+    }
+  }
+
+  loadTasks();
+  requestNotificationPermission();
+  checkTaskNotifications();
+  setInterval(checkTaskNotifications, 20 * 1000); // check more frequently for timely alerts
 
   // RESOURCE FILTER
   function filterResources() {
@@ -1245,27 +2473,476 @@
     document.querySelectorAll('.resource-item').forEach(item => {
       const name = item.querySelector('.resource-name').textContent.toLowerCase();
       const tag = item.dataset.tag;
-      const matchSearch = !q || name.includes(q);
-      const matchFilter = !f || tag === f;
-      item.style.display = matchSearch && matchFilter ? '' : 'none';
+      item.style.display = (!q || name.includes(q)) && (!f || tag === f) ? '' : 'none';
     });
   }
-
   // GRAPH TOGGLE
   let graphOpen = true;
   function toggleGraph() {
-    const body = document.getElementById('graphBody');
     graphOpen = !graphOpen;
-    body.style.display = graphOpen ? '' : 'none';
+    document.getElementById('graphBody').style.display = graphOpen ? '' : 'none';
+  }
+  // VIEW SWITCHING
+  function showView(view) {
+    // Hide all views
+    document.querySelectorAll('.content').forEach(content => {
+      content.style.display = 'none';
+    });
+    // Remove active class from all nav items
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    // Show selected view and activate nav item
+    if (view === 'dashboard') {
+      document.getElementById('dashboard-view').style.display = 'flex';
+      document.querySelector('.nav-item[onclick*="dashboard"]').classList.add('active');
+    } else if (view === 'predictor') {
+      document.getElementById('predictor-view').style.display = 'flex';
+      document.querySelector('.nav-item[onclick*="predictor"]').classList.add('active');
+      renderColleges();
+    } else if (view === 'courses') {
+      document.getElementById('courses-view').style.display = 'flex';
+      document.querySelector('.nav-item[onclick*="courses"]').classList.add('active');
+      renderCourses();
+    } else if (view === 'settings') {
+      document.getElementById('settings-view').style.display = 'flex';
+      document.querySelector('.nav-item[onclick*="settings"]').classList.add('active');
+    }
+  }
+  // COLLEGE PREDICTOR DATA
+  const COLLEGES = [
+    {name:"BITS Pilani",city:"Pilani, Rajasthan",type:"deemed",match:94,minCGPA:8.5,courses:["CS","ECE","EEE","Mechanical"]},
+    {name:"VIT Vellore",city:"Vellore, Tamil Nadu",type:"pvt",match:91,minCGPA:8.0,courses:["CS","IT","ECE","Civil"]},
+    {name:"NIT Trichy",city:"Trichy, Tamil Nadu",type:"govt",match:85,minCGPA:8.2,courses:["CS","ECE","Mechanical"]},
+    {name:"NMIMS Mumbai",city:"Mumbai, Maharashtra",type:"deemed",match:82,minCGPA:7.5,courses:["CS","MBA","Pharmacy"]},
+    {name:"Manipal MIT",city:"Manipal, Karnataka",type:"pvt",match:78,minCGPA:7.0,courses:["CS","ECE","Biotech"]},
+    {name:"SRM Chennai",city:"Chennai, Tamil Nadu",type:"pvt",match:74,minCGPA:6.5,courses:["CS","ECE","Civil","Mech"]},
+  ];
+  // COLLEGE PREDICTOR FUNCTION
+  function renderColleges(){
+    const cgpa = parseFloat(document.getElementById('cgpa-input')?.value || 7.8);
+    const filter = document.getElementById('college-type-filter')?.value || "All";
+    const list = COLLEGES.filter(col => col.minCGPA <= cgpa + 0.5 && (filter === "All" || col.type === filter));
+    const container = document.getElementById('college-list');
+    if (!container) return;
+    container.innerHTML = "";
+    if (!list.length) {
+      container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-dim);font-size:12px">No matches. Adjust CGPA or filters.</p>';
+      return;
+    }
+    list.forEach((col, i) => {
+      const matchAdj = Math.min(98, Math.round(col.match * (cgpa / 8)));
+      const barColor = matchAdj >= 85 ? "#34d399" : matchAdj >= 70 ? "#f59e0b" : "#f87171";
+      const typeLabel = col.type === "govt" ? "Govt" : col.type === "pvt" ? "Private" : "Deemed";
+      const card = document.createElement("div");
+      card.className = "college-card";
+      card.innerHTML = `
+        <div class="cc-rank">#${i+1}</div>
+        <div class="cc-info">
+          <div class="cc-name">${col.name}</div>
+          <div class="cc-sub">${col.city} · ${col.courses.join(", ")}</div>
+          <div class="cc-bar-bg"><div class="cc-bar-fill" style="width:${matchAdj}%;background:${barColor}"></div></div>
+        </div>
+        <span class="cc-type type-${col.type}">${typeLabel}</span>
+        <span class="cc-pct" style="color:${barColor}">${matchAdj}%</span>
+      `;
+      container.appendChild(card);
+    });
+  }
+  // COURSE SELECTOR DATA
+  const COURSES = [
+    {id:1,name:"Machine Learning",credits:4,desc:"Supervised & unsupervised learning, neural networks and model evaluation.",prereq:"Maths, Python",rating:4.8,tags:["AI","Data","Python"],area:"AI/ML",selected:false},
+    {id:2,name:"Cloud Computing",credits:3,desc:"AWS, Azure, GCP fundamentals, microservices and serverless architecture.",prereq:"CN, OS",rating:4.5,tags:["AWS","DevOps","Cloud"],area:"Infrastructure",selected:false},
+    {id:3,name:"Database Design",credits:3,desc:"Advanced normalization, query optimization, NoSQL, and stored procedures.",prereq:"DBMS",rating:4.6,tags:["SQL","NoSQL","Design"],area:"Data",selected:false},
+    {id:4,name:"Mobile App Dev",credits:4,desc:"Android and iOS development using React Native with backend integration.",prereq:"Java/JS",rating:4.4,tags:["React Native","Android","iOS"],area:"Development",selected:false},
+    {id:5,name:"Cybersecurity",credits:3,desc:"Network security, cryptography, ethical hacking, and threat analysis.",prereq:"CN, OS",rating:4.7,tags:["Security","Crypto","Hacking"],area:"Security",selected:false},
+    {id:6,name:"Data Structures",credits:4,desc:"Trees, graphs, dynamic programming, and algorithm complexity analysis.",prereq:"Java/C++",rating:4.9,tags:["DSA","Algorithm","C++"],area:"Core CS",selected:false},
+    {id:7,name:"UI/UX Design",credits:2,desc:"Figma, user research, wireframing, prototyping and design systems.",prereq:"None",rating:4.3,tags:["Figma","Design","UX"],area:"Design",selected:false},
+    {id:8,name:"Big Data Analytics",credits:3,desc:"Hadoop, Spark, MapReduce and real-time data pipeline design.",prereq:"DBMS, Maths",rating:4.5,tags:["Hadoop","Spark","Analytics"],area:"Data",selected:false},
+  ];
+  // COURSE SELECTOR FUNCTIONS
+  function renderCourses(){
+    const area = document.getElementById('course-area-filter')?.value || "All";
+    const filtered = COURSES.filter(course => area === "All" || course.area === area);
+    const container = document.getElementById('course-list');
+    if (!container) return;
+    container.innerHTML = "";
+    const totalCredits = COURSES.filter(c => c.selected).reduce((s, c) => s + c.credits, 0);
+    if (document.getElementById('selected-credits')) {
+      document.getElementById('selected-credits').textContent = totalCredits + " credits selected";
+    }
+    filtered.forEach(course => {
+      const card = document.createElement("div");
+      card.className = "course-card" + (course.selected ? " selected" : "");
+      card.innerHTML = `
+        <div class="cs-top">
+          <span class="cs-name">${course.name}</span>
+          <span class="cs-credits">${course.credits} cr</span>
+        </div>
+        <p class="cs-desc">${course.desc}</p>
+        <div class="cs-tags">${course.tags.map(t => `<span class="cs-tag">${t}</span>`).join("")}</div>
+        <div class="cs-meta">
+          <span class="cs-rating">⭐ ${course.rating} <span style="color:var(--text-dim);font-size:10px">Prereq: ${course.prereq}</span></span>
+          <button class="cs-add${course.selected ? " added" : ""}" onclick="toggleCourse(${course.id})">${course.selected ? "✓ Added" : "+ Add"}</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+  function toggleCourse(id){
+    const course = COURSES.find(c => c.id === id);
+    if (course) {
+      course.selected = !course.selected;
+      renderCourses();
+    }
+  }
+  function setCourseFilter(area, el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const sel = document.getElementById('course-area-filter');
+    if (sel) sel.value = area;
+    renderCourses();
+  }
+  // SETTINGS FUNCTIONS
+  function setTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'light') {
+      root.style.setProperty('--bg', '#ffffff');
+      root.style.setProperty('--surface', '#f8f9fa');
+      root.style.setProperty('--surface2', '#ffffff');
+      root.style.setProperty('--text-primary', '#1a1a1a');
+      root.style.setProperty('--text-dim', '#666666');
+    } else if (theme === 'dark') {
+      root.style.setProperty('--bg', '#0a0a0a');
+      root.style.setProperty('--surface', '#1a1a1a');
+      root.style.setProperty('--surface2', '#2a2a2a');
+      root.style.setProperty('--text-primary', '#ffffff');
+      root.style.setProperty('--text-dim', '#cccccc');
+    } else if (theme === 'auto') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+  }
+  function clearData() {
+    if (confirm('Clear all tasks and data? This cannot be undone.')) {
+      localStorage.clear();
+      location.reload();
+    }
+  }
+  // KEYBOARD SHORTCUTS
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openModal(); }
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Enter' && document.getElementById('modal').classList.contains('open')) addTask();
+  });
+
+  // IMPROVEMENT SUGGESTIONS DATA
+  const IMPROVEMENT_TIPS = {
+    'Java': {
+      icon: '☕',
+      improvements: [
+        'Practice inheritance and polymorphism with real-world projects',
+        'Work on exception handling with try-catch-finally blocks',
+        'Study Java Collections framework (ArrayList, HashMap, HashSet)',
+        'Master Java streams and lambda expressions',
+        'Build mini-projects: Chat application, File Manager'
+      ],
+      actions: [
+        'Start Java Strings & Collections Practice Set',
+        'Join Friday coding contest on LeetCode',
+        'Review assignment 2 feedback from Prof'
+      ],
+      nextMilestone: 'Complete Java OOP Unit Test by Friday'
+    },
+    'OOP': {
+      icon: '🎯',
+      improvements: [
+        'Solidify understanding of SOLID principles (SRP, OCP, LSP)',
+        'Practice encapsulation with getters/setters and access modifiers',
+        'Study design patterns: Singleton, Factory, Observer, Strategy',
+        'Deep-dive into method overloading vs overriding',
+        'Create abstraction using interfaces effectively'
+      ],
+      actions: [
+        'Watch Design Patterns Playlist (Chapter 3-4)',
+        'Solve OOP problem set from Prof handout',
+        'Refactor your Java project with design patterns'
+      ],
+      nextMilestone: 'Design Pattern mini-project submission next week'
+    },
+    'DBMS': {
+      icon: '🗄️',
+      improvements: [
+        'Master ER Modeling: entities, relationships, cardinality constraints',
+        'Practice SQL JOINs: INNER, LEFT, RIGHT, FULL OUTER',
+        'Learn normalization: 1NF, 2NF, 3NF, BCNF',
+        'Study transactions, ACID properties, and concurrency control',
+        'Optimize queries using indexing and query plans'
+      ],
+      actions: [
+        'Revise ER Diagram from assignment feedback',
+        'Complete SQL JOIN exercises (50 problems)',
+        'Study normalization examples in DBMS book Ch. 6-7'
+      ],
+      nextMilestone: 'DBMS Unit Exam  — 15 marks in next quiz'
+    },
+    'Maths': {
+      icon: '∫',
+      improvements: [
+        'Practice integration by parts, substitution method step-by-step',
+        'Master partial fractions decomposition',
+        'Study L\'Hôpital\'s rule for limit problems',
+        'Practice vector calculus: dot product, cross product, divergence',
+        'Work through differentiation of complex functions daily'
+      ],
+      actions: [
+        'Solve 10 integration problems daily (30 mins)',
+        'Watch Khan Academy integration series',
+        'Join tutoring session Tuesday 5 PM with TA'
+      ],
+      nextMilestone: 'Improve from 44% to 60% by next assessment'
+    },
+    'Stats': {
+      icon: '📊',
+      improvements: [
+        'Master probability distributions: Normal, Binomial, Poisson',
+        'Practice hypothesis testing: Z-test, T-test, Chi-square',
+        'Study correlation vs causation and regression analysis',
+        'Learn confidence intervals and p-values interpretation',
+        'Apply statistics to real datasets using R or Python'
+      ],
+      actions: [
+        'Complete Statistics problem set section 4',
+        'Analyze sample dataset using statistical methods',
+        'Review past exam solutions for common mistakes'
+      ],
+      nextMilestone: 'Score 70%+ in next quiz on hypothesis testing'
+    },
+    'Networks': {
+      icon: '🌐',
+      improvements: [
+        'Master TCP/IP model: layers, protocols, encapsulation',
+        'Study routing protocols: RIP, OSPF, BGP differences',
+        'Learn IP addressing, subnetting, and CIDR notation mastery',
+        'Practice Wireshark packet analysis hands-on',
+        'Understand DNS, DHCP, and network configuration'
+      ],
+      actions: [
+        'Do Wireshark lab assignment (capture & analyze packets)',
+        'Create network topology diagram for assignment',
+        'Review IP subnetting problems — solve 20 examples'
+      ],
+      nextMilestone: 'Maintain current excellent performance — 88%+'
+    }
+  };
+
+  // SHOW IMPROVEMENT TIPS MODAL
+  function showImprovementTips(subject, score) {
+    const modal = document.getElementById('improvement-modal');
+    const content = document.getElementById('improvement-content');
+    const tips = IMPROVEMENT_TIPS[subject] || {};
+
+    // Calculate status and recommendation
+    let status = '';
+    let recommendation = '';
+    let statusColor = '';
+    if (score >= 80) {
+      status = 'Excellent';
+      recommendation = 'Keep up the great work! Focus on mastering advanced topics.';
+      statusColor = 'var(--accent3)';
+    } else if (score >= 70) {
+      status = 'Solid';
+      recommendation = 'You\'re doing well. Practice more to reach excellence level.';
+      statusColor = 'var(--accent)';
+    } else if (score >= 60) {
+      status = 'Good';
+      recommendation = 'Steady progress! Focus on weak areas to improve further.';
+      statusColor = 'var(--warn)';
+    } else {
+      status = 'Needs Focus';
+      recommendation = 'Time to buckle down. Use suggested resources and practice daily.';
+      statusColor = 'var(--danger)';
+    }
+
+    // Build modal content
+    content.innerHTML = `
+      <div class="improvement-header">
+        <div class="improvement-icon">${tips.icon || '📚'}</div>
+        <div>
+          <div class="improvement-title">${subject}</div>
+          <div class="improvement-subtitle">Current Performance: ${score}% — ${status}</div>
+        </div>
+      </div>
+
+      <div class="improvement-stats">
+        <div class="stat-item">
+          <div class="stat-value" style="color: ${statusColor}">${score}%</div>
+          <div class="stat-label">Current Score</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: var(--accent)">${100 - score}</div>
+          <div class="stat-label">Points to Gain</div>
+        </div>
+      </div>
+
+      <div style="background: var(--surface2); border-radius: 8px; padding: 10px; margin-bottom: 16px; border-left: 3px solid ${statusColor}">
+        <div style="font-size: 12px; color: var(--text); line-height: 1.5">${recommendation}</div>
+      </div>
+
+      <div class="improvement-section">
+        <div class="improvement-section-title">📚 Key Topics to Master</div>
+        ${tips.improvements ? tips.improvements.map(imp => `
+          <div class="improvement-item">${imp}</div>
+        `).join('') : '<div class="improvement-item">No suggestions yet</div>'}
+      </div>
+
+      <div class="improvement-section">
+        <div class="improvement-section-title">⚡ Recommended Actions (This Week)</div>
+        ${tips.actions ? tips.actions.map(action => `
+          <div class="improvement-action">🔗 ${action}</div>
+        `).join('') : '<div class="improvement-action">No actions scheduled</div>'}
+      </div>
+
+      <div class="improvement-section">
+        <div class="improvement-section-title">🎯 Next Milestone</div>
+        <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 12px; color: var(--text)">
+          ${tips.nextMilestone || 'Keep improving!'}
+        </div>
+      </div>
+
+      <button class="improvement-close" onclick="closeImprovementModal()">Close</button>
+    `;
+
+    modal.classList.add('open');
   }
 
-  // CMD + K shortcut
+  // CLOSE IMPROVEMENT MODAL
+  function closeImprovementModal(e) {
+    if (e && e.target.id !== 'improvement-modal') return;
+    document.getElementById('improvement-modal').classList.remove('open');
+  }
+
+  // Close improvement modal on Escape key
   document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      openModal();
+    if (e.key === 'Escape' && document.getElementById('improvement-modal').classList.contains('open')) {
+      closeImprovementModal();
     }
-    if (e.key === 'Escape') closeModal();
+  });
+
+  // DRAG AND DROP FOR CARDS
+  let draggedCard = null;
+
+  document.querySelectorAll('.top-grid .card').forEach(card => {
+    card.draggable = true;
+    card.addEventListener('dragstart', handleDragStart);
+    card.addEventListener('dragover', handleDragOver);
+    card.addEventListener('drop', handleDrop);
+    card.addEventListener('dragenter', handleDragEnter);
+    card.addEventListener('dragleave', handleDragLeave);
+  });
+
+  function handleDragStart(e) {
+    draggedCard = this;
+    this.style.opacity = '0.5';
+    this.style.cursor = 'grabbing';
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+  }
+
+  function handleDragEnter(e) {
+    e.preventDefault();
+    if (this !== draggedCard) {
+      this.style.borderColor = 'var(--accent)';
+    }
+  }
+
+  function handleDragLeave(e) {
+    this.style.borderColor = '';
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    this.style.borderColor = '';
+    draggedCard.style.opacity = '';
+    draggedCard.style.cursor = '';
+
+    if (this !== draggedCard) {
+      // Swap the specific card classes
+      const draggedClass = Array.from(draggedCard.classList).find(cls => cls.endsWith('-card'));
+      const targetClass = Array.from(this.classList).find(cls => cls.endsWith('-card'));
+      
+      draggedCard.classList.remove(draggedClass);
+      draggedCard.classList.add(targetClass);
+      
+      this.classList.remove(targetClass);
+      this.classList.add(draggedClass);
+    }
+  }
+
+  // NOTIFICATION FUNCTIONS
+  function toggleNotifications() {
+    const popup = document.getElementById('notif-popup');
+    popup.classList.toggle('show');
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', function closePopup(e) {
+      if (!e.target.closest('.btn-bell')) {
+        popup.classList.remove('show');
+        document.removeEventListener('click', closePopup);
+      }
+    });
+  }
+
+  function focusFeedback() {
+    // Scroll to feedback card and highlight it
+    const feedbackCard = document.querySelector('.feedback-card');
+    if (feedbackCard) {
+      feedbackCard.scrollIntoView({ behavior: 'smooth' });
+      feedbackCard.style.boxShadow = '0 0 0 2px var(--accent)';
+      setTimeout(() => feedbackCard.style.boxShadow = '', 2000);
+    }
+    document.getElementById('notif-popup').classList.remove('show');
+  }
+
+  function focusResources() {
+    // Scroll to resource card and highlight it
+    const resourceCard = document.querySelector('.resource-card');
+    if (resourceCard) {
+      resourceCard.scrollIntoView({ behavior: 'smooth' });
+      resourceCard.style.boxShadow = '0 0 0 2px var(--accent)';
+      setTimeout(() => resourceCard.style.boxShadow = '', 2000);
+    }
+    document.getElementById('notif-popup').classList.remove('show');
+  }
+
+  function focusLiveSession() {
+    // Show live session timing or focus on live mode
+    alert('Live DBMS lecture starts in 30 minutes!\n\n📅 Today at 2:00 PM\n📍 Room 101, Block A\n👨‍🏫 Prof. Sharma');
+    document.getElementById('notif-popup').classList.remove('show');
+  }
+
+  // Show notification dot on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const notifDot = document.getElementById('notif-dot');
+    if (notifDot) {
+      notifDot.style.display = 'block'; // Always show since we have notifications
+    }
+  });
+
+  // INITIALIZE
+  document.addEventListener('DOMContentLoaded', () => {
+    showView('dashboard');
+    renderColleges();
+    renderCourses();
+    // Add event listeners for filters
+    const cgpaInput = document.getElementById('cgpa-input');
+    if (cgpaInput) cgpaInput.addEventListener('input', renderColleges);
+    const collegeFilter = document.getElementById('college-type-filter');
+    if (collegeFilter) collegeFilter.addEventListener('change', renderColleges);
+    const courseFilter = document.getElementById('course-area-filter');
+    if (courseFilter) courseFilter.addEventListener('change', renderCourses);
   });
 </script>
 </body>
