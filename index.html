@@ -1445,8 +1445,7 @@
   <div class="nav-item active" onclick="showView('dashboard')"><span class="icon">⚡</span> Dashboard</div>
   <!-- TOOLS section -->
   <div class="nav-section-label">Tools</div>
-  <div class="nav-item" onclick="showView('predictor')"><span class="icon">🏛️</span> College Predictor <span class="nav-badge">NEW</span></div>
-  <div class="nav-item" onclick="showView('courses')"><span class="icon">📋</span> Course Selector <span class="nav-badge">NEW</span></div>
+  <div class="nav-item" onclick="showView('courses')"><span class="icon">🧭</span> Explore</div>
   <div class="nav-item" onclick="showView('settings')"><span class="icon">⚙️</span> Settings</div>
   <div class="quick-focus">
     <div class="quick-focus-label">Quick Focus</div>
@@ -1957,10 +1956,9 @@
   <div class="content" id="courses-view" style="display: none;">
     <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;flex-direction:row">
       <div>
-        <h2>📋 Course Selector</h2>
+        <h2>🧭 Explore</h2>
         <p>Browse electives, check prerequisites, and build your semester plan.</p>
       </div>
-      <div style="font-size:13px;font-weight:600;color:var(--accent)" id="selected-credits">0 credits selected</div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
       <div class="chip-row" style="margin:0">
@@ -2703,7 +2701,6 @@
         <div class="cs-tags">${course.tags.map(t => `<span class="cs-tag">${t}</span>`).join("")}</div>
         <div class="cs-meta">
           <span class="cs-rating">⭐ ${course.rating} <span style="color:var(--text-dim);font-size:10px">Prereq: ${course.prereq}</span></span>
-          <button class="cs-add${course.selected ? " added" : ""}" onclick="toggleCourse(${course.id})">${course.selected ? "✓ Added" : "+ Add"}</button>
         </div>
       `;
       container.appendChild(card);
