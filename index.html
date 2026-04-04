@@ -6,20 +6,164 @@
 <title>Scholar's Command Center — Falcons</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="falcons1.png">
-<!-- FullCalendar Integration -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-<!-- PDF.js for PDF Preview -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-  // Set up PDF.js worker
-  if (typeof pdfjsLib !== 'undefined') {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
-</script>
-<!-- Three.js for 3D Avatar (optional lightweight) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN
+═══════════════════════════════════════ */
+#tech-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0d1117;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+#tech-splash.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#tech-splash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,120,0.015) 2px,
+    rgba(0,255,120,0.015) 4px
+  );
+  pointer-events: none;
+  animation: scanlines 8s linear infinite;
+}
+@keyframes scanlines {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+.splash-bracket {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.35;
+}
+.splash-bracket.tl { top: 24px; left: 24px; border-top: 2px solid #34d399; border-left: 2px solid #34d399; }
+.splash-bracket.tr { top: 24px; right: 24px; border-top: 2px solid #34d399; border-right: 2px solid #34d399; }
+.splash-bracket.bl { bottom: 24px; left: 24px; border-bottom: 2px solid #34d399; border-left: 2px solid #34d399; }
+.splash-bracket.br { bottom: 24px; right: 24px; border-bottom: 2px solid #34d399; border-right: 2px solid #34d399; }
+.splash-boot-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  animation: fadeInUp 0.5s 0.2s ease forwards;
+}
+.boot-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #334155;
+  letter-spacing: 0.05em;
+}
+.boot-line span { color: #34d399; margin-right: 8px; }
+.splash-terminal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.5s 0.5s ease forwards;
+}
+.splash-typing-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 500;
+  color: #e6edf3;
+  letter-spacing: 0.04em;
+  min-height: 44px;
+}
+.splash-prompt {
+  color: #34d399;
+  margin-right: 10px;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+#typing-text { transition: color 0.4s ease; }
+.splash-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #34d399;
+  margin-left: 3px;
+  animation: blink 0.75s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.splash-progress-wrap {
+  width: 280px;
+  height: 2px;
+  background: #1c2230;
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeInUp 0.4s 0.8s ease forwards;
+}
+.splash-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #34d399, #38bdf8);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+}
+.splash-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #4a5568;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: fadeInUp 0.4s 1s ease forwards;
+}
+body:not(.loaded) .sidebar,
+body:not(.loaded) .main {
+  transform: translateY(30px);
+  opacity: 0;
+}
+body.loaded .sidebar,
+body.loaded .main {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Flying Bird */
+#flying-bird-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+.splash-terminal {
+  position: relative;
+  z-index: 3;
+}
+
+
   :root {
     --bg: #0d1117;
     --surface: #161b22;
@@ -1169,6 +1313,25 @@
   .quick-note textarea:focus {
     border-color: var(--accent);
   }
+  .save-pdf-btn {
+    margin-top: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .save-pdf-btn:hover {
+    background: var(--surface);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
   /* KNOWLEDGE GRAPH */
   .knowledge-card {
     background: var(--surface);
@@ -1950,404 +2113,96 @@
     border-color: var(--accent);
     background: rgba(56, 189, 248, 0.1);
   }
-
-  /* ===== NEW FEATURES: TASK GRAVITY, CALENDAR, PDF VIEWER, AVATAR, CMD PALETTE ===== */
-
-  /* TASK GRAVITY - DRAG & DROP STYLING */
-  .task-item {
-    cursor: grab;
-    transition: all 0.2s ease;
-  }
-  .task-item:active {
-    cursor: grabbing;
-    opacity: 0.8;
-  }
-  .task-item.dragging {
-    opacity: 0.5;
-    transform: scale(0.98);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  }
-  .task-item.drag-over {
-    border-top: 2px solid var(--accent);
-    padding-top: 7px;
-  }
-  .task-gravity-weight {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 9px;
-    color: var(--text-dim);
-    margin-left: auto;
-  }
-  .weight-bar {
-    width: 24px;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .weight-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent3), var(--warn), var(--danger));
-    border-radius: 2px;
-  }
-
-  /* FULLCALENDAR INTEGRATION */
-  .timetable-card {
-    grid-column: 1 / -1;
-    margin-top: 20px;
-  }
-  .timetable-card .fc {
-    font-family: 'Inter', sans-serif;
-  }
-  .timetable-card .fc-button-primary {
-    background-color: var(--accent) !important;
-    border-color: var(--accent) !important;
-  }
-  .timetable-card .fc-button-primary:hover {
-    background-color: #7dd3fc !important;
-  }
-  .timetable-card .fc-button-primary.fc-button-active {
-    background-color: var(--accent2) !important;
-  }
-  .timetable-card .fc-daygrid-day.fc-day-other {
-    background-color: var(--surface3);
-  }
-  .timetable-card .fc-col-header-cell {
-    background-color: var(--surface2);
-    border-color: var(--border);
-    color: var(--text);
-  }
-  .timetable-card .fc-daygrid-day {
-    background-color: var(--surface);
-    border-color: var(--border);
-  }
-  .timetable-card .fc-daygrid-day.fc-day-sun {
-    background-color: rgba(248, 113, 113, 0.08);
-  }
-  .timetable-card .fc-daygrid-day-number {
-    color: var(--text);
-  }
-  .timetable-card .fc-daygrid-day-frame {
-    background: var(--surface);
-  }
-  .timetable-card .fc-event {
-    background-color: var(--accent) !important;
-    border-color: var(--accent) !important;
-    color: #0d1117;
-    font-weight: 600;
-    font-size: 11px;
-  }
-  .timetable-card .fc-event.fc-event-classtime {
-    background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
-    border-color: var(--accent2) !important;
-  }
-  .timetable-card .fc-event.fc-event-exam {
-    background: linear-gradient(135deg, var(--warn), var(--danger)) !important;
-    border-color: var(--warn) !important;
-  }
-  .timetable-card .fc-event.fc-event-deadline {
-    background: linear-gradient(135deg, var(--danger), #dc2626) !important;
-    border-color: var(--danger) !important;
-  }
-
-  /* PDF VIEWER MODAL */
-  .pdf-preview-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(6px);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-  }
-  .pdf-preview-modal.show { display: flex; }
-  .pdf-preview-container {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 16px;
-    width: 90vw;
-    max-width: 900px;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    animation: slideInScale 0.3s ease;
-  }
-  @keyframes slideInScale {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  .pdf-preview-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    padding: 16px 24px;
-    flex-shrink: 0;
-  }
-  .pdf-preview-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .pdf-close-btn {
-    width: 36px;
-    height: 36px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    transition: all 0.15s;
-  }
-  .pdf-close-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .pdf-preview-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .pdf-canvas {
-    max-width: 100%;
-    max-height: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-  .pdf-preview-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    padding: 12px 24px;
-    flex-shrink: 0;
-  }
-  .pdf-page-nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .pdf-nav-btn {
-    padding: 6px 12px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 11px;
-    transition: all 0.15s;
-  }
-  .pdf-nav-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .pdf-nav-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .pdf-page-info {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .pdf-download-btn {
-    padding: 6px 14px;
-    background: rgba(56, 189, 248, 0.15);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 6px;
-    color: var(--accent);
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.15s;
-  }
-  .pdf-download-btn:hover {
-    background: rgba(56, 189, 248, 0.25);
-    border-color: var(--accent);
-  }
-
-  /* DYNAMIC AVATAR WITH HEALTH STATUS */
-  .avatar-container {
-    position: relative;
-    height: auto;
-  }
-  .avatar-3d-wrapper {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .avatar-status-indicator {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--surface);
-    font-size: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .avatar-status-indicator.healthy {
-    background: var(--accent3);
-  }
-  .avatar-status-indicator.neutral {
-    background: var(--warn);
-  }
-  .avatar-status-indicator.struggling {
-    background: var(--danger);
-  }
-  .avatar-status-indicator.animation-pulse {
-    animation: pulse 2s infinite;
-  }
-
-  /* COMMAND PALETTE (CTRL+K) */
-  .cmd-palette-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    z-index: 3000;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 80px;
-  }
-  .cmd-palette-modal.open { display: flex; }
-  .cmd-palette-box {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    width: 90%;
-    max-width: 520px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    animation: slideDw 0.2s ease;
-  }
-  @keyframes slideDw {
-    from {
-      opacity: 0;
-      transform: translateY(-12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .cmd-palette-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    padding: 16px;
-    color: var(--text);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    outline: none;
-  }
-  .cmd-palette-input::placeholder {
-    color: var(--text-dim);
-  }
-  .cmd-palette-list {
-    max-height: 320px;
-    overflow-y: auto;
-  }
-  .cmd-palette-item {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: background 0.1s;
-  }
-  .cmd-palette-item:last-child { border-bottom: none; }
-  .cmd-palette-item:hover {
-    background: var(--surface2);
-  }
-  .cmd-palette-item.selected {
-    background: rgba(56, 189, 248, 0.1);
-    border-left: 3px solid var(--accent);
-    padding-left: 13px;
-  }
-  .cmd-palette-icon {
-    font-size: 16px;
-    width: 20px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .cmd-palette-text {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .cmd-palette-label {
-    font-size: 12px;
-    color: var(--text);
-    font-weight: 500;
-  }
-  .cmd-palette-shortcut {
-    font-size: 10px;
-    color: var(--text-dim);
-  }
-  .cmd-palette-hint {
-    padding: 8px 16px;
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    font-size: 10px;
-    color: var(--text-dim);
-    text-align: center;
-  }
-
-  /* FullCalendar dark theme tweaks */
-  .fc-button-group { gap: 4px; }
-  .fc {
-    color: var(--text);
-  }
-  .fc .fc-button-primary:not(:disabled).fc-button-active:not(:hover) {
-    background-color: var(--accent2) !important;
-    border-color: var(--accent2) !important;
-  }
-  .fc-popover {
-    background-color: var(--surface) !important;
-    border-color: var(--border) !important;
-  }
-  .fc-popover-header {
-    background-color: var(--surface2) !important;
-  }
-
-  /* IN-CLASS STATE: Show Calendar & Notes, Hide Others */
-  html.in-class-state .timetable-card {
-    display: block !important;
-    grid-column: 1 / -1 !important;
-    grid-row: auto !important;
-    min-height: 500px !important;
-  }
 </style>
+<!-- Glassmorphism Effects -->
+<style>
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+.glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+</style>
+<!-- Command Palette Styles -->
+<style>
+.command-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.command-item:hover,
+.command-item.selected {
+  background: var(--surface2);
+}
+.command-name {
+  font-weight: 500;
+  color: var(--text);
+}
+.command-shortcut {
+  font-size: 12px;
+  color: var(--text-dim);
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+</style>
+<!-- Collaboration Card Styles -->
+<style>
+.collaboration-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(168, 139, 250, 0.1));
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-<!-- SIDEBAR -->
+<!-- ═══════════════ SPLASH SCREEN ═══════════════ -->
+<div id="tech-splash">
+  <div class="splash-bracket tl"></div>
+  <div class="splash-bracket tr"></div>
+  <div class="splash-bracket bl"></div>
+  <div class="splash-bracket br"></div>
+
+  <canvas id="flying-bird-canvas"></canvas>
+  <div class="splash-boot-lines">
+    <div class="boot-line"><span>✓</span>Kernel modules loaded</div>
+    <div class="boot-line"><span>✓</span>Session authenticated</div>
+    <div class="boot-line"><span>✓</span>Data streams connected</div>
+  </div>
+  <div class="splash-terminal">
+    <div class="splash-typing-wrap">
+      <span class="splash-prompt">&gt;_</span>
+      <span id="typing-text"></span>
+      <span class="splash-cursor"></span>
+    </div>
+  </div>
+  <div class="splash-progress-wrap">
+    <div class="splash-progress-bar" id="splash-progress"></div>
+  </div>
+  <div class="splash-status" id="splash-status">INITIALISING DASHBOARD...</div>
+</div>
+<!-- ═══════════════ END SPLASH ═══════════════ -->
 <aside class="sidebar">
   <div class="brand">
     <div class="brand-label">Academic OS</div>
@@ -2615,6 +2470,16 @@
           </div>
         </div>
         <div class="card-body">
+          <div class="resource-search-bar">
+            <input type="text" id="resourceSearch" class="resource-search" placeholder="Search resources..." oninput="filterResources()">
+            <select id="resourceFilter" class="resource-filter" onchange="filterResources()">
+              <option value="">All Subjects</option>
+              <option value="DBMS">DBMS</option>
+              <option value="Java">Java</option>
+              <option value="CN">CN</option>
+              <option value="Maths">Maths</option>
+            </select>
+          </div>
           <div id="resource-list">
             <div class="resource-item" data-tag="DBMS" data-link="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" onclick="openResource(this)">
               <div class="resource-icon ri-pdf">📄</div>
@@ -2694,25 +2559,12 @@
           <div class="quick-note">
             <div class="quick-note-label">Quick Note</div>
             <textarea id="quickNoteTextarea" placeholder="Jot down key points from class..."></textarea>
+            <button class="save-pdf-btn" onclick="exportQuickNotesToPDF()">📄 Save as PDF</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- TIMETABLE/CALENDAR INTEGRATION (NEW FEATURE) -->
-    <div class="card timetable-card card-fade-in" id="timetableCard" style="display:none;">
-      <div class="card-header">
-        <span class="card-icon">📅</span>
-        <div class="card-title-group">
-          <div class="card-title">Academic Calendar & Class Schedule</div>
-          <div class="card-subtitle">Upcoming classes · Exams · Assignment deadlines · Auto-triggers In-Class Mode</div>
-        </div>
-        <button class="toggle-btn" onclick="toggleTimetable()" style="margin-left: auto;">Hide ↕</button>
-      </div>
-      <div class="card-body" style="padding: 16px;">
-        <div id="calendarContainer" style="width: 100%; height: 500px;"></div>
-      </div>
-    </div>
-    <!-- KNOWLEDGE GRAPH (EXISTING) -->
+    <!-- KNOWLEDGE GRAPH -->
     <div class="knowledge-card card-fade-in">
       <div class="knowledge-header">
         <div class="knowledge-title">🔗 Knowledge Graph — subjects linked by shared concepts</div>
@@ -3000,6 +2852,32 @@
         <div class="pv-label">📊 Match Results</div>
         <div id="college-list">
           <p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Fill in your details and click Predict to see results.</p>
+        </div>
+      </div>
+    </div>
+    <!-- COLLABORATION HUB -->
+    <div class="card collaboration-card card-fade-in">
+      <div class="card-header">
+        <span class="card-icon">🎥</span>
+        <div class="card-title-group">
+          <div class="card-title">Collaboration Hub</div>
+          <div class="card-subtitle">Meet & Share · Study together</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="glass-button" onclick="startJitsiMeet()" style="flex: 1; min-width: 120px;">
+            🎥 Start Meet
+          </button>
+          <button class="glass-button" onclick="saveNotesToPDF()" style="flex: 1; min-width: 120px;">
+            📄 Save Notes to PDF
+          </button>
+          <button class="glass-button" onclick="toggleInClassState()" style="flex: 1; min-width: 120px;">
+            📝 Class Mode
+          </button>
+        </div>
+        <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim);">
+          💡 Use Ctrl+K for command palette • Blue light filter active at night
         </div>
       </div>
     </div>
@@ -3320,556 +3198,7 @@
     <!-- Task details will be dynamically inserted -->
   </div>
 </div>
-
-<!-- PDF PREVIEW MODAL (NEW) -->
-<div class="pdf-preview-modal" id="pdfPreviewModal">
-  <div class="pdf-preview-container">
-    <div class="pdf-preview-header">
-      <div class="pdf-preview-title" id="pdfTitle">PDF Preview</div>
-      <div class="pdf-close-btn" onclick="closePdfPreview()">×</div>
-    </div>
-    <div class="pdf-preview-body" id="pdfBody">
-      <canvas id="pdfCanvas" class="pdf-canvas"></canvas>
-    </div>
-    <div class="pdf-preview-footer">
-      <div class="pdf-page-nav">
-        <button class="pdf-nav-btn" id="pdfPrevBtn" onclick="pdfPrevPage()">← Prev</button>
-        <div class="pdf-page-info">
-          <span id="pdfCurrentPage">1</span> / <span id="pdfTotalPages">1</span>
-        </div>
-        <button class="pdf-nav-btn" id="pdfNextBtn" onclick="pdfNextPage()">Next →</button>
-      </div>
-      <button class="pdf-download-btn" id="pdfDownloadBtn" onclick="downloadPdf()">⬇ Download</button>
-    </div>
-  </div>
-</div>
-
-<!-- COMMAND PALETTE MODAL (NEW) -->
-<div class="cmd-palette-modal" id="cmdPaletteModal" onclick="closeCmdPalette(event)">
-  <div class="cmd-palette-box">
-    <input type="text" class="cmd-palette-input" id="cmdInput" placeholder="Type a command... (⌘K or Ctrl+K)" oninput="filterCommands()">
-    <div class="cmd-palette-list" id="cmdList">
-      <!-- Commands will be dynamically populated -->
-    </div>
-    <div class="cmd-palette-hint">⏎ to execute · ↑↓ to navigate · ESC to close</div>
-  </div>
-</div>
-
-<!-- TIMETABLE/CALENDAR CARD (NEW) -->
-<div class="card timetable-card card-fade-in" id="timetableCard" style="display:none;">
-  <div class="card-header">
-    <span class="card-icon">📅</span>
-    <div class="card-title-group">
-      <div class="card-title">Academic Calendar & Class Schedule</div>
-      <div class="card-subtitle">Upcoming classes · Exams · Assignment deadlines</div>
-    </div>
-  </div>
-  <div class="card-body" style="padding: 16px;">
-    <div id="calendarContainer" style="width: 100%; height: 500px;"></div>
-  </div>
-</div>
-
 <script>
-  // ===== NEW FEATURES INITIALIZATION =====
-  
-  // 1. TASK GRAVITY - DRAG & DROP REORDERING WITH WEIGHTED URGENCY
-  let draggedTask = null;
-
-  function initTaskGravity() {
-    const taskList = document.getElementById('task-list');
-    if (!taskList) return;
-    
-    taskList.addEventListener('dragstart', (e) => {
-      if (!e.target.classList.contains('task-item')) return;
-      draggedTask = e.target;
-      e.target.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-
-    taskList.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      
-      const afterElement = getDragAfterElement(taskList, e.clientY);
-      if (afterElement == null) {
-        taskList.appendChild(draggedTask);
-      } else {
-        taskList.insertBefore(draggedTask, afterElement);
-      }
-    });
-
-    taskList.addEventListener('drop', (e) => {
-      e.preventDefault();
-    });
-
-    taskList.addEventListener('dragend', (e) => {
-      if (draggedTask) {
-        draggedTask.classList.remove('dragging');
-        saveTasks();
-      }
-    });
-
-    // Make task items draggable
-    document.querySelectorAll('.task-item').forEach(item => {
-      item.draggable = true;
-    });
-  }
-
-  function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.task-item:not(.dragging)')];
-    return draggableElements.reduce((closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-  }
-
-  function calculateTaskGravity(task) {
-    // Weighted urgency logic: priority weight × deadline proximity
-    const priorityWeights = { high: 3, med: 2, low: 1 };
-    const now = new Date();
-    const taskDate = parseTaskDateTime(task, task.startTime || '09:00');
-    const daysUntilDue = taskDate ? Math.ceil((taskDate - now) / (1000 * 60 * 60 * 24)) : 999;
-    
-    const urgencyMultiplier = Math.max(0.5, 1 - (daysUntilDue / 30));
-    const gravity = (priorityWeights[task.priority] || 1) * (urgencyMultiplier * 100);
-    
-    return Math.round(gravity);
-  }
-
-  function renderTaskGravityWeights() {
-    document.querySelectorAll('.task-item').forEach(item => {
-      const taskId = item.dataset.taskId;
-      const task = tasks.find(t => t.id === taskId);
-      if (!task) return;
-
-      let weightEl = item.querySelector('.task-gravity-weight');
-      if (!weightEl) {
-        weightEl = document.createElement('div');
-        weightEl.className = 'task-gravity-weight';
-        item.appendChild(weightEl);
-      }
-
-      const gravity = calculateTaskGravity(task);
-      const fillPercent = Math.min(100, (gravity / 300) * 100);
-      
-      weightEl.innerHTML = `
-        <span>${gravity}</span>
-        <div class="weight-bar">
-          <div class="weight-fill" style="width: ${fillPercent}%"></div>
-        </div>
-      `;
-    });
-  }
-
-  // 2. FULLCALENDAR INTEGRATION
-  let calendar = null;
-
-  function initFullCalendar() {
-    const calendarContainer = document.getElementById('calendarContainer');
-    if (!calendarContainer || calendar) return;
-
-    calendar = new FullCalendar.Calendar(calendarContainer, {
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,listMonth'
-      },
-      events: generateCalendarEvents(),
-      eventClick: function(info) {
-        if (info.event.extendedProps.taskId) {
-          showTaskDetail(info.event.extendedProps.taskId);
-        }
-      },
-      eventDidMount: function(info) {
-        info.el.style.cursor = 'pointer';
-        // Add event type classes
-        const eventType = info.event.extendedProps.type;
-        if (eventType === 'classtime') {
-          info.el.classList.add('fc-event-classtime');
-        } else if (eventType === 'exam') {
-          info.el.classList.add('fc-event-exam');
-        } else if (eventType === 'deadline') {
-          info.el.classList.add('fc-event-deadline');
-        }
-      },
-      datesSet: function() {
-        // Auto-trigger In Class mode when a session starts
-        const now = new Date();
-        const currentEvents = calendar.getEvents().filter(evt => {
-          const eventStart = new Date(evt.start);
-          const eventEnd = new Date(evt.end || evt.start);
-          return eventStart <= now && now < eventEnd && evt.extendedProps.type === 'classtime';
-        });
-
-        if (currentEvents.length > 0 && !document.documentElement.classList.contains('in-class-state')) {
-          // Could auto-trigger, but we'll leave it to user control for now
-        }
-      }
-    });
-    calendar.render();
-  }
-
-  function generateCalendarEvents() {
-    const events = [];
-    const year = new Date().getFullYear();
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // Add tasks as events
-    tasks.forEach(task => {
-      const monthIndex = monthNames.indexOf(task.month);
-      if (monthIndex === -1) return;
-
-      events.push({
-        title: task.text,
-        date: `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(task.date).padStart(2, '0')}`,
-        backgroundColor: task.priority === 'high' ? '#f87171' : task.priority === 'med' ? '#f59e0b' : '#34d399',
-        borderColor: task.priority === 'high' ? '#dc2626' : task.priority === 'med' ? '#d97706' : '#059669',
-        extendedProps: {
-          taskId: task.id,
-          type: 'deadline'
-        }
-      });
-    });
-
-    // Sample class schedule (customize as needed)
-    const sampleClasses = [
-      { title: 'DBMS Lecture', start: `${year}-04-07T09:00:00`, end: `${year}-04-07T10:30:00`, type: 'classtime', room: 'A-101' },
-      { title: 'OOP Lab', start: `${year}-04-08T14:00:00`, end: `${year}-04-08T16:00:00`, type: 'classtime', room: 'Lab-3' },
-      { title: 'Maths Exam', start: `${year}-04-12T10:00:00`, end: `${year}-04-12T11:30:00`, type: 'exam', room: 'Main Hall' },
-      { title: 'CN Tutorial', start: `${year}-04-15T15:00:00`, end: `${year}-04-15T16:00:00`, type: 'classtime', room: 'B-203' }
-    ];
-
-    sampleClasses.forEach(cls => {
-      events.push({
-        title: cls.title,
-        start: cls.start,
-        end: cls.end,
-        backgroundColor: cls.type === 'classtime' ? '#38bdf8' : cls.type === 'exam' ? '#ef4444' : '#f59e0b',
-        borderColor: cls.type === 'classtime' ? '#0ea5e9' : cls.type === 'exam' ? '#dc2626' : '#d97706',
-        extendedProps: {
-          type: cls.type,
-          room: cls.room
-        }
-      });
-    });
-
-    return events;
-  }
-
-  // 3. PDF VIEWER QUICK-PREVIEW MODAL
-  let pdfDoc = null;
-  let pdfCurrentPageNum = 1;
-  let pdfPageCount = 0;
-  let pdfUrl = '';
-
-  function openPdfPreview(url, title) {
-    pdfUrl = url;
-    pdfCurrentPageNum = 1;
-    document.getElementById('pdfTitle').textContent = title || 'PDF Preview';
-    document.getElementById('pdfPreviewModal').classList.add('show');
-    loadPdfDocument(url);
-  }
-
-  function closePdfPreview() {
-    document.getElementById('pdfPreviewModal').classList.remove('show');
-    pdfDoc = null;
-    pdfCurrentPageNum = 1;
-    pdfPageCount = 0;
-  }
-
-  async function loadPdfDocument(url) {
-    try {
-      // Handle CORS with a proxy if needed
-      const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-      pdfDoc = await pdfjsLib.getDocument(url).promise;
-      pdfPageCount = pdfDoc.numPages;
-      document.getElementById('pdfTotalPages').textContent = pdfPageCount;
-      renderPdfPage(pdfCurrentPageNum);
-      updatePdfNavButtons();
-    } catch (error) {
-      console.error('Error loading PDF:', error);
-      showPageAlert('Could not load PDF. The file may not be accessible.');
-    }
-  }
-
-  async function renderPdfPage(pageNum) {
-    if (!pdfDoc || pageNum < 1 || pageNum > pdfPageCount) return;
-
-    const page = await pdfDoc.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.5 });
-    const canvas = document.getElementById('pdfCanvas');
-    const context = canvas.getContext('2d');
-
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-
-    await page.render({
-      canvasContext: context,
-      viewport: viewport
-    }).promise;
-
-    document.getElementById('pdfCurrentPage').textContent = pageNum;
-    pdfCurrentPageNum = pageNum;
-    updatePdfNavButtons();
-  }
-
-  function pdfNextPage() {
-    if (pdfCurrentPageNum < pdfPageCount) {
-      renderPdfPage(pdfCurrentPageNum + 1);
-    }
-  }
-
-  function pdfPrevPage() {
-    if (pdfCurrentPageNum > 1) {
-      renderPdfPage(pdfCurrentPageNum - 1);
-    }
-  }
-
-  function updatePdfNavButtons() {
-    document.getElementById('pdfPrevBtn').disabled = pdfCurrentPageNum <= 1;
-    document.getElementById('pdfNextBtn').disabled = pdfCurrentPageNum >= pdfPageCount;
-  }
-
-  function downloadPdf() {
-    if (pdfUrl) {
-      const a = document.createElement('a');
-      a.href = pdfUrl;
-      a.download = document.getElementById('pdfTitle').textContent + '.pdf';
-      a.click();
-    }
-  }
-
-  // Override resource click to open PDF preview if PDF
-  const originalOpenResource = window.openResource;
-  window.openResource = function(item) {
-    const badge = item.querySelector('.resource-badge');
-    const isMD = badge && badge.textContent === 'PDF';
-    if (isMD) {
-      event.stopPropagation();
-      const link = item.dataset.link;
-      const name = item.querySelector('.resource-name').textContent;
-      openPdfPreview(link, name);
-    } else {
-      originalOpenResource(item);
-    }
-  };
-
-  // 4. DYNAMIC AVATAR WITH HEALTH STATUS
-  function updateAvatarStatus() {
-    const healthScores = [82, 76, 61, 44, 69, 88]; // From health items
-    const averageHealth = Math.round(healthScores.reduce((a, b) => a + b) / healthScores.length);
-    
-    const avatar = document.querySelector('.avatar');
-    const indicator = document.querySelector('.avatar-status-indicator');
-    
-    if (!indicator) {
-      const newIndicator = document.createElement('div');
-      newIndicator.className = 'avatar-status-indicator';
-      avatar.parentElement.appendChild(newIndicator);
-    }
-
-    const statusEl = avatar.parentElement.querySelector('.avatar-status-indicator');
-    statusEl.classList.remove('healthy', 'neutral', 'struggling');
-
-    if (averageHealth >= 75) {
-      statusEl.classList.add('healthy');
-      statusEl.title = `Healthy: ${averageHealth}%`;
-    } else if (averageHealth >= 60) {
-      statusEl.classList.add('neutral');
-      statusEl.title = `Neutral: ${averageHealth}%`;
-    } else {
-      statusEl.classList.add('struggling');
-      statusEl.classList.add('animation-pulse');
-      statusEl.title = `Struggling: ${averageHealth}%`;
-    }
-  }
-
-  // 5. COMMAND PALETTE (CTRL+K)
-  const COMMANDS = [
-    { id: 'nav-dashboard', icon: '⚡', label: 'Go to Dashboard', shortcut: 'Ctrl+K D', category: 'Navigation' },
-    { id: 'nav-explore', icon: '🧭', label: 'Go to Explore', shortcut: 'Ctrl+K E', category: 'Navigation' },
-    { id: 'nav-college', icon: '🏛️', label: 'Go to College Predictor', shortcut: 'Ctrl+K C', category: 'Navigation' },
-    { id: 'nav-settings', icon: '⚙️', label: 'Go to Settings', shortcut: 'Ctrl+K S', category: 'Navigation' },
-    { id: 'task-add', icon: '➕', label: 'Quick Add Task', shortcut: 'Ctrl+T', category: 'Tasks' },
-    { id: 'task-filter', icon: '🔍', label: 'Filter Tasks', shortcut: 'Ctrl+F', category: 'Tasks' },
-    { id: 'task-sort', icon: '↕️', label: 'Sort Tasks', shortcut: 'Ctrl+Shift+S', category: 'Tasks' },
-    { id: 'class-toggle', icon: '🎓', label: 'Toggle In-Class Mode', shortcut: 'Ctrl+L', category: 'Focus' },
-    { id: 'theme-toggle', icon: '🌙', label: 'Toggle Theme', shortcut: 'Ctrl+Shift+T', category: 'Appearance' },
-    { id: 'focus-mode', icon: '🎯', label: 'Toggle Focus Mode', shortcut: 'Ctrl+Shift+F', category: 'Focus' },
-    { id: 'calendar-show', icon: '📅', label: 'Show Calendar', shortcut: 'Ctrl+K A', category: 'Views' },
-    { id: 'help', icon: '❓', label: 'Help & Keyboard Shortcuts', shortcut: 'Ctrl+?', category: 'Help' }
-  ];
-
-  let cmdPaletteSelectedIndex = 0;
-
-  function openCmdPalette() {
-    document.getElementById('cmdPaletteModal').classList.add('open');
-    document.getElementById('cmdInput').focus();
-    document.getElementById('cmdInput').value = '';
-    cmdPaletteSelectedIndex = 0;
-    renderCmdPaletteList(COMMANDS);
-  }
-
-  function closeCmdPalette(event) {
-    if (event && event.target.id !== 'cmdPaletteModal') return;
-    document.getElementById('cmdPaletteModal').classList.remove('open');
-  }
-
-  function filterCommands() {
-    const query = document.getElementById('cmdInput').value.toLowerCase();
-    const filtered = COMMANDS.filter(cmd =>
-      cmd.label.toLowerCase().includes(query) ||
-      cmd.category.toLowerCase().includes(query)
-    );
-    cmdPaletteSelectedIndex = 0;
-    renderCmdPaletteList(filtered);
-  }
-
-  function renderCmdPaletteList(commands) {
-    const list = document.getElementById('cmdList');
-    list.innerHTML = commands.map((cmd, idx) => `
-      <div class="cmd-palette-item ${idx === cmdPaletteSelectedIndex ? 'selected' : ''}" onclick="executeCommand('${cmd.id}')">
-        <div class="cmd-palette-icon">${cmd.icon}</div>
-        <div class="cmd-palette-text">
-          <div class="cmd-palette-label">${cmd.label}</div>
-          <div class="cmd-palette-shortcut">${cmd.category}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function executeCommand(cmdId) {
-    closeCmdPalette();
-    const command = COMMANDS.find(c => c.id === cmdId);
-    if (!command) return;
-
-    switch (cmdId) {
-      case 'nav-dashboard':
-        showView('dashboard');
-        break;
-      case 'nav-explore':
-        showView('courses');
-        break;
-      case 'nav-college':
-        showView('college');
-        break;
-      case 'nav-settings':
-        showView('settings');
-        break;
-      case 'task-add':
-        openModal();
-        break;
-      case 'task-filter':
-      case 'task-sort':
-        document.querySelector('.priority-filter-row').scrollIntoView({ behavior: 'smooth' });
-        break;
-      case 'class-toggle':
-        toggleInClassState();
-        break;
-      case 'theme-toggle':
-        toggleTheme();
-        break;
-      case 'focus-mode':
-        document.documentElement.classList.toggle('live-focus-on');
-        showPageAlert(document.documentElement.classList.contains('live-focus-on') ? '🎯 Focus Mode ON' : '👀 Focus Mode OFF');
-        break;
-      case 'calendar-show':
-        const timetableCard = document.getElementById('timetableCard');
-        if (timetableCard) {
-          timetableCard.style.display = timetableCard.style.display === 'none' ? 'block' : 'none';
-        }
-        break;
-      case 'help':
-        showPageAlert('🎮 Shortcuts: Ctrl+K (Palette), Ctrl+T (Task), Ctrl+L (Class), Ctrl+Shift+F (Focus)');
-        break;
-    }
-  }
-
-  // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    // Ctrl+K or Cmd+K opens command palette
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      openCmdPalette();
-    }
-    // ESC closes command palette
-    if (e.key === 'Escape') {
-      closeCmdPalette();
-    }
-    // Navigation within command palette
-    const modal = document.getElementById('cmdPaletteModal');
-    if (modal && modal.classList.contains('open')) {
-      const items = document.querySelectorAll('.cmd-palette-item');
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex + 1) % items.length;
-        updateCmdPaletteSelection();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex - 1 + items.length) % items.length;
-        updateCmdPaletteSelection();
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        const selected = items[cmdPaletteSelectedIndex];
-        if (selected) {
-          // Extract command ID from class names or data attribute would be better
-          const allCommands = COMMANDS.filter(cmd => {
-            const query = document.getElementById('cmdInput').value.toLowerCase();
-            return cmd.label.toLowerCase().includes(query) || cmd.category.toLowerCase().includes(query);
-          });
-          if (allCommands[cmdPaletteSelectedIndex]) {
-            executeCommand(allCommands[cmdPaletteSelectedIndex].id);
-          }
-        }
-      }
-    }
-  });
-
-  function updateCmdPaletteSelection() {
-    document.querySelectorAll('.cmd-palette-item').forEach((item, idx) => {
-      item.classList.toggle('selected', idx === cmdPaletteSelectedIndex);
-    });
-  }
-
-  // Initialize new features when DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      initTaskGravity();
-      renderTaskGravityWeights();
-      initFullCalendar();
-      updateAvatarStatus();
-
-      // Update task gravity weights when tasks change
-      const originalSaveTasks = saveTasks;
-      window.saveTasks = function() {
-        originalSaveTasks();
-        renderTaskGravityWeights();
-        updateAvatarStatus();
-      };
-    }, 500);
-  });
-
-  // Trigger calendar on load
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      initFullCalendar();
-    }, 1000);
-  });
-
-  // Make .cmd-palette button trigger command palette
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('.cmd-palette')) {
-      openCmdPalette();
-    }
-  });
-
-  // ===== ORIGINAL TASK MANAGEMENT CODE (Preserved) =====
   const STORAGE_KEY = 'priorityHubTasks';
   let tasks = [];
 
@@ -3918,8 +3247,6 @@
         if (ev.target.classList.contains('task-link-btn')) return;
         showTaskDetail(task.id);
       });
-      
-      // Add link button click handler
       const linkBtn = item.querySelector('.task-link-btn');
       if (linkBtn) {
         linkBtn.addEventListener('click', (ev) => {
@@ -4182,7 +3509,6 @@
       }
     });
 
-    // Re-append sorted items
     taskItems.forEach(item => taskContainer.appendChild(item));
   }
 
@@ -4361,6 +3687,8 @@
     });
     // Update the filter dropdown
     document.getElementById('resourceFilter').value = subject;
+    // Clear search input
+    document.getElementById('resourceSearch').value = '';
   }
 
   function highlightTaskSubject(subject) {
@@ -4522,12 +3850,6 @@
   setInterval(checkTaskNotifications, 20 * 1000); // check more frequently for timely alerts
 
   // RESOURCE FILTER
-  function openResource(item) {
-    const link = item.dataset.link;
-    if (!link) return;
-    window.location.href = link;
-  }
-
   function filterResources() {
     const q = document.getElementById('resourceSearch').value.toLowerCase();
     const f = document.getElementById('resourceFilter').value;
@@ -4536,6 +3858,12 @@
       const tag = item.dataset.tag;
       item.style.display = (!q || name.includes(q)) && (!f || tag === f) ? '' : 'none';
     });
+  }
+
+  function openResource(item) {
+    const link = item.dataset.link;
+    if (!link) return;
+    window.open(link, '_blank');
   }
   // GRAPH TOGGLE
   let graphOpen = true;
@@ -4557,10 +3885,6 @@
     if (view === 'dashboard') {
       document.getElementById('dashboard-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="dashboard"]').classList.add('active');
-      // Trigger calendar render after view is shown
-      setTimeout(() => {
-        if (!calendar) initFullCalendar();
-      }, 100);
     } else if (view === 'predictor') {
       document.getElementById('predictor-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="predictor"]').classList.add('active');
@@ -4575,18 +3899,6 @@
     } else if (view === 'college') {
       document.getElementById('college-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="college"]').classList.add('active');
-    }
-  }
-
-  // Toggle Timetable Visibility
-  function toggleTimetable() {
-    const card = document.getElementById('timetableCard');
-    if (card) {
-      card.style.display = card.style.display === 'none' ? 'block' : 'none';
-      // Re-render calendar if shown
-      if (card.style.display !== 'none' && !calendar) {
-        setTimeout(() => initFullCalendar(), 100);
-      }
     }
   }
 
@@ -6456,6 +5768,456 @@
     const courseFilter = document.getElementById('course-area-filter');
     if (courseFilter) courseFilter.addEventListener('change', renderCourses);
   });
+
+
+  /* ═══════════════════════════════════════
+     FLYING BIRD ANIMATION
+  ═══════════════════════════════════════ */
+  (function() {
+    const canvas = document.getElementById('flying-bird-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Bird wing frames (simple SVG-like path rendered on canvas)
+    function drawBird(cx, cy, scale, wingPhase) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+
+      const wingUp = Math.sin(wingPhase);  // -1 to 1
+
+      ctx.strokeStyle = '#34d399';
+      ctx.fillStyle = '#34d399';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = 'rgba(52, 211, 153, 0.7)';
+      ctx.shadowBlur = 10;
+
+      // Body
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 10, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Head
+      ctx.beginPath();
+      ctx.arc(13, -3, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Beak
+      ctx.beginPath();
+      ctx.moveTo(17, -3);
+      ctx.lineTo(23, -2);
+      ctx.lineTo(17, -1);
+      ctx.closePath();
+      ctx.fillStyle = '#0d1117';
+      ctx.fill();
+
+      // Eye
+      ctx.beginPath();
+      ctx.arc(14.5, -4, 1.2, 0, Math.PI * 2);
+      ctx.fillStyle = '#0d1117';
+      ctx.fill();
+
+      // Left wing (top)
+      const wingY = wingUp * 10;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-12, wingY - 8, -22, wingY);
+      ctx.quadraticCurveTo(-14, wingY + 4, 0, 2);
+      ctx.fillStyle = '#2dd4a0';
+      ctx.fill();
+
+      // Right wing (bottom, opposite phase)
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-12, -wingY - 8, -22, -wingY);
+      ctx.quadraticCurveTo(-14, -wingY + 4, 0, -2);
+      ctx.fillStyle = '#34d399';
+      ctx.fill();
+
+      // Tail
+      ctx.beginPath();
+      ctx.moveTo(-10, 0);
+      ctx.lineTo(-18, -4);
+      ctx.moveTo(-10, 0);
+      ctx.lineTo(-18, 0);
+      ctx.moveTo(-10, 0);
+      ctx.lineTo(-18, 4);
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // Zigzag waypoints: start off-screen top-right, zigzag down, land above terminal text
+    // We'll compute landing spot as center-x, roughly 35% from top
+    function getWaypoints() {
+      const W = canvas.width, H = canvas.height;
+      const landX = W / 2;
+      const landY = H * 0.33;  // just above the terminal block
+      return [
+        { x: W + 60,   y: -40 },          // start: off-screen top-right
+        { x: W * 0.75, y: H * 0.12 },     // zig
+        { x: W * 0.25, y: H * 0.05 },     // zag
+        { x: W * 0.65, y: H * 0.22 },     // zig
+        { x: W * 0.15, y: H * 0.18 },     // zag
+        { x: W * 0.55, y: H * 0.28 },     // zig
+        { x: landX,    y: landY },         // final landing
+      ];
+    }
+
+    let waypoints = getWaypoints();
+    let segIdx = 0;
+    let t = 0;           // 0..1 along current segment
+    let wingPhase = 0;
+    let landed = false;
+    let landedTimer = 0;
+    let birdX = waypoints[0].x;
+    let birdY = waypoints[0].y;
+    let birdScale = 1;
+    let animId;
+
+    const SEGMENT_DURATION = 420; // ms per segment
+    let lastTime = null;
+
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    function animate(ts) {
+      if (!lastTime) lastTime = ts;
+      const dt = ts - lastTime;
+      lastTime = ts;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (!landed) {
+        t += dt / SEGMENT_DURATION;
+        wingPhase += dt * 0.012;
+
+        if (t >= 1) {
+          t = 0;
+          segIdx++;
+          if (segIdx >= waypoints.length - 1) {
+            landed = true;
+            birdX = waypoints[waypoints.length - 1].x;
+            birdY = waypoints[waypoints.length - 1].y;
+          }
+        }
+
+        if (!landed) {
+          const from = waypoints[segIdx];
+          const to   = waypoints[segIdx + 1];
+          const et   = easeInOut(t);
+          birdX = from.x + (to.x - from.x) * et;
+          birdY = from.y + (to.y - from.y) * et;
+
+          // Scale up slightly as it approaches
+          const totalSegs = waypoints.length - 1;
+          birdScale = 0.6 + (segIdx / totalSegs) * 0.7;
+        }
+      } else {
+        // Landed: gentle bob
+        landedTimer += dt * 0.003;
+        birdY = waypoints[waypoints.length - 1].y + Math.sin(landedTimer) * 3;
+        wingPhase += dt * 0.002; // slow wing fold
+        birdScale = 1.3;
+      }
+
+      // Draw trail dots
+      if (!landed) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(52,211,153,0.15)';
+        ctx.beginPath();
+        ctx.arc(birdX - 12, birdY, 3, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      drawBird(birdX, birdY, birdScale, wingPhase);
+
+      animId = requestAnimationFrame(animate);
+    }
+
+    // Start after a short delay so boot lines appear first
+    setTimeout(() => {
+      waypoints = getWaypoints();
+      animId = requestAnimationFrame(animate);
+    }, 400);
+
+    // Stop animation when splash hides
+    const splash = document.getElementById('tech-splash');
+    const observer = new MutationObserver(() => {
+      if (splash.classList.contains('hidden')) {
+        cancelAnimationFrame(animId);
+        observer.disconnect();
+      }
+    });
+    observer.observe(splash, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+  /* ═══════════════════════════════════════
+     SPLASH SCREEN LOGIC
+  ═══════════════════════════════════════ */
+  (function() {
+    const fullText  = "Scholar's Command Centre — Falcons";
+    const textEl    = document.getElementById('typing-text');
+    const splash    = document.getElementById('tech-splash');
+    const progress  = document.getElementById('splash-progress');
+    const statusEl  = document.getElementById('splash-status');
+    const statusMessages = [
+      'INITIALISING DASHBOARD...',
+      'LOADING MODULES...',
+      'AUTHENTICATING SESSION...',
+      'READY.'
+    ];
+    let i = 0;
+    function type() {
+      if (i < fullText.length) {
+        textEl.textContent += fullText.charAt(i);
+        const pct = Math.round((i / fullText.length) * 100);
+        if (progress) progress.style.width = pct + '%';
+        const msgIndex = Math.floor((pct / 100) * (statusMessages.length - 1));
+        if (statusEl) statusEl.textContent = statusMessages[msgIndex];
+        i++;
+        setTimeout(type, 55);
+      } else {
+        if (progress) progress.style.width = '100%';
+        if (statusEl) statusEl.textContent = 'READY.';
+        setTimeout(() => {
+          splash.classList.add('hidden');
+          document.body.classList.add('loaded');
+        }, 1100);
+      }
+    }
+    setTimeout(type, 900);
+  })();
+
+  // UNIFIED MEET & COLLABORATION HUB
+  function startJitsiMeet() {
+    const roomName = 'falcons-study-room-' + Date.now();
+    const domain = 'meet.jit.si';
+    const options = {
+      roomName: roomName,
+      width: '100%',
+      height: '100%',
+      parentNode: document.getElementById('jitsi-container'),
+      interfaceConfigOverwrite: {
+        TOOLBAR_BUTTONS: [
+          'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+          'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+          'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+          'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+          'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
+          'security'
+        ],
+      },
+      configOverwrite: {
+        startWithAudioMuted: true,
+        startWithVideoMuted: true,
+      },
+    };
+    const api = new JitsiMeetExternalAPI(domain, options);
+    document.getElementById('jitsi-modal').style.display = 'flex';
+    return api;
+  }
+
+  function closeJitsiMeet() {
+    document.getElementById('jitsi-modal').style.display = 'none';
+    const container = document.getElementById('jitsi-container');
+    container.innerHTML = '';
+  }
+
+  // SCHOLAR DRIVE - PDF & NOTE MANAGEMENT
+  function saveNotesToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Get notes content
+    const notes = document.getElementById('quickNoteTextarea').value;
+    const tasks = tasks.map(t => `${t.done ? '✓' : '○'} ${t.text} (${t.subject})`).join('\n');
+    
+    // Add content
+    doc.setFontSize(20);
+    doc.text('Scholar Notes & Tasks', 20, 30);
+    
+    doc.setFontSize(14);
+    doc.text('Quick Notes:', 20, 50);
+    doc.setFontSize(10);
+    const notesLines = doc.splitTextToSize(notes, 170);
+    doc.text(notesLines, 20, 60);
+    
+    doc.setFontSize(14);
+    doc.text('Tasks:', 20, 100);
+    doc.setFontSize(10);
+    const taskLines = doc.splitTextToSize(tasks, 170);
+    doc.text(taskLines, 20, 110);
+    
+    // Save the PDF
+    doc.save('scholar-notes.pdf');
+  }
+
+  // EXPORT QUICK NOTES TO PDF
+  function exportQuickNotesToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Get the quick notes content
+    const notes = document.getElementById('quickNoteTextarea').value.trim();
+    
+    if (!notes) {
+      alert('Please enter some notes before exporting to PDF.');
+      return;
+    }
+    
+    // Add content
+    doc.setFontSize(20);
+    doc.text('Quick Notes', 20, 30);
+    
+    // Add timestamp
+    const now = new Date();
+    const timestamp = now.toLocaleString();
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${timestamp}`, 20, 45);
+    
+    // Add the notes content
+    doc.setFontSize(12);
+    const notesLines = doc.splitTextToSize(notes, 170);
+    doc.text(notesLines, 20, 60);
+    
+    // Save the PDF
+    doc.save('quick-notes.pdf');
+  }
+
+  // DYNAMIC BLUE LIGHT FILTER
+  function applyBlueLightFilter() {
+    const now = new Date();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    const currentTime = hour + minute / 60;
+    
+    // Night time: 10 PM to 6 AM
+    const isNight = currentTime >= 22 || currentTime < 6;
+    
+    if (isNight) {
+      document.body.style.filter = 'sepia(20%) hue-rotate(180deg) saturate(0.8)';
+      document.body.style.transition = 'filter 1s ease';
+    } else {
+      document.body.style.filter = 'none';
+    }
+  }
+  
+  // Apply filter every minute
+  setInterval(applyBlueLightFilter, 60000);
+  applyBlueLightFilter(); // Initial call
+
+  // ENHANCED COMMAND PALETTE
+  function searchCommands(query) {
+    const commands = [
+      { name: 'Add Task', action: () => openModal(), shortcut: 'Ctrl+K' },
+      { name: 'Start Class Mode', action: () => toggleInClassState(), shortcut: 'Alt+C' },
+      { name: 'Start Meet', action: () => startJitsiMeet(), shortcut: 'Alt+M' },
+      { name: 'Save Notes to PDF', action: () => saveNotesToPDF(), shortcut: 'Ctrl+P' },
+      { name: 'Export Quick Notes to PDF', action: () => exportQuickNotesToPDF(), shortcut: 'Ctrl+Shift+P' },
+      { name: 'Toggle Dark Mode', action: () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'), shortcut: 'Alt+D' },
+      { name: 'Show Dashboard', action: () => showView('dashboard'), shortcut: 'Alt+1' },
+      { name: 'Show Predictor', action: () => showView('predictor'), shortcut: 'Alt+2' },
+      { name: 'Show Courses', action: () => showView('courses'), shortcut: 'Alt+3' },
+      { name: 'Show Settings', action: () => showView('settings'), shortcut: 'Alt+4' },
+    ];
+    
+    return commands.filter(cmd => 
+      cmd.name.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  function renderCommandPalette(results) {
+    const list = document.getElementById('command-list');
+    list.innerHTML = results.map((cmd, index) => `
+      <div class="command-item ${index === 0 ? 'selected' : ''}" onclick="${cmd.action.toString().replace('() => ', '').replace('function ', '')}">
+        <div class="command-name">${cmd.name}</div>
+        <div class="command-shortcut">${cmd.shortcut}</div>
+      </div>
+    `).join('');
+  }
+
+  // Update existing command palette logic
+  const originalOpenModal = window.openModal;
+  window.openModal = function(editId = null) {
+    const palette = document.getElementById('command-palette');
+    if (palette.style.display === 'block') {
+      palette.style.display = 'none';
+      return;
+    }
+    
+    palette.style.display = 'block';
+    const input = document.getElementById('command-input');
+    input.focus();
+    input.value = '';
+    renderCommandPalette(searchCommands(''));
+  };
+
+  document.getElementById('command-input').addEventListener('input', (e) => {
+    renderCommandPalette(searchCommands(e.target.value));
+  });
+
+  document.getElementById('command-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const selected = document.querySelector('.command-item.selected');
+      if (selected) selected.click();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const current = document.querySelector('.command-item.selected');
+      const next = current ? current.nextElementSibling : document.querySelector('.command-item');
+      if (next) {
+        current?.classList.remove('selected');
+        next.classList.add('selected');
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const current = document.querySelector('.command-item.selected');
+      const prev = current ? current.previousElementSibling : null;
+      if (prev) {
+        current.classList.remove('selected');
+        prev.classList.add('selected');
+      }
+    }
+  });
+
 </script>
+
+<!-- JITSI MEET MODAL -->
+<div id="jitsi-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="width: 90%; height: 90%; background: var(--surface); border-radius: 12px; overflow: hidden; position: relative;">
+    <div style="padding: 10px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-weight: 600; color: var(--text);">Study Session</span>
+      <button onclick="closeJitsiMeet()" style="background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer;">×</button>
+    </div>
+    <div id="jitsi-container" style="width: 100%; height: calc(100% - 50px);"></div>
+  </div>
+</div>
+
+<!-- ENHANCED COMMAND PALETTE -->
+<div id="command-palette" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="width: 600px; max-width: 90%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+    <div style="padding: 16px; border-bottom: 1px solid var(--border);">
+      <input id="command-input" type="text" placeholder="Type a command..." style="width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); font-size: 16px; outline: none;">
+    </div>
+    <div id="command-list" style="max-height: 300px; overflow-y: auto;">
+      <!-- Commands will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- Add Jitsi Meet script -->
+<script src="https://meet.jit.si/external_api.js"></script>
+
 </body>
 </html>
