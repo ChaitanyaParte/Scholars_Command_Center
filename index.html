@@ -1428,6 +1428,183 @@
   .type-govt { background: rgba(52, 211, 153, 0.15); color: var(--accent3); border: 1px solid rgba(52, 211, 153, 0.3); }
   .type-pvt { background: rgba(167, 139, 250, 0.15); color: var(--purple); border: 1px solid rgba(167, 139, 250, 0.3); }
   .type-deemed { background: rgba(245, 158, 11, 0.15); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.3); }
+  /* EXPLORE PAGE STYLES */
+  .container {
+    max-width: 1020px;
+    margin: 0 auto;
+  }
+  .header-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.08;
+    margin-bottom: 10px;
+    letter-spacing: -0.025em;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 420px;
+    line-height: 1.65;
+    margin-bottom: 40px;
+  }
+  .search-container {
+    position: relative;
+    max-width: 360px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px 14px 10px 40px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 9px;
+  }
+  .category-card {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 17px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+  }
+  .category-card:hover {
+    background: var(--surface);
+    transform: translateY(-2px);
+  }
+  .category-card.active {
+    transform: translateY(-1px);
+  }
+  .category-icon { font-size: 21px; }
+  .category-label { font-family: 'Space Grotesk', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+  .category-tag { font-size: 10.5px; color: var(--text-dim); border-top: 1px solid var(--border); margin-top: auto; padding-top: 8px;}
+  .expanded-section {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 10px 0;
+    display: none;
+    animation: expandIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .expanded-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .close-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .expanded-content {
+    padding: 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 28px;
+  }
+  .pill-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .pill {
+    all: unset;
+    cursor: pointer;
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+  .guidance-box {
+    margin-top: 20px;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-num {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.05);
+    text-align: center;
+    line-height: 1;
+  }
+  @keyframes expandIn { from { opacity: 0; transform: scaleY(0.9); transform-origin: top; } to { opacity: 1; transform: scaleY(1); } }
+  @media(max-width:600px) {
+    .explore-grid { grid-template-columns: repeat(2, 1fr); }
+    .expanded-content { grid-template-columns: 1fr; }
+  }
   /* COURSE CARDS */
   .course-card {
     background: var(--surface);
@@ -2161,37 +2338,21 @@
   <div class="content" id="courses-view" style="display: none;">
     <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div>
-        <h2>🧭 Explore</h2>
-        <p>Browse careers, skills, and build your student path.</p>
+        <div class="header-tag">Student Career Explorer</div>
+        <h1>Explore Your Path</h1>
+        <p class="subtitle">Discover careers, build skills, and get step-by-step guidance across every field.</p>
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;width:min(100%,560px);">
-        <input id="explore-search" class="pv-input" type="search" placeholder="Search careers, skills, categories..." oninput="renderCourses()" style="flex:1;min-width:220px;" />
-        <select class="pv-select" id="course-area-filter" onchange="renderCourses()" style="min-width:180px;">
-          <option>All</option>
-          <option>Technical</option>
-          <option>Research</option>
-          <option>Aerospace</option>
-          <option>Sports</option>
-          <option>Creative</option>
-          <option>Business</option>
-          <option>Emerging</option>
-        </select>
-      </div>
-    </div>
-    <div class="pv-grid" style="grid-template-columns: 1.25fr 0.75fr; gap: 20px;">
-      <div>
-        <div class="explore-grid" id="explore-category-grid"></div>
-      </div>
-      <div class="pv-card" id="explore-detail">
-        <div class="detail-title">Explore career categories</div>
-        <div class="detail-subtitle">Select a category card to see career guidance, skill focus, and pathways for your interests.</div>
-        <div class="detail-section">
-          <div class="detail-heading">How this works</div>
-          <div class="detail-item">Search for a skill, career, or category. Use the filter dropdown to narrow your focus.</div>
-          <div class="detail-item">Click any category card to open related careers, skills, and guidance on the right.</div>
+        <div class="search-container">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search careers, skills, categories…">
         </div>
       </div>
     </div>
+    <div id="explore-grid" class="explore-grid"></div>
+    <p id="helperText" style="text-align: center; color: var(--text-dim); font-size: 11px; margin-top: 28px; font-family: 'Space Grotesk', sans-serif;">
+      ↑ Select a category to explore
+    </p>
   </div>
 
   <!-- COLLEGE VIEW -->
@@ -4141,114 +4302,211 @@
     {id:8,name:"Big Data Analytics",credits:3,desc:"Hadoop, Spark, MapReduce and real-time data pipeline design.",prereq:"DBMS, Maths",rating:4.5,tags:["Hadoop","Spark","Analytics"],area:"Data",selected:false},
   ];
 
-  const EXPLORE_CATEGORIES = [
-    {
-      id: 'technical', label: 'Technical', icon: '⚙️', accent: '#60A5FA', tag: 'Engineering & Dev',
-      description: 'Build software systems, AI products, and cloud infrastructure using modern engineering practices.',
-      careers: ['Software Engineer', 'ML / AI Engineer', 'Cloud Architect'],
-      skills: ['Python & JavaScript', 'System Design', 'REST / GraphQL'],
-      guidance: ['Master one programming language deeply and build 3–5 portfolio projects.', 'Learn core algorithms, data structures, and system design fundamentals.', 'Practice full-stack application development and deployment.']
-    },
-    {
-      id: 'research', label: 'Research & Academia', icon: '🔬', accent: '#A78BFA', tag: 'Research',
-      description: 'Prepare for academic research, publication, and advanced studies in science or technology.',
-      careers: ['Research Scientist', 'University Professor', 'Data Scientist'],
-      skills: ['Academic Writing', 'Statistical Analysis', 'Literature Review'],
-      guidance: ['Publish or co-author technical work and build a strong research portfolio.', 'Study advanced statistics and experimental design.', 'Apply for funded internships, labs, and graduate programs.']
-    },
-    {
-      id: 'aerospace', label: 'Aerospace & Engineering', icon: '🚀', accent: '#38BDF8', tag: 'Aerospace',
-      description: 'Design flight systems, spacecraft, and advanced mechanical systems for the next generation of engineering.',
-      careers: ['Aerospace Engineer', 'Flight Test Engineer', 'Satellite Systems Engineer'],
-      skills: ['CAD / Simulation', 'Control Systems', 'Embedded C/C++'],
-      guidance: ['Build a strong math and physics foundation.', 'Work on robotics, drones, or aerospace club projects.', 'Learn simulation tools and control theory.']
-    },
-    {
-      id: 'creative', label: 'Creative & Extra-Curricular', icon: '🎨', accent: '#F472B6', tag: 'Creative',
-      description: 'Explore design, media, and creative careers that combine storytelling with modern digital tools.',
-      careers: ['UX / UI Designer', 'Filmmaker', 'Graphic Designer'],
-      skills: ['Figma', 'Video Editing', 'Typography'],
-      guidance: ['Create case-study projects and publish them on portfolio sites.', 'Learn design thinking and visual storytelling.', 'Practice rapid prototyping and user testing.']
-    },
-    {
-      id: 'business', label: 'Business & Entrepreneurship', icon: '💼', accent: '#FBBF24', tag: 'Business',
-      description: 'Build business, product, and startup skills to launch ideas and lead teams effectively.',
-      careers: ['Product Manager', 'Startup Founder', 'Investment Analyst'],
-      skills: ['Market Research', 'Financial Modeling', 'Growth Strategy'],
-      guidance: ['Validate ideas with customers before building.', 'Learn basic finance, modeling, and go-to-market strategy.', 'Practice writing crisp business plans and pitches.']
-    },
-  ];
-  let activeExploreCategory = null;
+  const CATEGORIES = [
+        {
+            id: "technical", label: "Technical", icon: "⚙️", accent: "#60A5FA", tag: "Engineering & Dev",
+            careers: ["Software Engineer","ML / AI Engineer","Data Scientist","Cloud Architect","Cybersecurity Analyst","DevOps Engineer","Embedded Systems Engineer","Blockchain Developer"],
+            skills: ["Python & JavaScript","System Design","SQL & Databases","Docker & Kubernetes","REST / GraphQL APIs","Git & CI/CD","Data Structures & Algorithms","Cloud Platforms (AWS/GCP/Azure)"],
+            careerGuidance: {
+                "Software Engineer": ["Master at least one language deeply — Python, JavaScript, or Java","Learn Data Structures & Algorithms (LeetCode, Codeforces)","Build 3–5 portfolio projects on GitHub","Understand system design fundamentals (databases, caching, APIs)","Contribute to open-source projects","Apply for internships in your 2nd or 3rd year","Practice mock interviews (Pramp, Interviewing.io)"],
+                "ML / AI Engineer": ["Build a strong foundation in Python, NumPy, and Pandas","Study linear algebra, calculus, and probability","Complete Andrew Ng's ML/Deep Learning courses","Work on Kaggle competitions to build practical skills","Learn PyTorch or TensorFlow","Read and implement papers from Arxiv","Build end-to-end ML projects and deploy them"],
+                "Data Scientist": ["Learn Python and R for statistical analysis","Master SQL for data querying","Study statistics, probability, and hypothesis testing","Practice on real datasets (Kaggle, UCI Repository)","Learn data visualization (Matplotlib, Tableau, Power BI)","Build a portfolio of analytical case studies","Develop storytelling skills for presenting insights"],
+                "Cloud Architect": ["Get foundational cloud knowledge (AWS / GCP / Azure)","Earn a cloud certification (AWS Solutions Architect)","Learn Infrastructure as Code (Terraform, CloudFormation)","Study networking, security, and cost optimization","Practice deploying full-stack apps on the cloud","Understand microservices and serverless architectures","Build multi-region, fault-tolerant systems in labs"],
+                "Cybersecurity Analyst": ["Learn networking fundamentals (TCP/IP, DNS, HTTP)","Study Linux and command-line tools","Complete TryHackMe or Hack The Box labs","Earn CompTIA Security+ or CEH certification","Understand OWASP Top 10 vulnerabilities","Practice ethical hacking and penetration testing","Participate in CTF (Capture The Flag) competitions"],
+                "DevOps Engineer": ["Learn Linux administration and shell scripting","Master Git and CI/CD pipelines (GitHub Actions, Jenkins)","Get hands-on with Docker and Kubernetes","Study monitoring tools (Prometheus, Grafana, ELK Stack)","Learn cloud services (AWS/GCP) and IaC (Terraform)","Understand SRE principles and incident response","Automate everything — infrastructure, testing, deployment"],
+                "Embedded Systems Engineer": ["Master C and C++ programming","Learn microcontroller platforms (Arduino, STM32, ESP32)","Study electronics basics and circuit design","Understand real-time operating systems (RTOS)","Work on IoT and robotics projects","Learn communication protocols (UART, SPI, I2C, CAN)","Build a portfolio of hardware + software projects"],
+                "Blockchain Developer": ["Learn JavaScript or Python as a base language","Understand how blockchain and consensus mechanisms work","Study Solidity for Ethereum smart contracts","Build and deploy DApps using Hardhat/Foundry","Learn Web3.js or Ethers.js for frontend integration","Participate in hackathons (ETHGlobal, Chainlink)","Audit smart contracts and understand DeFi protocols"]
+            },
+        },
+        {
+            id: "research", label: "Research & Academia", icon: "🔬", accent: "#A78BFA", tag: "Academia",
+            careers: ["Research Scientist","University Professor","Science Writer","Biostatistician","Policy Researcher","Epidemiologist","Lab Manager"],
+            skills: ["Academic Writing & Publishing","Statistical Analysis (R/SPSS/Python)","Literature Review & Synthesis","Grant Writing","Experimental Design","Critical Thinking","Peer Review Process","Data Visualization"],
+            careerGuidance: {
+                "Research Scientist": ["Choose a focus area early — biology, physics, CS, social science, etc.","Pursue a strong undergraduate research project (UG thesis)","Publish or co-author at least one peer-reviewed paper","Apply for Masters → PhD programs with funded positions","Attend and present at academic conferences","Build collaborations across labs and institutions","Apply to postdoctoral fellowships at top research centers"],
+                "University Professor": ["Excel academically and build a strong GPA","Complete a PhD with a well-cited dissertation","Publish regularly in top journals in your field","Gain teaching experience as a teaching assistant","Build a strong academic network and citation presence","Apply for faculty positions at universities","Secure research grants (DST, DBT, SERB, NSF, NIH)"]
+            }
+        },
+        {
+            id: "aerospace", label: "Aerospace & Engineering", icon: "🚀", accent: "#38BDF8", tag: "Advanced Engineering",
+            careers: ["Aerospace Engineer","Propulsion Specialist","Flight Test Engineer","Satellite Systems Engineer","Robotics Engineer","Avionics Engineer","UAV / Drone Engineer"],
+            skills: ["Fluid Dynamics & Thermodynamics","MATLAB & Simulink","CAD (SolidWorks / CATIA / NX)","Control Systems & GNC","Finite Element Analysis (FEA)","Orbital Mechanics","Embedded C/C++","Composite Materials & Structures"],
+            careerGuidance: {
+                "Aerospace Engineer": ["Study B.Tech in Aerospace, Mechanical, or Electronics Engineering","Learn MATLAB, Simulink, and CAD tools from Year 1","Join your college's SAE Aero Design or rocketry club","Intern at ISRO, DRDO, HAL, or private aerospace startups","Build projects: drones, model rockets, or CubeSats"]
+            }
+        },
+        {
+            id: "sports", label: "Sports", icon: "🏅", accent: "#34D399", tag: "Athletics & Performance",
+            careers: ["Professional Athlete","Sports Coach","Sports Psychologist","Sports Analyst","Athletic Trainer / Physio","Sports Journalist","Sports Nutritionist","Esports Player / Manager"],
+            skills: ["Strength & Conditioning","Tactical & Strategic Thinking","Sports Psychology & Resilience","Video Performance Analysis","Nutrition & Recovery Science","Injury Prevention & Rehab","Leadership & Team Dynamics","Data Analytics for Sport"],
+            careerGuidance: {
+                "Professional Athlete": ["Identify your sport early and train with qualified coaches","Join state-level academies and competition circuits","Prioritize recovery, nutrition, and injury prevention"]
+            }
+        },
+        {
+            id: "creative", label: "Creative & Extra-Curricular", icon: "🎨", accent: "#F472B6", tag: "Creative Arts",
+            careers: ["UX / UI Designer","Filmmaker & Video Producer","Graphic Designer","Content Creator","Game Designer","Animator","Photographer","Music Producer"],
+            skills: ["Figma / Adobe XD / Sketch","Video Editing (Premiere / DaVinci)","Illustration & Typography","Storytelling & Narrative Design","Photography & Composition","Music Production (Ableton / FL Studio)","Motion Graphics (After Effects)","Brand Identity Design"],
+            careerGuidance: {
+                "UX / UI Designer": ["Learn design fundamentals: layout, color theory, and typography","Master Figma — the industry standard tool","Study user research methods: interviews, surveys, usability tests"]
+            }
+        },
+        {
+            id: "business", label: "Business & Entrepreneurship", icon: "💼", accent: "#FBBF24", tag: "Business",
+            careers: ["Startup Founder","Product Manager","Management Consultant","Investment Analyst","Marketing Strategist","Operations Manager","Venture Capitalist","Financial Planner"],
+            skills: ["Business Model Canvas & Strategy","Financial Modeling & Excel","Market Research & Validation","Pitching & Fundraising","Product Thinking & OKRs","Growth Marketing & SEO","Leadership & Negotiation","Data Analysis & Business Intelligence"],
+            careerGuidance: {
+                "Startup Founder": ["Identify a real problem through observation and customer conversations","Validate your idea before building (build-measure-learn loop)"]
+            }
+        },
+        {
+            id: "government", label: "Government & Public Service", icon: "🏛️", accent: "#818CF8", tag: "Public Sector",
+            careers: ["IAS / IPS Officer (UPSC)","Policy Analyst","Diplomat","Urban Planner","Public Health Administrator","Defence Officer","NGO Program Manager","Legal Counsel / Lawyer"],
+            skills: ["Constitutional & Legal Knowledge","Public Policy Analysis","Governance & Administration","Report Writing & Documentation","Community Engagement","Crisis Management","International Relations","Data-Driven Governance"],
+            careerGuidance: {
+                "IAS / IPS Officer (UPSC)": ["Start UPSC preparation early — ideally from Year 2 of college","Read NCERT books thoroughly before moving to standard references"]
+            }
+        },
+        {
+            id: "emerging", label: "Emerging & Future Careers", icon: "🌐", accent: "#2DD4BF", tag: "Future-Forward",
+            careers: ["AI Ethics Researcher","Climate Tech Specialist","Bioinformatician","XR / Metaverse Developer","Quantum Computing Engineer","Synthetic Biology Researcher","Digital Health Consultant","Autonomous Vehicle Engineer"],
+            skills: ["Prompt Engineering & LLM Fine-tuning","Climate Data & Carbon Accounting","Genomics & Bioinformatics Tools","Quantum Algorithms (Qiskit / Cirq)","AR/VR Development (Unity / Unreal)","Ethical AI & Responsible Tech Frameworks","IoT & Edge Computing","Synthetic Biology & CRISPR Basics"],
+            careerGuidance: {
+                "AI Ethics Researcher": ["Build a strong foundation in philosophy, computer science, or social science"]
+            }
+        },
+        {
+            id: "lifeskills", label: "Life Skills", icon: "🧠", accent: "#FB923C", tag: "Essentials for Life",
+            careers: [],
+            skills: ["Personal Finance & Investing Basics","Critical Thinking & Logical Reasoning","Public Speaking & Confident Communication","Time Management & Deep Work","Emotional Intelligence & Empathy","Cooking & Practical Nutrition","First Aid & Mental Health Awareness","Networking & Building Relationships","Digital Literacy & Cyber Safety","Decision Making Under Pressure"],
+            careerGuidance: {},
+        }
+    ];
+  let activeId = null;
 
-  // COURSE SELECTOR FUNCTIONS
-  function renderCourses(){
-    const query = (document.getElementById('explore-search')?.value || '').toLowerCase().trim();
-    const area = document.getElementById('course-area-filter')?.value || 'All';
-    const filtered = EXPLORE_CATEGORIES.filter(cat => {
-      const text = [cat.label, cat.tag, cat.description, cat.careers.join(' '), cat.skills.join(' ')].join(' ').toLowerCase();
-      const matchesArea = area === 'All' || text.includes(area.toLowerCase());
-      const matchesSearch = !query || text.includes(query);
-      return matchesArea && matchesSearch;
+  const grid = document.getElementById('explore-grid');
+  const searchInput = document.getElementById('searchInput');
+  const helperText = document.getElementById('helperText');
+
+  function render() {
+    const query = searchInput.value.toLowerCase().trim();
+    grid.innerHTML = '';
+
+    const filtered = CATEGORIES.filter(c => 
+        c.label.toLowerCase().includes(query) || 
+        c.tag.toLowerCase().includes(query) ||
+        c.careers.some(car => car.toLowerCase().includes(query)) ||
+        c.skills.some(sk => sk.toLowerCase().includes(query))
+    );
+
+    filtered.forEach(cat => {
+        const isActive = cat.id === activeId;
+        
+        const card = document.createElement('button');
+        card.className = `category-card ${isActive ? 'active' : ''}`;
+        if (isActive) {
+            card.style.borderColor = cat.accent;
+            card.style.background = `${cat.accent}12`;
+            card.style.boxShadow = `0 0 20px ${cat.accent}18`;
+        }
+
+        card.innerHTML = `
+            <span class="category-icon">${cat.icon}</span>
+            <span class="category-label" style="color: ${isActive ? cat.accent : ''}">${cat.label}</span>
+            <span class="category-tag" style="color: ${isActive ? cat.accent : ''}">${cat.tag}</span>
+        `;
+
+        card.onclick = () => toggleCategory(cat.id);
+        grid.appendChild(card);
+
+        if (isActive) {
+            const exp = document.createElement('div');
+            exp.className = 'expanded-section';
+            exp.style.display = 'block';
+            exp.style.border = `1px solid ${cat.accent}30`;
+            exp.style.boxShadow = `0 0 48px ${cat.accent}10`;
+
+            exp.innerHTML = `
+                <div class="expanded-header" style="background: ${cat.accent}07">
+                    <div style="display:flex; align-items:center; gap:11px;">
+                        <span style="font-size:20px;">${cat.icon}</span>
+                        <div>
+                            <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:#ebebeb">${cat.label}</div>
+                            <div style="font-size:11px; color:#444">${cat.careers.length} careers · ${cat.skills.length} skills</div>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="toggleCategory(null)">✕</button>
+                </div>
+                <div class="expanded-content">
+                    <div>
+                        <div style="font-size:10px; font-weight:700; text-transform:uppercase; color:#444; margin-bottom:11px; font-family:'Syne'">Career Paths</div>
+                        <div class="pill-list">
+                            ${cat.careers.map(car => `<button class="pill" onclick="showGuidance('${cat.id}', '${car.replace(/'/g, "\\'")}', this)">${car}</button>`).join('')}
+                        </div>
+                        <div id="guidance-container-${cat.id}"></div>
+                    </div>
+                    <div>
+                        <div style="font-size:10px; font-weight:700; text-transform:uppercase; color:#444; margin-bottom:11px; font-family:'Syne'">Skills to Build</div>
+                        ${cat.skills.map(sk => `
+                            <div class="skill-item">
+                                <span style="width:5px; height:5px; border-radius:50%; background:${cat.accent}"></span>
+                                ${sk}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(exp);
+        }
     });
 
-    const grid = document.getElementById('explore-category-grid');
-    const detail = document.getElementById('explore-detail');
-    if (!grid || !detail) return;
-
-    grid.innerHTML = '';
-    if (filtered.length === 0) {
-      grid.innerHTML = `<div class="pv-card" style="grid-column:1 / -1;"><div class="detail-title">No categories found</div><p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Try a different search term or reset the filter.</p></div>`;
-    } else {
-      filtered.forEach(cat => {
-        const card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'category-card' + (activeExploreCategory === cat.id ? ' active' : '');
-        card.onclick = () => {
-          activeExploreCategory = activeExploreCategory === cat.id ? null : cat.id;
-          renderCourses();
-        };
-        card.innerHTML = `
-          <div class="category-icon">${cat.icon}</div>
-          <div class="category-label">${cat.label}</div>
-          <div class="category-tag">${cat.tag}</div>
-          <div class="category-desc">${cat.description}</div>
-          <div class="category-skills">${cat.skills.map(skill => `<span class="category-skill">${skill}</span>`).join('')}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    const selected = EXPLORE_CATEGORIES.find(cat => cat.id === activeExploreCategory);
-    if (!selected) {
-      detail.innerHTML = `
-        <div class="detail-title">Explore career categories</div>
-        <div class="detail-subtitle">Select a category card to view top career paths, skills, and study guidance.</div>
-        <div class="detail-section">
-          <div class="detail-heading">Explore tips</div>
-          <div class="detail-item">Use the search box to find careers, skills, or categories quickly.</div>
-          <div class="detail-item">Click on a category card to open the right-hand guidance panel.</div>
-          <div class="detail-item">This view uses the same tp.html styling for a consistent look.</div>
-        </div>
-      `;
-    } else {
-      detail.innerHTML = `
-        <div class="detail-title">${selected.icon} ${selected.label}</div>
-        <div class="detail-subtitle">${selected.description}</div>
-        <div class="detail-section">
-          <div class="detail-heading">Top Career Paths</div>
-          ${selected.careers.map(career => `<div class="detail-item"><div class="detail-item-title">${career}</div><div class="detail-item-sub">${selected.tag} path</div></div>`).join('')}
-        </div>
-        <div class="detail-section">
-          <div class="detail-heading">Key Skills</div>
-          <div class="category-skills">${selected.skills.map(skill => `<span class="category-skill">${skill}</span>`).join('')}</div>
-        </div>
-        <div class="detail-section">
-          <div class="detail-heading">Guidance</div>
-          ${selected.guidance.map(step => `<div class="detail-item"><div class="detail-item-sub">${step}</div></div>`).join('')}
-        </div>
-      `;
-    }
+    helperText.style.display = activeId ? 'none' : 'block';
   }
+
+  function toggleCategory(id) {
+    activeId = (activeId === id) ? null : id;
+    render();
+  }
+
+  window.showGuidance = (catId, careerName, btnElement) => {
+    const cat = CATEGORIES.find(c => c.id === catId);
+    const container = document.getElementById(`guidance-container-${catId}`);
+    const steps = cat.careerGuidance[careerName] || ["Step-by-step guide coming soon for this role."];
+
+    btnElement.parentElement.querySelectorAll('.pill').forEach(p => {
+        p.style.background = 'var(--surface2)';
+        p.style.color = 'var(--text-muted)';
+        p.style.borderColor = 'var(--border)';
+    });
+
+    btnElement.style.background = `${cat.accent}15`;
+    btnElement.style.color = cat.accent;
+    btnElement.style.borderColor = cat.accent;
+
+    container.innerHTML = `
+        <div class="guidance-box" style="border-color: ${cat.accent}35">
+            <div style="padding: 13px 18px; background: ${cat.accent}0a; color: ${cat.accent}; font-family:'Syne'; font-size:11px; font-weight:700; text-transform:uppercase">
+                How to become a ${careerName}
+            </div>
+            <div style="padding: 8px 0">
+                ${steps.map((s, i) => `
+                    <div class="step">
+                        <div class="step-num" style="background:${cat.accent}15; color:${cat.accent}; border:1px solid ${cat.accent}40">${i+1}</div>
+                        <p style="font-size:13px; color:var(--text-muted); line-height:1.65">${s}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  searchInput.addEventListener('input', () => {
+    activeId = null;
+    render();
+  });
+
+  render();
   function toggleCourse(id){
     const course = COURSES.find(c => c.id === id);
     if (course) {
