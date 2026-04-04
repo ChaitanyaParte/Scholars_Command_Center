@@ -165,23 +165,37 @@ body.loaded .main {
 
 
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2230;
-    --surface3: #21283a;
-    --border: #2a3347;
+    --bg: #121212;
+    --surface: #1e1e1e;
+    --surface2: #2d2d2d;
+    --surface3: #333333;
+    --border: #383838;
     --border2: #334155;
-    --text: #e6edf3;
-    --text-muted: #7d8fa3;
-    --text-dim: #4a5568;
-    --accent: #38bdf8;
-    --accent2: #818cf8;
-    --accent3: #34d399;
+    --text: #ffffff;
+    --text-muted: #a0a0a0;
+    --text-dim: #717171;
+    --accent: #ffcc00;
+    --accent2: #e6b800;
+    --accent3: #4ade80;
     --warn: #f59e0b;
     --danger: #f87171;
     --pink: #ec4899;
     --purple: #a78bfa;
     --sidebar-w: 220px;
+  }
+  body.light-theme {
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --surface2: #e5e7eb;
+    --surface3: #d1d5db;
+    --border: #e5e7eb;
+    --border2: #cbd5e1;
+    --text: #111827;
+    --text-muted: #4b5563;
+    --text-dim: #9ca3af;
+    --accent: #1d4ed8;
+    --accent2: #4338ca;
+    --accent3: #059669;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -275,9 +289,9 @@ body.loaded .main {
   }
   .nav-item:hover { background: var(--surface2); color: var(--text); }
   .nav-item.active {
-    background: rgba(56, 189, 248, 0.1);
+    background: rgba(29, 78, 216, 0.1);
     color: var(--accent);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    border: 1px solid rgba(29, 78, 216, 0.2);
   }
   .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
   .nav-badge {
@@ -353,7 +367,7 @@ body.loaded .main {
   .btn-live {
     width: 100%;
     background: linear-gradient(135deg, var(--accent), var(--accent3));
-    color: #0d1117;
+    color: #ffffff;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     font-size: 12px;
@@ -519,7 +533,7 @@ body.loaded .main {
     align-items: center;
     gap: 6px;
     background: var(--accent);
-    color: #0d1117;
+    color: #ffffff;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     font-size: 12px;
@@ -2175,6 +2189,43 @@ body.loaded .main {
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(56,189,248,0.05), rgba(168,139,250,0.05), rgba(52,211,153,0.05));
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.heat-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.night-shift {
+  filter: sepia(0.4);
+}
+</style>
 </head>
 <body>
 <!-- ═══════════════ SPLASH SCREEN ═══════════════ -->
@@ -3198,6 +3249,11 @@ body.loaded .main {
   </div>
 </div>
 <script>
+  // Check for saved theme on load
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-theme');
+  }
+
   const STORAGE_KEY = 'priorityHubTasks';
   let tasks = [];
 
@@ -5688,33 +5744,14 @@ body.loaded .main {
   let isDarkMode = localStorage.getItem('theme') !== 'light'; // Default to dark mode
 
   function applyTheme() {
-    const root = document.documentElement;
     const themeIcon = document.getElementById('themeIcon');
 
     if (isDarkMode) {
-      // Apply dark mode
-      root.style.setProperty('--bg', '#0d1117');
-      root.style.setProperty('--surface', '#161b22');
-      root.style.setProperty('--surface2', '#1c2230');
-      root.style.setProperty('--surface3', '#21283a');
-      root.style.setProperty('--border', '#2a3347');
-      root.style.setProperty('--border2', '#334155');
-      root.style.setProperty('--text', '#e6edf3');
-      root.style.setProperty('--text-muted', '#7d8fa3');
-      root.style.setProperty('--text-dim', '#4a5568');
+      document.body.classList.remove('light-theme');
       themeIcon.textContent = '🌙';
       themeIcon.style.transform = 'rotate(0deg)';
     } else {
-      // Apply light mode
-      root.style.setProperty('--bg', '#f5f7ff');
-      root.style.setProperty('--surface', '#ffffff');
-      root.style.setProperty('--surface2', '#f5f7fa');
-      root.style.setProperty('--surface3', '#efefff');
-      root.style.setProperty('--border', 'rgba(0,0,0,0.08)');
-      root.style.setProperty('--border2', 'rgba(0,0,0,0.12)');
-      root.style.setProperty('--text', '#1a1a1a');
-      root.style.setProperty('--text-muted', '#666666');
-      root.style.setProperty('--text-dim', '#999999');
+      document.body.classList.add('light-theme');
       themeIcon.textContent = '☀️';
       themeIcon.style.transform = 'rotate(180deg)';
     }
@@ -6189,6 +6226,25 @@ body.loaded .main {
       }
     }
   });
+
+  // New functions appended at the end
+  function saveNotesToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const notes = document.getElementById('quickNoteTextarea').value;
+    if (!notes.trim()) {
+      alert('No notes to save.');
+      return;
+    }
+    doc.text('Quick Notes', 20, 20);
+    const lines = doc.splitTextToSize(notes, 170);
+    doc.text(lines, 20, 40);
+    doc.save('notes.pdf');
+  }
+
+  function toggleNightShift() {
+    document.body.classList.toggle('night-shift');
+  }
 
 </script>
 
