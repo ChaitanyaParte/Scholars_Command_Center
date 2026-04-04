@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scholar's Command Center — Nexus-Uni</title>
+<title>Scholar's Command Center — Falcons</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="falcons1.png">
 <style>
   :root {
     --bg: #0d1117;
@@ -1216,6 +1217,114 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    min-height: 220px;
+  }
+  .category-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.08);
+  }
+  .category-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 24px rgba(56, 189, 248, 0.14);
+    background: rgba(56, 189, 248, 0.12);
+  }
+  .category-icon {
+    font-size: 24px;
+  }
+  .category-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .category-tag {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .category-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    min-height: 48px;
+  }
+  .category-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .category-skill {
+    font-size: 11px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 10px;
+  }
+  .detail-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .detail-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .detail-heading {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .detail-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .detail-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .detail-item-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 980px) {
+    .pv-grid[style*="grid-template-columns"] {
+      grid-template-columns: 1fr !important;
+    }
+    .explore-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   .pv-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -1435,8 +1544,8 @@
   <div class="brand">
     <div class="brand-label">Academic OS</div>
     <div class="brand-name">
-      <div class="brand-icon">N</div>
-      Nexus-Uni
+      <div class="brand-icon">F</div>
+      Falcons
     </div>
     <div class="brand-subtitle">The Scholar's Command Center</div>
   </div>
@@ -1446,6 +1555,7 @@
   <!-- TOOLS section -->
   <div class="nav-section-label">Tools</div>
   <div class="nav-item" onclick="showView('courses')"><span class="icon">🧭</span> Explore</div>
+  <div class="nav-item" onclick="showView('college')"><span class="icon">🏛️</span> College</div>
   <div class="nav-item" onclick="showView('settings')"><span class="icon">⚙️</span> Settings</div>
   <div class="quick-focus">
     <div class="quick-focus-label">Quick Focus</div>
@@ -1907,9 +2017,12 @@
 
   <!-- COLLEGE PREDICTOR VIEW -->
   <div class="content" id="predictor-view" style="display: none;">
-    <div class="pv-header">
-      <h2>🏛️ College Predictor</h2>
-      <p>Enter your academic profile to find the best-matched colleges based on CGPA and preferences.</p>
+    <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2>🏛️ College Predictor</h2>
+        <p>Enter your academic profile to find the best-matched colleges based on CGPA and preferences.</p>
+      </div>
+      <button class="pv-btn" onclick="showView('dashboard')" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid #ef4444;width:auto;padding:8px 16px;margin:0;">✕ Exit</button>
     </div>
     <div class="pv-grid">
       <div class="pv-card">
@@ -1954,35 +2067,169 @@
 
   <!-- COURSE SELECTOR VIEW -->
   <div class="content" id="courses-view" style="display: none;">
-    <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;flex-direction:row">
+    <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div>
         <h2>🧭 Explore</h2>
-        <p>Browse electives, check prerequisites, and build your semester plan.</p>
+        <p>Browse careers, skills, and build your student path.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;width:min(100%,560px);">
+        <input id="explore-search" class="pv-input" type="search" placeholder="Search careers, skills, categories..." oninput="renderCourses()" style="flex:1;min-width:220px;" />
+        <select class="pv-select" id="course-area-filter" onchange="renderCourses()" style="min-width:180px;">
+          <option>All</option>
+          <option>Technical</option>
+          <option>Research</option>
+          <option>Aerospace</option>
+          <option>Sports</option>
+          <option>Creative</option>
+          <option>Business</option>
+          <option>Emerging</option>
+        </select>
       </div>
     </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <div class="chip-row" style="margin:0">
-        <span class="chip active" onclick="setCourseFilter('All',this)">All Areas</span>
-        <span class="chip" onclick="setCourseFilter('AI/ML',this)">AI/ML</span>
-        <span class="chip" onclick="setCourseFilter('Core CS',this)">Core CS</span>
-        <span class="chip" onclick="setCourseFilter('Data',this)">Data</span>
-        <span class="chip" onclick="setCourseFilter('Infrastructure',this)">Infrastructure</span>
-        <span class="chip" onclick="setCourseFilter('Security',this)">Security</span>
-        <span class="chip" onclick="setCourseFilter('Development',this)">Development</span>
-        <span class="chip" onclick="setCourseFilter('Design',this)">Design</span>
+    <div class="pv-grid" style="grid-template-columns: 1.25fr 0.75fr; gap: 20px;">
+      <div>
+        <div class="explore-grid" id="explore-category-grid"></div>
       </div>
-      <select class="pv-select" id="course-area-filter" style="width:auto;margin:0" onchange="renderCourses()">
-        <option>All</option>
-        <option>AI/ML</option>
-        <option>Core CS</option>
-        <option>Data</option>
-        <option>Infrastructure</option>
-        <option>Security</option>
-        <option>Development</option>
-        <option>Design</option>
-      </select>
+      <div class="pv-card" id="explore-detail">
+        <div class="detail-title">Explore career categories</div>
+        <div class="detail-subtitle">Select a category card to see career guidance, skill focus, and pathways for your interests.</div>
+        <div class="detail-section">
+          <div class="detail-heading">How this works</div>
+          <div class="detail-item">Search for a skill, career, or category. Use the filter dropdown to narrow your focus.</div>
+          <div class="detail-item">Click any category card to open related careers, skills, and guidance on the right.</div>
+        </div>
+      </div>
     </div>
-    <div class="pv-grid" id="course-list"></div>
+  </div>
+
+  <!-- COLLEGE VIEW -->
+  <div class="content" id="college-view" style="display: none;">
+    <div class="pv-header">
+      <h2>🏛️ College & Career Path</h2>
+      <p>Discover colleges, predict your match, and find your ideal career path.</p>
+    </div>
+    
+    <!-- CAREER GUIDANCE SECTION -->
+    <div class="pv-grid" style="margin-bottom: 30px;">
+      <div class="pv-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(99,102,241,0.1));">
+        <div class="pv-label">🚀 Career Path Finder (Select Multiple)</div>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Tell us about your interests, expertise, and dreams. We'll suggest career opportunities and colleges that align with your passion.</p>
+        
+        <div>
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:8px;">🎯 Select your hobbies/interests (pick multiple):</label>
+          <div id="hobby-checkboxes" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="coding" onchange="suggestCareers()"> 💻 Coding & Development</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="design" onchange="suggestCareers()"> 🎨 Design & Creativity</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="business" onchange="suggestCareers()"> 📊 Business & Entrepreneurship</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="science" onchange="suggestCareers()"> 🔬 Science & Research</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="gaming" onchange="suggestCareers()"> 🎮 Gaming & Animation</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="finance" onchange="suggestCareers()"> 💰 Finance & Economics</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="writing" onchange="suggestCareers()"> ✍️ Writing & Content</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="healthcare" onchange="suggestCareers()"> ⚕️ Healthcare & Medicine</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="engineering" onchange="suggestCareers()"> ⚙️ Engineering & Manufacturing</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="hobby-check" value="arts" onchange="suggestCareers()"> 🎭 Arts & Culture</label>
+          </div>
+        </div>
+        
+        <div>
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:8px;">📊 Select your expertise levels (pick multiple):</label>
+          <div id="expertise-checkboxes" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="expertise-check" value="beginner" onchange="suggestCareers()"> 🌱 Beginner</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="expertise-check" value="intermediate" onchange="suggestCareers()"> 📈 Intermediate</label>
+            <label style="font-size:12px;cursor:pointer;"><input type="checkbox" class="expertise-check" value="advanced" onchange="suggestCareers()"> ⭐ Advanced</label>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <label style="font-size:11px;color:var(--text-dim)">What are you doing now?</label>
+            <select class="pv-select" id="current-input" onchange="suggestCareers()">
+              <option value="">Select...</option>
+              <option value="student">👨‍🎓 Studying in college</option>
+              <option value="freelancer">🎯 Freelancing/Side projects</option>
+              <option value="working">💼 Already working</option>
+              <option value="learning">📚 Self-teaching/Courses</option>
+              <option value="startup">🚀 Building startup</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--text-dim)">Where do you live?</label>
+            <select class="pv-select" id="location-input" onchange="suggestCareers()">
+              <option value="">Select...</option>
+              <option value="metro">🏙️ Metro/Tier-1 City</option>
+              <option value="tier2">🏢 Tier-2 City</option>
+              <option value="tier3">🏠 Tier-3/Small City</option>
+              <option value="rural">🌾 Rural/Remote</option>
+              <option value="abroad">🌍 Abroad/NRI</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:11px;color:var(--text-dim)">What's your dream role/what do you want to do in future?</label>
+          <input type="text" class="pv-input" id="dream-input" placeholder="e.g., Become a Product Manager, AI Researcher, Startup Founder..." oninput="suggestCareers()" />
+        </div>
+
+        <div style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);border-radius:8px;padding:12px;margin-bottom:12px;">
+          <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;font-weight:600;">⚡ Balance Both: Degree + Passion Strategy</div>
+          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">
+            You don't have to choose! Many successful professionals pursue their degree while building passion projects on the side. See colleges aligned with your interests below, and we'll show you how to manage both.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAREER RECOMMENDATIONS -->
+    <div id="career-results" style="display:none;">
+      <!-- COLLEGES BY HOBBY -->
+      <div class="pv-grid" style="margin-bottom:30px;grid-template-columns:1fr;">
+        <div class="pv-card" style="background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(139,92,246,0.15));border-color:rgba(34,211,238,0.4);">
+          <div class="pv-label">🏛️ Top Colleges for Your Interests</div>
+          <div id="hobby-colleges" style="display:grid;grid-template-columns:1fr;gap:10px;font-size:12px;"></div>
+        </div>
+      </div>
+
+      <div class="pv-grid" style="margin-bottom:30px;">
+        <div class="pv-card" style="grid-column:1/-1;background:var(--surface2);border-color:rgba(34,211,238,0.3);">
+          <div class="pv-label">✨ Your Personalized Career Paths</div>
+          <div id="career-list" style="display:grid;grid-template-columns:1fr;gap:12px;"></div>
+        </div>
+      </div>
+
+      <!-- DUAL PURSUIT GUIDE -->
+      <div class="pv-grid" style="margin-bottom:30px;grid-template-columns:1fr;">
+        <div class="pv-card" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(236,72,153,0.15));border-color:rgba(168,85,247,0.4);">
+          <div class="pv-label">🎯 How to Pursue BOTH Your Degree & Passion</div>
+          <div id="dual-pursuit-guide" style="font-size:12px;color:var(--text-muted);line-height:1.8;"></div>
+        </div>
+      </div>
+
+      <div class="pv-grid">
+        <div class="pv-card" style="grid-column:1/-1;">
+          <div class="pv-label">💡 Your Personalized Action Plan</div>
+          <div id="passion-guide" style="font-size:12px;color:var(--text-muted);line-height:1.8;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLLEGE INFORMATION -->
+    <div class="pv-grid" style="margin-top:30px;">
+      <div class="pv-card">
+        <div class="pv-label">🎓 College Information</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:12px;">Use the college predictor above to find colleges that match your profile. Check CGPA, filter by college type, and explore opportunities.</p>
+        <button class="pv-btn" onclick="showView('predictor')" style="background:rgba(34,211,238,0.2);color:var(--accent);border:1px solid var(--accent);">📊 Go to College Predictor</button>
+      </div>
+      <div class="pv-card">
+        <div class="pv-label">⚡ Quick Tips</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">
+          • Start building your portfolio early<br/>
+          • Take on projects that excite you<br/>
+          • Network with professionals in your field<br/>
+          • Balance passion with market demand<br/>
+          • Keep learning and adapting
+        </p>
+      </div>
+    </div>
   </div>
 
   <!-- SETTINGS VIEW -->
@@ -2625,9 +2872,220 @@
     } else if (view === 'settings') {
       document.getElementById('settings-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="settings"]').classList.add('active');
+    } else if (view === 'college') {
+      document.getElementById('college-view').style.display = 'flex';
+      document.querySelector('.nav-item[onclick*="college"]').classList.add('active');
     }
   }
-  // COLLEGE PREDICTOR DATA
+
+  // CAREER GUIDANCE DATA & LOGIC
+  const CAREER_PATHS = {
+    coding: [
+      { title: "Frontend Developer", salary: "₹8-15 LPA", skills: ["React", "JavaScript", "CSS"], demand: "⭐⭐⭐⭐" },
+      { title: "Backend Engineer", salary: "₹10-18 LPA", skills: ["Node.js", "Python", "Databases"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "Full Stack Developer", salary: "₹12-20 LPA", skills: ["React", "Node.js", "MongoDB"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "DevOps Engineer", salary: "₹12-22 LPA", skills: ["Docker", "Kubernetes", "AWS"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "AI/ML Engineer", salary: "₹15-30 LPA", skills: ["Python", "TensorFlow", "ML"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "Mobile Developer", salary: "₹10-18 LPA", skills: ["React Native", "Flutter", "iOS/Android"], demand: "⭐⭐⭐⭐" }
+    ],
+    design: [
+      { title: "UI/UX Designer", salary: "₹7-15 LPA", skills: ["Figma", "Prototyping", "Design Systems"], demand: "⭐⭐⭐⭐" },
+      { title: "Graphic Designer", salary: "₹5-12 LPA", skills: ["Adobe Suite", "Branding", "3D"], demand: "⭐⭐⭐" },
+      { title: "Product Designer", salary: "₹10-20 LPA", skills: ["Research", "Design Thinking", "User Testing"], demand: "⭐⭐⭐⭐" },
+      { title: "Animation Specialist", salary: "₹8-18 LPA", skills: ["Blender", "After Effects", "3D Modeling"], demand: "⭐⭐⭐⭐" }
+    ],
+    business: [
+      { title: "Product Manager", salary: "₹15-30 LPA", skills: ["Strategy", "Analytics", "Leadership"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "Business Analyst", salary: "₹8-18 LPA", skills: ["Data Analysis", "Excel", "SQL"], demand: "⭐⭐⭐⭐" },
+      { title: "Startup Founder", salary: "Variable", skills: ["Leadership", "Vision", "Execution"], demand: "⭐⭐⭐" },
+      { title: "Management Consultant", salary: "₹12-25 LPA", skills: ["Problem Solving", "Analytics", "Communication"], demand: "⭐⭐⭐⭐" }
+    ],
+    science: [
+      { title: "Research Scientist", salary: "₹10-20 LPA", skills: ["Research", "Data Analysis", "Lab Work"], demand: "⭐⭐⭐" },
+      { title: "Data Scientist", salary: "₹12-25 LPA", skills: ["Python", "Statistics", "ML"], demand: "⭐⭐⭐⭐⭐" },
+      { title: "Academic Researcher", salary: "₹8-15 LPA", skills: ["Research", "Writing", "Expertise"], demand: "⭐⭐⭐" }
+    ],
+    gaming: [
+      { title: "Game Developer", salary: "₹10-20 LPA", skills: ["Unity", "C#", "Game Design"], demand: "⭐⭐⭐⭐" },
+      { title: "3D Artist", salary: "₹8-18 LPA", skills: ["Blender", "Texturing", "Modeling"], demand: "⭐⭐⭐⭐" },
+      { title: "Game Designer", salary: "₹10-18 LPA", skills: ["Level Design", "Storytelling", "Mechanics"], demand: "⭐⭐⭐⭐" }
+    ],
+    finance: [
+      { title: "Financial Analyst", salary: "₹10-20 LPA", skills: ["Excel", "Financial Modeling", "Analysis"], demand: "⭐⭐⭐⭐" },
+      { title: "Investment Banker", salary: "₹15-40 LPA", skills: ["M&A", "Valuation", "Pitch Skills"], demand: "⭐⭐⭐" },
+      { title: "Quantitative Analyst", salary: "₹18-35 LPA", skills: ["Statistics", "Python", "Finance"], demand: "⭐⭐⭐⭐" }
+    ],
+    writing: [
+      { title: "Content Writer", salary: "₹4-10 LPA", skills: ["Writing", "SEO", "Storytelling"], demand: "⭐⭐⭐" },
+      { title: "Technical Writer", salary: "₹6-15 LPA", skills: ["Technical Skills", "Documentation", "Clarity"], demand: "⭐⭐⭐⭐" },
+      { title: "Copywriter", salary: "₹5-15 LPA", skills: ["Persuasion", "Creativity", "Marketing"], demand: "⭐⭐⭐⭐" }
+    ],
+    healthcare: [
+      { title: "Doctor", salary: "₹15-50 LPA", skills: ["Medical Knowledge", "Empathy", "Problem Solving"], demand: "⭐⭐⭐" },
+      { title: "Healthcare Consultant", salary: "₹12-25 LPA", skills: ["Domain Knowledge", "Strategy", "Analysis"], demand: "⭐⭐⭐" },
+      { title: "BioPharma Researcher", salary: "₹10-20 LPA", skills: ["Research", "Lab Skills", "Scientific Method"], demand: "⭐⭐⭐" }
+    ],
+    engineering: [
+      { title: "Mechanical Engineer", salary: "₹8-18 LPA", skills: ["CAD", "Design", "Mechanics"], demand: "⭐⭐⭐⭐" },
+      { title: "Civil Engineer", salary: "₹6-15 LPA", skills: ["Structural Design", "Planning", "Project Management"], demand: "⭐⭐⭐" },
+      { title: "Electrical Engineer", salary: "₹8-18 LPA", skills: ["Power Systems", "Circuit Design", "Automation"], demand: "⭐⭐⭐⭐" }
+    ],
+    arts: [
+      { title: "Filmmaker/Director", salary: "₹5-25 LPA", skills: ["Storytelling", "Direction", "Technical Skills"], demand: "⭐⭐⭐" },
+      { title: "Musician/Producer", salary: "₹3-20 LPA", skills: ["Music Theory", "Production", "Performance"], demand: "⭐⭐⭐" },
+      { title: "Visual Artist", salary: "₹4-15 LPA", skills: ["Creativity", "Technical Art", "Portfolio"], demand: "⭐⭐⭐" }
+    ]
+  };
+
+  // HOBBY TO COLLEGE MAPPING
+  const HOBBY_COLLEGE_MATCH = {
+    coding: ["BITS Pilani", "VIT Vellore", "NIT Trichy", "Manipal MIT", "IIT Delhi"],
+    design: ["NID Ahmedabad", "Pearl Academy", "IIFA Delhi", "Ashoka University"],
+    business: ["IIM Ahmedabad", "NMIMS Mumbai", "SP Jain Mumbai", "FLAME Pune"],
+    science: ["IISc Bangalore", "Delhi University", "BHU Varanasi", "Pune University"],
+    gaming: ["BITS Pilani", "VIT Vellore", "Manipal MIT", "SRM Chennai"],
+    finance: ["IIFT Delhi", "FMS Delhi", "NMIMS Mumbai", "FLAME Pune"],
+    writing: ["Delhi University", "Banaras Hindu University", "Ashoka University", "JNU Delhi"],
+    healthcare: ["AIIMS Delhi", "CMC Vellore", "JIPMER Puducherry", "KMC Manipal"],
+    engineering: ["IIT Delhi", "IIT Bombay", "IIT Chennai", "NIT Trichy"],
+    arts: ["Banaras Hindu University", "Delhi University", "Ashoka University", "Miranda House"]
+  };
+
+  function suggestCareers() {
+    // Get all selected hobbies
+    const hobbyCheckboxes = document.querySelectorAll('.hobby-check:checked');
+    const selectedHobbies = Array.from(hobbyCheckboxes).map(cb => cb.value);
+    
+    const dream = document.getElementById('dream-input').value.trim();
+    
+    if (selectedHobbies.length === 0) {
+      document.getElementById('career-results').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('career-results').style.display = 'block';
+
+    // RENDER COLLEGES BY HOBBY
+    let collegeSet = new Set();
+    selectedHobbies.forEach(hobby => {
+      if (HOBBY_COLLEGE_MATCH[hobby]) {
+        HOBBY_COLLEGE_MATCH[hobby].forEach(col => collegeSet.add(col));
+      }
+    });
+    
+    const collegeList = document.getElementById('hobby-colleges');
+    if (collegeSet.size > 0) {
+      collegeList.innerHTML = Array.from(collegeSet).map((college, i) => `
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-weight:600;color:var(--accent);font-size:12px;">${i+1}. ${college}</div>
+          <div style="font-size:10px;color:var(--text-dim);">Match: Strong for your interests</div>
+        </div>
+      `).join('');
+    }
+
+    // RENDER CAREER PATHS
+    let allCareers = [];
+    selectedHobbies.forEach(hobby => {
+      if (CAREER_PATHS[hobby]) {
+        allCareers = allCareers.concat(CAREER_PATHS[hobby]);
+      }
+    });
+    
+    // Remove duplicates by title
+    let uniqueCareers = [];
+    const seenTitles = new Set();
+    allCareers.forEach(career => {
+      if (!seenTitles.has(career.title)) {
+        uniqueCareers.push(career);
+        seenTitles.add(career.title);
+      }
+    });
+
+    const careerList = document.getElementById('career-list');
+    careerList.innerHTML = uniqueCareers.slice(0, 8).map((career, i) => `
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+          <div>
+            <div style="font-weight:600;color:var(--text);font-size:13px;">${career.title}</div>
+            <div style="font-size:11px;color:var(--text-dim);">${career.salary} | Market Demand: ${career.demand}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">Key Skills: ${career.skills.join(", ")}</div>
+      </div>
+    `).join('');
+
+    // Generate DUAL PURSUIT GUIDE
+    let dualGuide = "";
+    dualGuide += "<strong>You can excel in BOTH!</strong><br/>";
+    dualGuide += "✓ <strong>Time Management:</strong> Dedicate 2-3 hours/week to passion projects while managing coursework<br/>";
+    dualGuide += "✓ <strong>Choose Aligned Degrees:</strong> Pick colleges offering majors related to your interests<br/>";
+    dualGuide += "✓ <strong>Leverage College Resources:</strong> Use labs, clubs, seniors, alumni network<br/>";
+    dualGuide += "✓ <strong>Internships:</strong> Seek internships in companies/areas aligned with your passion<br/>";
+    dualGuide += "✓ <strong>Build Portfolio:</strong> Document projects & learnings for job applications<br/>";
+    dualGuide += "✓ <strong>Networking:</strong> Connect with industry professionals via LinkedIn, events, hackathons<br/>";
+    dualGuide += "✓ <strong>Side Projects:</strong> GitHub repos, Behance portfolio, Medium blogs showcase your passion<br/>";
+    dualGuide += "✓ <strong>Mentorship:</strong> Find mentors who've balanced degree + passion successfully<br/><br/>";
+    dualGuide += "<em>Real Example:</em> Many Google/Meta engineers did their degree in CS while building hobby projects on GitHub – their projects got them hired!";
+
+    document.getElementById('dual-pursuit-guide').innerHTML = dualGuide;
+
+    // Generate personalized passion guide
+    const expertiseCheckboxes = document.querySelectorAll('.expertise-check:checked');
+    const selectedExpertise = Array.from(expertiseCheckboxes).map(cb => cb.value);
+    const current = document.getElementById('current-input').value;
+    const location = document.getElementById('location-input').value;
+    
+    let guide = "";
+    
+    if (selectedExpertise.length === 0) {
+      guide += "📚 <strong>Step 1: Build Your Foundation</strong><br/>Start with free online courses (Udemy, Coursera) to learn basics in your interests. Practice consistently for 3-6 months.<br/><br/>";
+    } else {
+      if (selectedExpertise.includes("beginner")) {
+        guide += "🌱 <strong>At Beginner Level:</strong> Build 2-3 small projects. Contribute to open-source. Create a portfolio website. Document your learning journey.<br/>";
+      }
+      if (selectedExpertise.includes("intermediate")) {
+        guide += "📈 <strong>At Intermediate Level:</strong> Take advanced courses. Build complex projects. Start networking. Share your projects publicly. Seek freelance/intern roles.<br/>";
+      }
+      if (selectedExpertise.includes("advanced")) {
+        guide += "⭐ <strong>At Advanced Level:</strong> Mentor juniors. Contribute to major projects. Consider starting a side business. Speak at conferences. Lead communities.<br/>";
+      }
+      guide += "<br/>";
+    }
+
+    if (current === "student") {
+      guide += "👨‍🎓 <strong>College Strategy:</strong> Join relevant clubs & societies. Participate in hackathons & competitions. Take projects as internships. Build reputation on campus. Attend seminars & workshops.<br/><br/>";
+    } else if (current === "freelancer") {
+      guide += "🎯 <strong>Freelance Strategy:</strong> Build stellar portfolio on GitHub/Dribbble. Become active on Twitter/LinkedIn. Take on increasingly complex/paid projects. Build your personal brand. Aim for agency/startup roles later.<br/><br/>";
+    } else if (current === "working") {
+      guide += "💼 <strong>Working Professional Strategy:</strong> Upskill using weekends & evenings. Work on passion projects in free time. Explore internal roles aligned with passion. Consider job transitions gradually.<br/><br/>";
+    } else if (current === "learning") {
+      guide += "📚 <strong>Self-Learning Strategy:</strong> Follow structured learning paths. Join online communities (Discord, Reddit). Build projects to apply learning. Connect with others on same journey.<br/><br/>";
+    } else if (current === "startup") {
+      guide += "🚀 <strong>Founder Strategy:</strong> Network with investors & other founders. Join accelerators (Y Combinator, GSF). Build MVP quick. Get user feedback. Scale based on demand.<br/><br/>";
+    }
+
+    if (location === "metro") {
+      guide += "🏙️ <strong>Metro City Advantage:</strong> Attend meetups & networking events frequently. Access to top mentors & investors. Multiple companies hiring. Leverage in-person opportunities!<br/><br/>";
+    } else if (location === "tier2") {
+      guide += "🏢 <strong>Tier-2 City Strategy:</strong> Go fully remote. Apply to top tech companies' remote programs. Build strong online presence. Occasional trips to metros for networking.<br/><br/>";
+    } else if (location === "tier3" || location === "rural") {
+      guide += "🌾 <strong>Remote-First Approach:</strong> Remote work is your advantage. Global opportunities. Build portfolio that speaks for itself. Use online communities for mentorship.<br/><br/>";
+    } else if (location === "abroad") {
+      guide += "🌍 <strong>Global Advantage:</strong> Access to premium companies. International network. You're ahead! Think global from day one. Leverage visa benefits if any.<br/><br/>";
+    }
+
+    if (dream) {
+      guide += `<strong>🎯 Your Dream: "${dream}"</strong><br/>👉 <strong>Gap Analysis:</strong> List skills needed for this role vs. what you have now.<br/>`;
+      guide += `👉 <strong>Learning Path:</strong> Find 2-3 resources to bridge the gap (courses, books, projects).<br/>`;
+      guide += `👉 <strong>Milestones:</strong> Set monthly targets (projects completed, skills learned, connections made).<br/>`;
+      guide += `👉 <strong>Tracking:</strong> Review progress every 3 months. Adjust plan if needed.<br/><br/>`;
+    }
+
+    guide += "💪 <strong>Action Items for Next 30 Days:</strong><br/>✓ Pick ONE skill to master next quarter<br/>✓ Find a mentor in your field (LinkedIn/Twitter/Community)<br/>✓ Start ONE project showcasing your interest<br/>✓ Join ONE relevant community (Discord/Slack/Reddit)<br/>✓ Share your progress publicly (tweet, blog, GitHub)<br/>✓ Schedule review: Do this again in 3 months!";
+
+    document.getElementById('passion-guide').innerHTML = guide;
+  }
+
   const COLLEGES = [
     {name:"BITS Pilani",city:"Pilani, Rajasthan",type:"deemed",match:94,minCGPA:8.5,courses:["CS","ECE","EEE","Mechanical"]},
     {name:"VIT Vellore",city:"Vellore, Tamil Nadu",type:"pvt",match:91,minCGPA:8.0,courses:["CS","IT","ECE","Civil"]},
@@ -2678,33 +3136,114 @@
     {id:7,name:"UI/UX Design",credits:2,desc:"Figma, user research, wireframing, prototyping and design systems.",prereq:"None",rating:4.3,tags:["Figma","Design","UX"],area:"Design",selected:false},
     {id:8,name:"Big Data Analytics",credits:3,desc:"Hadoop, Spark, MapReduce and real-time data pipeline design.",prereq:"DBMS, Maths",rating:4.5,tags:["Hadoop","Spark","Analytics"],area:"Data",selected:false},
   ];
+
+  const EXPLORE_CATEGORIES = [
+    {
+      id: 'technical', label: 'Technical', icon: '⚙️', accent: '#60A5FA', tag: 'Engineering & Dev',
+      description: 'Build software systems, AI products, and cloud infrastructure using modern engineering practices.',
+      careers: ['Software Engineer', 'ML / AI Engineer', 'Cloud Architect'],
+      skills: ['Python & JavaScript', 'System Design', 'REST / GraphQL'],
+      guidance: ['Master one programming language deeply and build 3–5 portfolio projects.', 'Learn core algorithms, data structures, and system design fundamentals.', 'Practice full-stack application development and deployment.']
+    },
+    {
+      id: 'research', label: 'Research & Academia', icon: '🔬', accent: '#A78BFA', tag: 'Research',
+      description: 'Prepare for academic research, publication, and advanced studies in science or technology.',
+      careers: ['Research Scientist', 'University Professor', 'Data Scientist'],
+      skills: ['Academic Writing', 'Statistical Analysis', 'Literature Review'],
+      guidance: ['Publish or co-author technical work and build a strong research portfolio.', 'Study advanced statistics and experimental design.', 'Apply for funded internships, labs, and graduate programs.']
+    },
+    {
+      id: 'aerospace', label: 'Aerospace & Engineering', icon: '🚀', accent: '#38BDF8', tag: 'Aerospace',
+      description: 'Design flight systems, spacecraft, and advanced mechanical systems for the next generation of engineering.',
+      careers: ['Aerospace Engineer', 'Flight Test Engineer', 'Satellite Systems Engineer'],
+      skills: ['CAD / Simulation', 'Control Systems', 'Embedded C/C++'],
+      guidance: ['Build a strong math and physics foundation.', 'Work on robotics, drones, or aerospace club projects.', 'Learn simulation tools and control theory.']
+    },
+    {
+      id: 'creative', label: 'Creative & Extra-Curricular', icon: '🎨', accent: '#F472B6', tag: 'Creative',
+      description: 'Explore design, media, and creative careers that combine storytelling with modern digital tools.',
+      careers: ['UX / UI Designer', 'Filmmaker', 'Graphic Designer'],
+      skills: ['Figma', 'Video Editing', 'Typography'],
+      guidance: ['Create case-study projects and publish them on portfolio sites.', 'Learn design thinking and visual storytelling.', 'Practice rapid prototyping and user testing.']
+    },
+    {
+      id: 'business', label: 'Business & Entrepreneurship', icon: '💼', accent: '#FBBF24', tag: 'Business',
+      description: 'Build business, product, and startup skills to launch ideas and lead teams effectively.',
+      careers: ['Product Manager', 'Startup Founder', 'Investment Analyst'],
+      skills: ['Market Research', 'Financial Modeling', 'Growth Strategy'],
+      guidance: ['Validate ideas with customers before building.', 'Learn basic finance, modeling, and go-to-market strategy.', 'Practice writing crisp business plans and pitches.']
+    },
+  ];
+  let activeExploreCategory = null;
+
   // COURSE SELECTOR FUNCTIONS
   function renderCourses(){
-    const area = document.getElementById('course-area-filter')?.value || "All";
-    const filtered = COURSES.filter(course => area === "All" || course.area === area);
-    const container = document.getElementById('course-list');
-    if (!container) return;
-    container.innerHTML = "";
-    const totalCredits = COURSES.filter(c => c.selected).reduce((s, c) => s + c.credits, 0);
-    if (document.getElementById('selected-credits')) {
-      document.getElementById('selected-credits').textContent = totalCredits + " credits selected";
+    const query = (document.getElementById('explore-search')?.value || '').toLowerCase().trim();
+    const area = document.getElementById('course-area-filter')?.value || 'All';
+    const filtered = EXPLORE_CATEGORIES.filter(cat => {
+      const text = [cat.label, cat.tag, cat.description, cat.careers.join(' '), cat.skills.join(' ')].join(' ').toLowerCase();
+      const matchesArea = area === 'All' || text.includes(area.toLowerCase());
+      const matchesSearch = !query || text.includes(query);
+      return matchesArea && matchesSearch;
+    });
+
+    const grid = document.getElementById('explore-category-grid');
+    const detail = document.getElementById('explore-detail');
+    if (!grid || !detail) return;
+
+    grid.innerHTML = '';
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="pv-card" style="grid-column:1 / -1;"><div class="detail-title">No categories found</div><p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Try a different search term or reset the filter.</p></div>`;
+    } else {
+      filtered.forEach(cat => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'category-card' + (activeExploreCategory === cat.id ? ' active' : '');
+        card.onclick = () => {
+          activeExploreCategory = activeExploreCategory === cat.id ? null : cat.id;
+          renderCourses();
+        };
+        card.innerHTML = `
+          <div class="category-icon">${cat.icon}</div>
+          <div class="category-label">${cat.label}</div>
+          <div class="category-tag">${cat.tag}</div>
+          <div class="category-desc">${cat.description}</div>
+          <div class="category-skills">${cat.skills.map(skill => `<span class="category-skill">${skill}</span>`).join('')}</div>
+        `;
+        grid.appendChild(card);
+      });
     }
-    filtered.forEach(course => {
-      const card = document.createElement("div");
-      card.className = "course-card" + (course.selected ? " selected" : "");
-      card.innerHTML = `
-        <div class="cs-top">
-          <span class="cs-name">${course.name}</span>
-          <span class="cs-credits">${course.credits} cr</span>
-        </div>
-        <p class="cs-desc">${course.desc}</p>
-        <div class="cs-tags">${course.tags.map(t => `<span class="cs-tag">${t}</span>`).join("")}</div>
-        <div class="cs-meta">
-          <span class="cs-rating">⭐ ${course.rating} <span style="color:var(--text-dim);font-size:10px">Prereq: ${course.prereq}</span></span>
+
+    const selected = EXPLORE_CATEGORIES.find(cat => cat.id === activeExploreCategory);
+    if (!selected) {
+      detail.innerHTML = `
+        <div class="detail-title">Explore career categories</div>
+        <div class="detail-subtitle">Select a category card to view top career paths, skills, and study guidance.</div>
+        <div class="detail-section">
+          <div class="detail-heading">Explore tips</div>
+          <div class="detail-item">Use the search box to find careers, skills, or categories quickly.</div>
+          <div class="detail-item">Click on a category card to open the right-hand guidance panel.</div>
+          <div class="detail-item">This view uses the same tp.html styling for a consistent look.</div>
         </div>
       `;
-      container.appendChild(card);
-    });
+    } else {
+      detail.innerHTML = `
+        <div class="detail-title">${selected.icon} ${selected.label}</div>
+        <div class="detail-subtitle">${selected.description}</div>
+        <div class="detail-section">
+          <div class="detail-heading">Top Career Paths</div>
+          ${selected.careers.map(career => `<div class="detail-item"><div class="detail-item-title">${career}</div><div class="detail-item-sub">${selected.tag} path</div></div>`).join('')}
+        </div>
+        <div class="detail-section">
+          <div class="detail-heading">Key Skills</div>
+          <div class="category-skills">${selected.skills.map(skill => `<span class="category-skill">${skill}</span>`).join('')}</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-heading">Guidance</div>
+          ${selected.guidance.map(step => `<div class="detail-item"><div class="detail-item-sub">${step}</div></div>`).join('')}
+        </div>
+      `;
+    }
   }
   function toggleCourse(id){
     const course = COURSES.find(c => c.id === id);
