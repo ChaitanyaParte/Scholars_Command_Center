@@ -133,6 +133,39 @@
     padding: 2px 6px;
     border-radius: 4px;
   }
+  .quick-stats {
+    margin: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .quick-stats-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .stat-item:last-child { margin-bottom: 0; }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .stat-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-value.accent { color: var(--accent); }
   .quick-focus {
     margin: auto 10px 10px;
     background: var(--surface2);
@@ -334,6 +367,34 @@
     letter-spacing: 0.02em;
   }
   .btn-add:hover { background: #7dd3fc; transform: translateY(-1px); }
+  .avatar-ring {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+  }
+  .avatar-ring svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .ring-back {
+    fill: none;
+    stroke: var(--border2);
+    stroke-width: 3;
+  }
+  .ring-progress {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 106.8;
+    stroke-dashoffset: 106.8;
+    transition: stroke-dashoffset 0.5s ease;
+  }
   .avatar {
     width: 30px; height: 30px;
     background: linear-gradient(135deg, var(--accent2), var(--pink));
@@ -441,6 +502,10 @@
     grid-row: 1 !important;
     min-height: 400px;
   }
+  html.in-class-state .feedback-card .quick-note,
+  html.in-class-state .feedback-card .quick-note textarea {
+    display: block;
+  }
   html.in-class-state .resource-card {
     grid-column: 2 !important;
     grid-row: 1 !important;
@@ -522,10 +587,10 @@
     transition: all 0.15s;
   }
   .task-item:hover { border-color: var(--border2); }
-  .task-item.high {
-    border: 1px dashed rgba(248, 113, 113, 0.8);
-    box-shadow: 0 0 12px rgba(248, 113, 113, 0.4);
-    animation: glowHigh 2s ease-in-out infinite;
+  .task-item.highlighted {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+    background: rgba(56, 189, 248, 0.05);
   }
   .task-item.med {
     border: 1px dashed rgba(245, 158, 11, 0.8);
@@ -596,6 +661,64 @@
   }
   .priority-filter-row .pv-btn {
     padding: 7px 10px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .filter-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .filter-select {
+    padding: 4px 8px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-select:hover {
+    border-color: var(--accent);
+  }
+  .filter-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
+  }
+  .sort-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .sort-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .sort-select {
+    padding: 4px 8px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .sort-select:hover {
+    border-color: var(--accent);
+  }
+  .sort-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
   }
   .task-time-tag {
     font-size: 9px;
@@ -791,6 +914,41 @@
     border-radius: 6px;
   }
   .health-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .health-item.needs-attention {
+    animation: pulseItem 1.5s infinite;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    background: rgba(248, 113, 113, 0.05);
+  }
+  .attention-badge {
+    background: var(--danger);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    animation: pulse 1s infinite;
+  }
+  .review-btn {
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-left: auto;
+  }
+  .review-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+  }
   .health-item.pulse {
     box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
     animation: pulseItem 1.2s infinite;
@@ -932,6 +1090,38 @@
   .fs-open     { background: rgba(245, 158, 11, 0.15); color: var(--warn);   border: 1px solid rgba(245, 158, 11, 0.3); }
   .fs-resolved { background: rgba(52, 211, 153, 0.15); color: var(--accent3);border: 1px solid rgba(52, 211, 153, 0.3); }
   .feedback-text { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .quick-note {
+    display: none;
+    margin-top: 16px;
+    background: rgba(56, 189, 248, 0.06);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .quick-note-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .quick-note textarea {
+    width: 100%;
+    min-height: 80px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    outline: none;
+    resize: vertical;
+  }
+  .quick-note textarea:focus {
+    border-color: var(--accent);
+  }
   /* KNOWLEDGE GRAPH */
   .knowledge-card {
     background: var(--surface);
@@ -1734,6 +1924,20 @@
   <div class="nav-item" onclick="showView('courses')"><span class="icon">🧭</span> Explore</div>
   <div class="nav-item" onclick="showView('college')"><span class="icon">🏛️</span> College</div>
   <div class="nav-item" onclick="showView('settings')"><span class="icon">⚙️</span> Settings</div>
+
+  <!-- QUICK STATS -->
+  <div class="quick-stats">
+    <div class="quick-stats-label">Quick Stats</div>
+    <div class="stat-item">
+      <span class="stat-label">Study Hours Today</span>
+      <span class="stat-value accent" id="study-hours">4.2h</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Next Exam</span>
+      <span class="stat-value" id="exam-countdown">2 days</span>
+    </div>
+  </div>
+
   <div class="quick-focus">
     <div class="quick-focus-label">Quick Focus</div>
     <div class="quick-focus-title"><span class="live-dot"></span><span id="live-mode-indicator">In Class</span></div>
@@ -1789,7 +1993,13 @@
       </div>
     </div>
     <button class="btn-add" onclick="openModal()">+ Quick Add</button>
-    <div class="avatar">PB</div>
+    <div class="avatar-ring" id="avatarRing" title="Daily goal completion">
+      <svg viewBox="0 0 42 42">
+        <circle class="ring-back" cx="21" cy="21" r="17"></circle>
+        <circle class="ring-progress" cx="21" cy="21" r="17"></circle>
+      </svg>
+      <div class="avatar">PB</div>
+    </div>
   </div>
   <!-- CONTENT -->
   <div class="content" id="dashboard-view">
@@ -1805,57 +2015,53 @@
           <div class="card-meta" id="task-count">0/6 done</div>
         </div>
         <div class="card-body">
+          <!-- Horizontal Filter Row -->
           <div class="priority-filter-row">
-            <select class="modal-select" id="taskDateFilter" onchange="applyDateMonthFilter()">
-              <option value="Any">Any Date</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-              <option value="21">21</option>
-              <option value="22">22</option>
-              <option value="23">23</option>
-              <option value="24">24</option>
-              <option value="25">25</option>
-              <option value="26">26</option>
-              <option value="27">27</option>
-              <option value="28">28</option>
-              <option value="29">29</option>
-              <option value="30">30</option>
-              <option value="31">31</option>
-            </select>
-            <select class="modal-select" id="taskMonthFilter" onchange="applyDateMonthFilter()">
-              <option value="Any">Any Month</option>
-              <option value="Jan">Jan</option>
-              <option value="Feb">Feb</option>
-              <option value="Mar">Mar</option>
-              <option value="Apr">Apr</option>
-              <option value="May">May</option>
-              <option value="Jun">Jun</option>
-              <option value="Jul">Jul</option>
-              <option value="Aug">Aug</option>
-              <option value="Sep">Sep</option>
-              <option value="Oct">Oct</option>
-              <option value="Nov">Nov</option>
-              <option value="Dec">Dec</option>
-            </select>
-            <button class="pv-btn" onclick="resetDateMonthFilter()">Reset</button>
+            <div class="filter-group">
+              <span class="filter-label">Date:</span>
+              <select id="taskDateFilter" class="filter-select" onchange="applyDateMonthFilter()">
+                <option value="Any">Any</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option>
+                <option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option>
+                <option value="31">31</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Month:</span>
+              <select id="taskMonthFilter" class="filter-select" onchange="applyDateMonthFilter()">
+                <option value="Any">Any</option>
+                <option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option><option value="Apr">Apr</option>
+                <option value="May">May</option><option value="Jun">Jun</option><option value="Jul">Jul</option><option value="Aug">Aug</option>
+                <option value="Sep">Sep</option><option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Subject:</span>
+              <select id="taskSubjectFilter" class="filter-select" onchange="applyDateMonthFilter()">
+                <option value="All">All</option>
+                <option value="DBMS">DBMS</option><option value="OOP">OOP</option><option value="Stats">Stats</option>
+                <option value="CN">CN</option><option value="DP">DP</option><option value="Maths">Maths</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Priority:</span>
+              <select id="taskPriorityFilter" class="filter-select" onchange="applyDateMonthFilter()">
+                <option value="All">All</option>
+                <option value="high">High</option><option value="med">Medium</option><option value="low">Low</option>
+              </select>
+            </div>
+            <div class="sort-toggle">
+              <span class="sort-label">Sort by:</span>
+              <select id="taskSortBy" class="sort-select" onchange="applySorting()">
+                <option value="Priority">Priority</option>
+                <option value="Deadline">Deadline</option>
+                <option value="Subject">Subject</option>
+              </select>
+            </div>
           </div>
           <button class="add-task-btn" onclick="openModal()">+ Add task via Ctrl+K or click</button>
           <div id="task-list">
@@ -1931,12 +2137,17 @@
             <div class="health-grid"></div>
             <div class="health-val">61</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
+            <button class="review-btn" onclick="event.stopPropagation(); showResourceShelf('DBMS')">Review Now</button>
           </div>
-          <div class="health-item" data-score="44" onclick="showImprovementTips('Maths', 44)">
-            <div class="health-name">Maths</div>
+          <div class="health-item needs-attention" data-score="44" onclick="showImprovementTips('Maths', 44)">
+            <div class="health-name">
+              Maths
+              <span class="attention-badge">!</span>
+            </div>
             <div class="health-grid"></div>
             <div class="health-val">44</div>
             <div class="health-trend" style="color:var(--danger)">↓</div>
+            <button class="review-btn" onclick="event.stopPropagation(); showResourceShelf('Maths')">Review Now</button>
           </div>
           <div class="health-item" data-score="69" onclick="showImprovementTips('Stats', 69)">
             <div class="health-name">Stats</div>
@@ -2038,6 +2249,10 @@
             </div>
             <div class="feedback-text">Good use of polymorphism. Minor comments addressed. Well done.</div>
           </div>
+          <div class="quick-note">
+            <div class="quick-note-label">Quick Note</div>
+            <textarea id="quickNoteTextarea" placeholder="Jot down key points from class..."></textarea>
+          </div>
         </div>
       </div>
     </div>
@@ -2092,7 +2307,7 @@
           <!-- ── NODES ── -->
 
           <!-- Java (purple) -->
-          <g class="kg-node" onclick="showImprovementTips('Java', 82)" title="Java">
+          <g class="kg-node" onclick="graphNodeClick('Java')" title="Java">
             <circle cx="140" cy="90" r="34" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
             <circle cx="140" cy="90" r="26" fill="#EEEDFE" fill-opacity="0.12" stroke="none"/>
             <text x="140" y="85" text-anchor="middle" dominant-baseline="central"
@@ -2102,7 +2317,7 @@
           </g>
 
           <!-- OOP (purple) -->
-          <g class="kg-node" onclick="showImprovementTips('OOP', 76)" title="OOP">
+          <g class="kg-node" onclick="graphNodeClick('OOP')" title="OOP">
             <circle cx="255" cy="65" r="32" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
             <text x="255" y="60" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#AFA9EC">OOP</text>
@@ -2111,7 +2326,7 @@
           </g>
 
           <!-- Design Patterns (purple) -->
-          <g class="kg-node" title="Design Patterns">
+          <g class="kg-node" onclick="graphNodeClick('Design Patterns')" title="Design Patterns">
             <circle cx="285" cy="175" r="38" fill="#1a1830" stroke="#534AB7" stroke-width="1.8"/>
             <text x="285" y="169" text-anchor="middle"
                   font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#AFA9EC">Design</text>
@@ -2120,7 +2335,7 @@
           </g>
 
           <!-- DBMS (teal) -->
-          <g class="kg-node" onclick="showImprovementTips('DBMS', 61)" title="DBMS">
+          <g class="kg-node" onclick="graphNodeClick('DBMS')" title="DBMS">
             <circle cx="530" cy="75" r="34" fill="#041a12" stroke="#0F6E56" stroke-width="1.8"/>
             <text x="530" y="70" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">DBMS</text>
@@ -2129,7 +2344,7 @@
           </g>
 
           <!-- SQL (teal) -->
-          <g class="kg-node" title="SQL">
+          <g class="kg-node" onclick="graphNodeClick('SQL')" title="SQL">
             <circle cx="640" cy="150" r="30" fill="#041a12" stroke="#0F6E56" stroke-width="1.8"/>
             <text x="640" y="145" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#5DCAA5">SQL</text>
@@ -2138,7 +2353,7 @@
           </g>
 
           <!-- CN (blue) -->
-          <g class="kg-node" title="CN">
+          <g class="kg-node" onclick="graphNodeClick('CN')" title="CN">
             <circle cx="530" cy="210" r="30" fill="#020c18" stroke="#185FA5" stroke-width="1.8"/>
             <text x="530" y="205" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#85B7EB">CN</text>
@@ -2147,7 +2362,7 @@
           </g>
 
           <!-- Networks (blue) -->
-          <g class="kg-node" onclick="showImprovementTips('Networks', 88)" title="Networks">
+          <g class="kg-node" onclick="graphNodeClick('Networks')" title="Networks">
             <circle cx="730" cy="200" r="34" fill="#020c18" stroke="#185FA5" stroke-width="1.8"/>
             <text x="730" y="195" text-anchor="middle"
                   font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#85B7EB">Networks</text>
@@ -2159,7 +2374,7 @@
           <line x1="560" y1="220" x2="698" y2="200" stroke="#185FA5" stroke-width="1.8" opacity="0.55" fill="none"/>
 
           <!-- Maths (amber) -->
-          <g class="kg-node" onclick="showImprovementTips('Maths', 44)" title="Maths">
+          <g class="kg-node" onclick="graphNodeClick('Maths')" title="Maths">
             <circle cx="140" cy="230" r="32" fill="#180d00" stroke="#854F0B" stroke-width="1.8"/>
             <text x="140" y="225" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#FAC775">Maths</text>
@@ -2168,7 +2383,7 @@
           </g>
 
           <!-- Stats (amber) -->
-          <g class="kg-node" onclick="showImprovementTips('Stats', 69)" title="Stats">
+          <g class="kg-node" onclick="graphNodeClick('Stats')" title="Stats">
             <circle cx="370" cy="255" r="34" fill="#180d00" stroke="#854F0B" stroke-width="1.8"/>
             <text x="370" y="250" text-anchor="middle" dominant-baseline="central"
                   font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#FAC775">Statistics</text>
@@ -2675,6 +2890,8 @@
       item.dataset.taskId = task.id;
       item.dataset.date = task.date;
       item.dataset.month = task.month;
+      item.dataset.subject = task.subject;
+      item.dataset.priority = task.priority;
       const timeDisplay = task.startTime && task.endTime ? `${task.startTime} - ${task.endTime}` : 'No time';
       item.innerHTML = `
         <div class="task-check ${task.done ? 'done' : ''}" onclick="toggleTask(event)">${task.done ? '✓' : ''}</div>
@@ -2704,6 +2921,7 @@
     });
     applyDateMonthFilter(false);
     updateTaskCount();
+    updateAvatarProgress();
   }
 
   // CLOCK & DATE
@@ -2905,12 +3123,21 @@
   function applyDateMonthFilter(refreshCount = true) {
     const selectedDate = document.getElementById('taskDateFilter').value;
     const selectedMonth = document.getElementById('taskMonthFilter').value;
+    const selectedSubject = document.getElementById('taskSubjectFilter').value;
+    const selectedPriority = document.getElementById('taskPriorityFilter').value;
+
     document.querySelectorAll('.task-item').forEach(item => {
       const taskDate = item.dataset.date || '';
       const taskMonth = item.dataset.month || '';
+      const taskSubject = item.dataset.subject || '';
+      const taskPriority = item.dataset.priority || '';
+
       const matchDate = selectedDate === 'Any' || taskDate === selectedDate;
       const matchMonth = selectedMonth === 'Any' || taskMonth === selectedMonth;
-      item.style.display = matchDate && matchMonth ? '' : 'none';
+      const matchSubject = selectedSubject === 'All' || taskSubject === selectedSubject;
+      const matchPriority = selectedPriority === 'All' || taskPriority === selectedPriority;
+
+      item.style.display = matchDate && matchMonth && matchSubject && matchPriority ? '' : 'none';
     });
     if (refreshCount) updateTaskCount();
   }
@@ -2918,7 +3145,34 @@
   function resetDateMonthFilter() {
     document.getElementById('taskDateFilter').value = 'Any';
     document.getElementById('taskMonthFilter').value = 'Any';
+    document.getElementById('taskSubjectFilter').value = 'All';
+    document.getElementById('taskPriorityFilter').value = 'All';
     applyDateMonthFilter();
+  }
+
+  function applySorting() {
+    const sortBy = document.getElementById('taskSortBy').value;
+    const taskContainer = document.querySelector('.priority-card .card-body');
+    const taskItems = Array.from(document.querySelectorAll('.task-item'));
+
+    taskItems.sort((a, b) => {
+      switch (sortBy) {
+        case 'Priority':
+          const priorityOrder = { 'high': 3, 'med': 2, 'low': 1 };
+          return priorityOrder[b.dataset.priority] - priorityOrder[a.dataset.priority];
+        case 'Deadline':
+          const dateA = new Date(`${b.dataset.month} ${b.dataset.date}, ${new Date().getFullYear()}`);
+          const dateB = new Date(`${a.dataset.month} ${a.dataset.date}, ${new Date().getFullYear()}`);
+          return dateA - dateB;
+        case 'Subject':
+          return a.dataset.subject.localeCompare(b.dataset.subject);
+        default:
+          return 0;
+      }
+    });
+
+    // Re-append sorted items
+    taskItems.forEach(item => taskContainer.appendChild(item));
   }
 
   function openModal(editId = null) {
@@ -3078,6 +3332,136 @@
       closeTaskDetail();
     }
   }
+
+  // NEW FUNCTIONS FOR ROUND 3 FEATURES
+  function graphNodeClick(subject) {
+    // Filter Resource Shelf to show only items with this subject
+    showResourceShelf(subject);
+    // Highlight the task in Priority Hub with this subject
+    highlightTaskSubject(subject);
+  }
+
+  function showResourceShelf(subject) {
+    // Filter the resource list to show only items matching the subject
+    const resources = document.querySelectorAll('.resource-item');
+    resources.forEach(item => {
+      const tag = item.dataset.tag;
+      item.style.display = tag === subject ? '' : 'none';
+    });
+    // Update the filter dropdown
+    document.getElementById('resourceFilter').value = subject;
+  }
+
+  function highlightTaskSubject(subject) {
+    // Remove previous highlights
+    document.querySelectorAll('.task-item').forEach(item => {
+      item.classList.remove('highlighted');
+    });
+    // Highlight tasks with matching subject
+    document.querySelectorAll(`.task-item[data-subject="${subject}"]`).forEach(item => {
+      item.classList.add('highlighted');
+    });
+  }
+
+  function updateAvatarProgress() {
+    const doneTasks = tasks.filter(t => t.done).length;
+    const totalTasks = tasks.length;
+    const progress = totalTasks > 0 ? (doneTasks / totalTasks) * 100 : 0;
+    const circumference = 106.8; // 2 * π * 17
+    const offset = circumference - (progress / 100) * circumference;
+    const ring = document.querySelector('.ring-progress');
+    if (ring) {
+      ring.style.strokeDashoffset = offset;
+    }
+  }
+
+  function spawnCompletionParticles() {
+    const avatarRing = document.getElementById('avatarRing');
+    if (!avatarRing) return;
+
+    // Create particle container
+    const particleContainer = document.createElement('div');
+    particleContainer.style.position = 'absolute';
+    particleContainer.style.top = '0';
+    particleContainer.style.left = '0';
+    particleContainer.style.width = '100%';
+    particleContainer.style.height = '100%';
+    particleContainer.style.pointerEvents = 'none';
+    particleContainer.style.zIndex = '10';
+
+    // Create particles
+    for (let i = 0; i < 8; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = '4px';
+      particle.style.height = '4px';
+      particle.style.background = 'var(--accent)';
+      particle.style.borderRadius = '50%';
+      particle.style.top = '50%';
+      particle.style.left = '50%';
+      particle.style.transform = 'translate(-50%, -50%)';
+      particle.style.animation = `particle${i} 0.8s ease-out forwards`;
+
+      // Add keyframe animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes particle${i} {
+          0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+          50% { opacity: 0.8; }
+          100% { 
+            transform: translate(${Math.cos(i * Math.PI / 4) * 30}px, ${Math.sin(i * Math.PI / 4) * 30}px) scale(0); 
+            opacity: 0; 
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      particleContainer.appendChild(particle);
+    }
+
+    avatarRing.appendChild(particleContainer);
+
+    // Remove particles after animation
+    setTimeout(() => {
+      avatarRing.removeChild(particleContainer);
+    }, 800);
+  }
+
+  function toggleInClassState() {
+    document.documentElement.classList.toggle('in-class-state');
+    const indicator = document.getElementById('live-mode-indicator');
+    const btn = document.getElementById('btn-class-toggle');
+    if (document.documentElement.classList.contains('in-class-state')) {
+      indicator.textContent = 'In Class Mode';
+      btn.textContent = 'End Class';
+      loadQuickNote();
+    } else {
+      indicator.textContent = 'In Class';
+      btn.textContent = 'Start Class';
+      saveQuickNote();
+    }
+  }
+
+  function saveQuickNote() {
+    const note = document.getElementById('quickNoteTextarea').value;
+    localStorage.setItem('quickNote', note);
+  }
+
+  function loadQuickNote() {
+    const note = localStorage.getItem('quickNote') || '';
+    document.getElementById('quickNoteTextarea').value = note;
+  }
+
+  // Override toggleTask to add particle effect
+  const originalToggleTask = window.toggleTask;
+  window.toggleTask = function(event) {
+    originalToggleTask(event);
+    const el = event.target;
+    if (el.classList.contains('done')) {
+      spawnCompletionParticles();
+    }
+    updateAvatarProgress();
+  };
 
   loadTasks();
   requestNotificationPermission();
