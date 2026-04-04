@@ -6,6 +6,19 @@
 <title>Scholar's Command Center — Falcons</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="falcons1.png">
+<!-- FullCalendar Integration -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<!-- PDF.js for PDF Preview -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  // Set up PDF.js worker
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+<!-- Three.js for 3D Avatar (optional lightweight) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root {
     --bg: #0d1117;
@@ -1937,6 +1950,400 @@
     border-color: var(--accent);
     background: rgba(56, 189, 248, 0.1);
   }
+
+  /* ===== NEW FEATURES: TASK GRAVITY, CALENDAR, PDF VIEWER, AVATAR, CMD PALETTE ===== */
+
+  /* TASK GRAVITY - DRAG & DROP STYLING */
+  .task-item {
+    cursor: grab;
+    transition: all 0.2s ease;
+  }
+  .task-item:active {
+    cursor: grabbing;
+    opacity: 0.8;
+  }
+  .task-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  .task-item.drag-over {
+    border-top: 2px solid var(--accent);
+    padding-top: 7px;
+  }
+  .task-gravity-weight {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+  .weight-bar {
+    width: 24px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .weight-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent3), var(--warn), var(--danger));
+    border-radius: 2px;
+  }
+
+  /* FULLCALENDAR INTEGRATION */
+  .timetable-card {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+  }
+  .timetable-card .fc {
+    font-family: 'Inter', sans-serif;
+  }
+  .timetable-card .fc-button-primary {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+  }
+  .timetable-card .fc-button-primary:hover {
+    background-color: #7dd3fc !important;
+  }
+  .timetable-card .fc-button-primary.fc-button-active {
+    background-color: var(--accent2) !important;
+  }
+  .timetable-card .fc-daygrid-day.fc-day-other {
+    background-color: var(--surface3);
+  }
+  .timetable-card .fc-col-header-cell {
+    background-color: var(--surface2);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .timetable-card .fc-daygrid-day {
+    background-color: var(--surface);
+    border-color: var(--border);
+  }
+  .timetable-card .fc-daygrid-day.fc-day-sun {
+    background-color: rgba(248, 113, 113, 0.08);
+  }
+  .timetable-card .fc-daygrid-day-number {
+    color: var(--text);
+  }
+  .timetable-card .fc-daygrid-day-frame {
+    background: var(--surface);
+  }
+  .timetable-card .fc-event {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #0d1117;
+    font-weight: 600;
+    font-size: 11px;
+  }
+  .timetable-card .fc-event.fc-event-classtime {
+    background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
+    border-color: var(--accent2) !important;
+  }
+  .timetable-card .fc-event.fc-event-exam {
+    background: linear-gradient(135deg, var(--warn), var(--danger)) !important;
+    border-color: var(--warn) !important;
+  }
+  .timetable-card .fc-event.fc-event-deadline {
+    background: linear-gradient(135deg, var(--danger), #dc2626) !important;
+    border-color: var(--danger) !important;
+  }
+
+  /* PDF VIEWER MODAL */
+  .pdf-preview-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .pdf-preview-modal.show { display: flex; }
+  .pdf-preview-container {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    width: 90vw;
+    max-width: 900px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideInScale 0.3s ease;
+  }
+  @keyframes slideInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .pdf-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    flex-shrink: 0;
+  }
+  .pdf-preview-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .pdf-close-btn {
+    width: 36px;
+    height: 36px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.15s;
+  }
+  .pdf-close-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pdf-preview-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pdf-canvas {
+    max-width: 100%;
+    max-height: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  .pdf-preview-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding: 12px 24px;
+    flex-shrink: 0;
+  }
+  .pdf-page-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pdf-nav-btn {
+    padding: 6px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .pdf-nav-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pdf-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .pdf-page-info {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .pdf-download-btn {
+    padding: 6px 14px;
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 6px;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .pdf-download-btn:hover {
+    background: rgba(56, 189, 248, 0.25);
+    border-color: var(--accent);
+  }
+
+  /* DYNAMIC AVATAR WITH HEALTH STATUS */
+  .avatar-container {
+    position: relative;
+    height: auto;
+  }
+  .avatar-3d-wrapper {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-status-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-status-indicator.healthy {
+    background: var(--accent3);
+  }
+  .avatar-status-indicator.neutral {
+    background: var(--warn);
+  }
+  .avatar-status-indicator.struggling {
+    background: var(--danger);
+  }
+  .avatar-status-indicator.animation-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  /* COMMAND PALETTE (CTRL+K) */
+  .cmd-palette-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 3000;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 80px;
+  }
+  .cmd-palette-modal.open { display: flex; }
+  .cmd-palette-box {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 520px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    animation: slideDw 0.2s ease;
+  }
+  @keyframes slideDw {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .cmd-palette-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    outline: none;
+  }
+  .cmd-palette-input::placeholder {
+    color: var(--text-dim);
+  }
+  .cmd-palette-list {
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .cmd-palette-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.1s;
+  }
+  .cmd-palette-item:last-child { border-bottom: none; }
+  .cmd-palette-item:hover {
+    background: var(--surface2);
+  }
+  .cmd-palette-item.selected {
+    background: rgba(56, 189, 248, 0.1);
+    border-left: 3px solid var(--accent);
+    padding-left: 13px;
+  }
+  .cmd-palette-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .cmd-palette-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cmd-palette-label {
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .cmd-palette-shortcut {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .cmd-palette-hint {
+    padding: 8px 16px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  /* FullCalendar dark theme tweaks */
+  .fc-button-group { gap: 4px; }
+  .fc {
+    color: var(--text);
+  }
+  .fc .fc-button-primary:not(:disabled).fc-button-active:not(:hover) {
+    background-color: var(--accent2) !important;
+    border-color: var(--accent2) !important;
+  }
+  .fc-popover {
+    background-color: var(--surface) !important;
+    border-color: var(--border) !important;
+  }
+  .fc-popover-header {
+    background-color: var(--surface2) !important;
+  }
+
+  /* IN-CLASS STATE: Show Calendar & Notes, Hide Others */
+  html.in-class-state .timetable-card {
+    display: block !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    min-height: 500px !important;
+  }
 </style>
 </head>
 <body>
@@ -2291,7 +2698,21 @@
         </div>
       </div>
     </div>
-    <!-- KNOWLEDGE GRAPH -->
+    <!-- TIMETABLE/CALENDAR INTEGRATION (NEW FEATURE) -->
+    <div class="card timetable-card card-fade-in" id="timetableCard" style="display:none;">
+      <div class="card-header">
+        <span class="card-icon">📅</span>
+        <div class="card-title-group">
+          <div class="card-title">Academic Calendar & Class Schedule</div>
+          <div class="card-subtitle">Upcoming classes · Exams · Assignment deadlines · Auto-triggers In-Class Mode</div>
+        </div>
+        <button class="toggle-btn" onclick="toggleTimetable()" style="margin-left: auto;">Hide ↕</button>
+      </div>
+      <div class="card-body" style="padding: 16px;">
+        <div id="calendarContainer" style="width: 100%; height: 500px;"></div>
+      </div>
+    </div>
+    <!-- KNOWLEDGE GRAPH (EXISTING) -->
     <div class="knowledge-card card-fade-in">
       <div class="knowledge-header">
         <div class="knowledge-title">🔗 Knowledge Graph — subjects linked by shared concepts</div>
@@ -2899,7 +3320,556 @@
     <!-- Task details will be dynamically inserted -->
   </div>
 </div>
+
+<!-- PDF PREVIEW MODAL (NEW) -->
+<div class="pdf-preview-modal" id="pdfPreviewModal">
+  <div class="pdf-preview-container">
+    <div class="pdf-preview-header">
+      <div class="pdf-preview-title" id="pdfTitle">PDF Preview</div>
+      <div class="pdf-close-btn" onclick="closePdfPreview()">×</div>
+    </div>
+    <div class="pdf-preview-body" id="pdfBody">
+      <canvas id="pdfCanvas" class="pdf-canvas"></canvas>
+    </div>
+    <div class="pdf-preview-footer">
+      <div class="pdf-page-nav">
+        <button class="pdf-nav-btn" id="pdfPrevBtn" onclick="pdfPrevPage()">← Prev</button>
+        <div class="pdf-page-info">
+          <span id="pdfCurrentPage">1</span> / <span id="pdfTotalPages">1</span>
+        </div>
+        <button class="pdf-nav-btn" id="pdfNextBtn" onclick="pdfNextPage()">Next →</button>
+      </div>
+      <button class="pdf-download-btn" id="pdfDownloadBtn" onclick="downloadPdf()">⬇ Download</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMMAND PALETTE MODAL (NEW) -->
+<div class="cmd-palette-modal" id="cmdPaletteModal" onclick="closeCmdPalette(event)">
+  <div class="cmd-palette-box">
+    <input type="text" class="cmd-palette-input" id="cmdInput" placeholder="Type a command... (⌘K or Ctrl+K)" oninput="filterCommands()">
+    <div class="cmd-palette-list" id="cmdList">
+      <!-- Commands will be dynamically populated -->
+    </div>
+    <div class="cmd-palette-hint">⏎ to execute · ↑↓ to navigate · ESC to close</div>
+  </div>
+</div>
+
+<!-- TIMETABLE/CALENDAR CARD (NEW) -->
+<div class="card timetable-card card-fade-in" id="timetableCard" style="display:none;">
+  <div class="card-header">
+    <span class="card-icon">📅</span>
+    <div class="card-title-group">
+      <div class="card-title">Academic Calendar & Class Schedule</div>
+      <div class="card-subtitle">Upcoming classes · Exams · Assignment deadlines</div>
+    </div>
+  </div>
+  <div class="card-body" style="padding: 16px;">
+    <div id="calendarContainer" style="width: 100%; height: 500px;"></div>
+  </div>
+</div>
+
 <script>
+  // ===== NEW FEATURES INITIALIZATION =====
+  
+  // 1. TASK GRAVITY - DRAG & DROP REORDERING WITH WEIGHTED URGENCY
+  let draggedTask = null;
+
+  function initTaskGravity() {
+    const taskList = document.getElementById('task-list');
+    if (!taskList) return;
+    
+    taskList.addEventListener('dragstart', (e) => {
+      if (!e.target.classList.contains('task-item')) return;
+      draggedTask = e.target;
+      e.target.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    taskList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      
+      const afterElement = getDragAfterElement(taskList, e.clientY);
+      if (afterElement == null) {
+        taskList.appendChild(draggedTask);
+      } else {
+        taskList.insertBefore(draggedTask, afterElement);
+      }
+    });
+
+    taskList.addEventListener('drop', (e) => {
+      e.preventDefault();
+    });
+
+    taskList.addEventListener('dragend', (e) => {
+      if (draggedTask) {
+        draggedTask.classList.remove('dragging');
+        saveTasks();
+      }
+    });
+
+    // Make task items draggable
+    document.querySelectorAll('.task-item').forEach(item => {
+      item.draggable = true;
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.task-item:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  function calculateTaskGravity(task) {
+    // Weighted urgency logic: priority weight × deadline proximity
+    const priorityWeights = { high: 3, med: 2, low: 1 };
+    const now = new Date();
+    const taskDate = parseTaskDateTime(task, task.startTime || '09:00');
+    const daysUntilDue = taskDate ? Math.ceil((taskDate - now) / (1000 * 60 * 60 * 24)) : 999;
+    
+    const urgencyMultiplier = Math.max(0.5, 1 - (daysUntilDue / 30));
+    const gravity = (priorityWeights[task.priority] || 1) * (urgencyMultiplier * 100);
+    
+    return Math.round(gravity);
+  }
+
+  function renderTaskGravityWeights() {
+    document.querySelectorAll('.task-item').forEach(item => {
+      const taskId = item.dataset.taskId;
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      let weightEl = item.querySelector('.task-gravity-weight');
+      if (!weightEl) {
+        weightEl = document.createElement('div');
+        weightEl.className = 'task-gravity-weight';
+        item.appendChild(weightEl);
+      }
+
+      const gravity = calculateTaskGravity(task);
+      const fillPercent = Math.min(100, (gravity / 300) * 100);
+      
+      weightEl.innerHTML = `
+        <span>${gravity}</span>
+        <div class="weight-bar">
+          <div class="weight-fill" style="width: ${fillPercent}%"></div>
+        </div>
+      `;
+    });
+  }
+
+  // 2. FULLCALENDAR INTEGRATION
+  let calendar = null;
+
+  function initFullCalendar() {
+    const calendarContainer = document.getElementById('calendarContainer');
+    if (!calendarContainer || calendar) return;
+
+    calendar = new FullCalendar.Calendar(calendarContainer, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      events: generateCalendarEvents(),
+      eventClick: function(info) {
+        if (info.event.extendedProps.taskId) {
+          showTaskDetail(info.event.extendedProps.taskId);
+        }
+      },
+      eventDidMount: function(info) {
+        info.el.style.cursor = 'pointer';
+        // Add event type classes
+        const eventType = info.event.extendedProps.type;
+        if (eventType === 'classtime') {
+          info.el.classList.add('fc-event-classtime');
+        } else if (eventType === 'exam') {
+          info.el.classList.add('fc-event-exam');
+        } else if (eventType === 'deadline') {
+          info.el.classList.add('fc-event-deadline');
+        }
+      },
+      datesSet: function() {
+        // Auto-trigger In Class mode when a session starts
+        const now = new Date();
+        const currentEvents = calendar.getEvents().filter(evt => {
+          const eventStart = new Date(evt.start);
+          const eventEnd = new Date(evt.end || evt.start);
+          return eventStart <= now && now < eventEnd && evt.extendedProps.type === 'classtime';
+        });
+
+        if (currentEvents.length > 0 && !document.documentElement.classList.contains('in-class-state')) {
+          // Could auto-trigger, but we'll leave it to user control for now
+        }
+      }
+    });
+    calendar.render();
+  }
+
+  function generateCalendarEvents() {
+    const events = [];
+    const year = new Date().getFullYear();
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // Add tasks as events
+    tasks.forEach(task => {
+      const monthIndex = monthNames.indexOf(task.month);
+      if (monthIndex === -1) return;
+
+      events.push({
+        title: task.text,
+        date: `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(task.date).padStart(2, '0')}`,
+        backgroundColor: task.priority === 'high' ? '#f87171' : task.priority === 'med' ? '#f59e0b' : '#34d399',
+        borderColor: task.priority === 'high' ? '#dc2626' : task.priority === 'med' ? '#d97706' : '#059669',
+        extendedProps: {
+          taskId: task.id,
+          type: 'deadline'
+        }
+      });
+    });
+
+    // Sample class schedule (customize as needed)
+    const sampleClasses = [
+      { title: 'DBMS Lecture', start: `${year}-04-07T09:00:00`, end: `${year}-04-07T10:30:00`, type: 'classtime', room: 'A-101' },
+      { title: 'OOP Lab', start: `${year}-04-08T14:00:00`, end: `${year}-04-08T16:00:00`, type: 'classtime', room: 'Lab-3' },
+      { title: 'Maths Exam', start: `${year}-04-12T10:00:00`, end: `${year}-04-12T11:30:00`, type: 'exam', room: 'Main Hall' },
+      { title: 'CN Tutorial', start: `${year}-04-15T15:00:00`, end: `${year}-04-15T16:00:00`, type: 'classtime', room: 'B-203' }
+    ];
+
+    sampleClasses.forEach(cls => {
+      events.push({
+        title: cls.title,
+        start: cls.start,
+        end: cls.end,
+        backgroundColor: cls.type === 'classtime' ? '#38bdf8' : cls.type === 'exam' ? '#ef4444' : '#f59e0b',
+        borderColor: cls.type === 'classtime' ? '#0ea5e9' : cls.type === 'exam' ? '#dc2626' : '#d97706',
+        extendedProps: {
+          type: cls.type,
+          room: cls.room
+        }
+      });
+    });
+
+    return events;
+  }
+
+  // 3. PDF VIEWER QUICK-PREVIEW MODAL
+  let pdfDoc = null;
+  let pdfCurrentPageNum = 1;
+  let pdfPageCount = 0;
+  let pdfUrl = '';
+
+  function openPdfPreview(url, title) {
+    pdfUrl = url;
+    pdfCurrentPageNum = 1;
+    document.getElementById('pdfTitle').textContent = title || 'PDF Preview';
+    document.getElementById('pdfPreviewModal').classList.add('show');
+    loadPdfDocument(url);
+  }
+
+  function closePdfPreview() {
+    document.getElementById('pdfPreviewModal').classList.remove('show');
+    pdfDoc = null;
+    pdfCurrentPageNum = 1;
+    pdfPageCount = 0;
+  }
+
+  async function loadPdfDocument(url) {
+    try {
+      // Handle CORS with a proxy if needed
+      const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+      pdfDoc = await pdfjsLib.getDocument(url).promise;
+      pdfPageCount = pdfDoc.numPages;
+      document.getElementById('pdfTotalPages').textContent = pdfPageCount;
+      renderPdfPage(pdfCurrentPageNum);
+      updatePdfNavButtons();
+    } catch (error) {
+      console.error('Error loading PDF:', error);
+      showPageAlert('Could not load PDF. The file may not be accessible.');
+    }
+  }
+
+  async function renderPdfPage(pageNum) {
+    if (!pdfDoc || pageNum < 1 || pageNum > pdfPageCount) return;
+
+    const page = await pdfDoc.getPage(pageNum);
+    const viewport = page.getViewport({ scale: 1.5 });
+    const canvas = document.getElementById('pdfCanvas');
+    const context = canvas.getContext('2d');
+
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    await page.render({
+      canvasContext: context,
+      viewport: viewport
+    }).promise;
+
+    document.getElementById('pdfCurrentPage').textContent = pageNum;
+    pdfCurrentPageNum = pageNum;
+    updatePdfNavButtons();
+  }
+
+  function pdfNextPage() {
+    if (pdfCurrentPageNum < pdfPageCount) {
+      renderPdfPage(pdfCurrentPageNum + 1);
+    }
+  }
+
+  function pdfPrevPage() {
+    if (pdfCurrentPageNum > 1) {
+      renderPdfPage(pdfCurrentPageNum - 1);
+    }
+  }
+
+  function updatePdfNavButtons() {
+    document.getElementById('pdfPrevBtn').disabled = pdfCurrentPageNum <= 1;
+    document.getElementById('pdfNextBtn').disabled = pdfCurrentPageNum >= pdfPageCount;
+  }
+
+  function downloadPdf() {
+    if (pdfUrl) {
+      const a = document.createElement('a');
+      a.href = pdfUrl;
+      a.download = document.getElementById('pdfTitle').textContent + '.pdf';
+      a.click();
+    }
+  }
+
+  // Override resource click to open PDF preview if PDF
+  const originalOpenResource = window.openResource;
+  window.openResource = function(item) {
+    const badge = item.querySelector('.resource-badge');
+    const isMD = badge && badge.textContent === 'PDF';
+    if (isMD) {
+      event.stopPropagation();
+      const link = item.dataset.link;
+      const name = item.querySelector('.resource-name').textContent;
+      openPdfPreview(link, name);
+    } else {
+      originalOpenResource(item);
+    }
+  };
+
+  // 4. DYNAMIC AVATAR WITH HEALTH STATUS
+  function updateAvatarStatus() {
+    const healthScores = [82, 76, 61, 44, 69, 88]; // From health items
+    const averageHealth = Math.round(healthScores.reduce((a, b) => a + b) / healthScores.length);
+    
+    const avatar = document.querySelector('.avatar');
+    const indicator = document.querySelector('.avatar-status-indicator');
+    
+    if (!indicator) {
+      const newIndicator = document.createElement('div');
+      newIndicator.className = 'avatar-status-indicator';
+      avatar.parentElement.appendChild(newIndicator);
+    }
+
+    const statusEl = avatar.parentElement.querySelector('.avatar-status-indicator');
+    statusEl.classList.remove('healthy', 'neutral', 'struggling');
+
+    if (averageHealth >= 75) {
+      statusEl.classList.add('healthy');
+      statusEl.title = `Healthy: ${averageHealth}%`;
+    } else if (averageHealth >= 60) {
+      statusEl.classList.add('neutral');
+      statusEl.title = `Neutral: ${averageHealth}%`;
+    } else {
+      statusEl.classList.add('struggling');
+      statusEl.classList.add('animation-pulse');
+      statusEl.title = `Struggling: ${averageHealth}%`;
+    }
+  }
+
+  // 5. COMMAND PALETTE (CTRL+K)
+  const COMMANDS = [
+    { id: 'nav-dashboard', icon: '⚡', label: 'Go to Dashboard', shortcut: 'Ctrl+K D', category: 'Navigation' },
+    { id: 'nav-explore', icon: '🧭', label: 'Go to Explore', shortcut: 'Ctrl+K E', category: 'Navigation' },
+    { id: 'nav-college', icon: '🏛️', label: 'Go to College Predictor', shortcut: 'Ctrl+K C', category: 'Navigation' },
+    { id: 'nav-settings', icon: '⚙️', label: 'Go to Settings', shortcut: 'Ctrl+K S', category: 'Navigation' },
+    { id: 'task-add', icon: '➕', label: 'Quick Add Task', shortcut: 'Ctrl+T', category: 'Tasks' },
+    { id: 'task-filter', icon: '🔍', label: 'Filter Tasks', shortcut: 'Ctrl+F', category: 'Tasks' },
+    { id: 'task-sort', icon: '↕️', label: 'Sort Tasks', shortcut: 'Ctrl+Shift+S', category: 'Tasks' },
+    { id: 'class-toggle', icon: '🎓', label: 'Toggle In-Class Mode', shortcut: 'Ctrl+L', category: 'Focus' },
+    { id: 'theme-toggle', icon: '🌙', label: 'Toggle Theme', shortcut: 'Ctrl+Shift+T', category: 'Appearance' },
+    { id: 'focus-mode', icon: '🎯', label: 'Toggle Focus Mode', shortcut: 'Ctrl+Shift+F', category: 'Focus' },
+    { id: 'calendar-show', icon: '📅', label: 'Show Calendar', shortcut: 'Ctrl+K A', category: 'Views' },
+    { id: 'help', icon: '❓', label: 'Help & Keyboard Shortcuts', shortcut: 'Ctrl+?', category: 'Help' }
+  ];
+
+  let cmdPaletteSelectedIndex = 0;
+
+  function openCmdPalette() {
+    document.getElementById('cmdPaletteModal').classList.add('open');
+    document.getElementById('cmdInput').focus();
+    document.getElementById('cmdInput').value = '';
+    cmdPaletteSelectedIndex = 0;
+    renderCmdPaletteList(COMMANDS);
+  }
+
+  function closeCmdPalette(event) {
+    if (event && event.target.id !== 'cmdPaletteModal') return;
+    document.getElementById('cmdPaletteModal').classList.remove('open');
+  }
+
+  function filterCommands() {
+    const query = document.getElementById('cmdInput').value.toLowerCase();
+    const filtered = COMMANDS.filter(cmd =>
+      cmd.label.toLowerCase().includes(query) ||
+      cmd.category.toLowerCase().includes(query)
+    );
+    cmdPaletteSelectedIndex = 0;
+    renderCmdPaletteList(filtered);
+  }
+
+  function renderCmdPaletteList(commands) {
+    const list = document.getElementById('cmdList');
+    list.innerHTML = commands.map((cmd, idx) => `
+      <div class="cmd-palette-item ${idx === cmdPaletteSelectedIndex ? 'selected' : ''}" onclick="executeCommand('${cmd.id}')">
+        <div class="cmd-palette-icon">${cmd.icon}</div>
+        <div class="cmd-palette-text">
+          <div class="cmd-palette-label">${cmd.label}</div>
+          <div class="cmd-palette-shortcut">${cmd.category}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function executeCommand(cmdId) {
+    closeCmdPalette();
+    const command = COMMANDS.find(c => c.id === cmdId);
+    if (!command) return;
+
+    switch (cmdId) {
+      case 'nav-dashboard':
+        showView('dashboard');
+        break;
+      case 'nav-explore':
+        showView('courses');
+        break;
+      case 'nav-college':
+        showView('college');
+        break;
+      case 'nav-settings':
+        showView('settings');
+        break;
+      case 'task-add':
+        openModal();
+        break;
+      case 'task-filter':
+      case 'task-sort':
+        document.querySelector('.priority-filter-row').scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'class-toggle':
+        toggleInClassState();
+        break;
+      case 'theme-toggle':
+        toggleTheme();
+        break;
+      case 'focus-mode':
+        document.documentElement.classList.toggle('live-focus-on');
+        showPageAlert(document.documentElement.classList.contains('live-focus-on') ? '🎯 Focus Mode ON' : '👀 Focus Mode OFF');
+        break;
+      case 'calendar-show':
+        const timetableCard = document.getElementById('timetableCard');
+        if (timetableCard) {
+          timetableCard.style.display = timetableCard.style.display === 'none' ? 'block' : 'none';
+        }
+        break;
+      case 'help':
+        showPageAlert('🎮 Shortcuts: Ctrl+K (Palette), Ctrl+T (Task), Ctrl+L (Class), Ctrl+Shift+F (Focus)');
+        break;
+    }
+  }
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Ctrl+K or Cmd+K opens command palette
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openCmdPalette();
+    }
+    // ESC closes command palette
+    if (e.key === 'Escape') {
+      closeCmdPalette();
+    }
+    // Navigation within command palette
+    const modal = document.getElementById('cmdPaletteModal');
+    if (modal && modal.classList.contains('open')) {
+      const items = document.querySelectorAll('.cmd-palette-item');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex + 1) % items.length;
+        updateCmdPaletteSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex - 1 + items.length) % items.length;
+        updateCmdPaletteSelection();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const selected = items[cmdPaletteSelectedIndex];
+        if (selected) {
+          // Extract command ID from class names or data attribute would be better
+          const allCommands = COMMANDS.filter(cmd => {
+            const query = document.getElementById('cmdInput').value.toLowerCase();
+            return cmd.label.toLowerCase().includes(query) || cmd.category.toLowerCase().includes(query);
+          });
+          if (allCommands[cmdPaletteSelectedIndex]) {
+            executeCommand(allCommands[cmdPaletteSelectedIndex].id);
+          }
+        }
+      }
+    }
+  });
+
+  function updateCmdPaletteSelection() {
+    document.querySelectorAll('.cmd-palette-item').forEach((item, idx) => {
+      item.classList.toggle('selected', idx === cmdPaletteSelectedIndex);
+    });
+  }
+
+  // Initialize new features when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      initTaskGravity();
+      renderTaskGravityWeights();
+      initFullCalendar();
+      updateAvatarStatus();
+
+      // Update task gravity weights when tasks change
+      const originalSaveTasks = saveTasks;
+      window.saveTasks = function() {
+        originalSaveTasks();
+        renderTaskGravityWeights();
+        updateAvatarStatus();
+      };
+    }, 500);
+  });
+
+  // Trigger calendar on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      initFullCalendar();
+    }, 1000);
+  });
+
+  // Make .cmd-palette button trigger command palette
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.cmd-palette')) {
+      openCmdPalette();
+    }
+  });
+
+  // ===== ORIGINAL TASK MANAGEMENT CODE (Preserved) =====
   const STORAGE_KEY = 'priorityHubTasks';
   let tasks = [];
 
@@ -3587,6 +4557,10 @@
     if (view === 'dashboard') {
       document.getElementById('dashboard-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="dashboard"]').classList.add('active');
+      // Trigger calendar render after view is shown
+      setTimeout(() => {
+        if (!calendar) initFullCalendar();
+      }, 100);
     } else if (view === 'predictor') {
       document.getElementById('predictor-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="predictor"]').classList.add('active');
@@ -3601,6 +4575,18 @@
     } else if (view === 'college') {
       document.getElementById('college-view').style.display = 'flex';
       document.querySelector('.nav-item[onclick*="college"]').classList.add('active');
+    }
+  }
+
+  // Toggle Timetable Visibility
+  function toggleTimetable() {
+    const card = document.getElementById('timetableCard');
+    if (card) {
+      card.style.display = card.style.display === 'none' ? 'block' : 'none';
+      // Re-render calendar if shown
+      if (card.style.display !== 'none' && !calendar) {
+        setTimeout(() => initFullCalendar(), 100);
+      }
     }
   }
 
