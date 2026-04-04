@@ -2209,7 +2209,7 @@
         </div>
         <div class="card-body">
           <div id="resource-list">
-            <div class="resource-item" data-tag="DBMS">
+            <div class="resource-item" data-tag="DBMS" data-link="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" onclick="openResource(this)">
               <div class="resource-icon ri-pdf">📄</div>
               <div class="resource-info">
                 <div class="resource-name">DBMS ER Diagram Notes</div>
@@ -2217,7 +2217,7 @@
               </div>
               <div class="resource-badge">PDF</div>
             </div>
-            <div class="resource-item" data-tag="Java">
+            <div class="resource-item" data-tag="Java" data-link="https://www.w3schools.com/html/mov_bbb.mp4" onclick="openResource(this)">
               <div class="resource-icon ri-vid">🎬</div>
               <div class="resource-info">
                 <div class="resource-name">Java Collections Deep Dive</div>
@@ -2225,7 +2225,7 @@
               </div>
               <div class="resource-badge">VID</div>
             </div>
-            <div class="resource-item" data-tag="CN">
+            <div class="resource-item" data-tag="CN" data-link="https://www.google.com" onclick="openResource(this)">
               <div class="resource-icon ri-link">🔗</div>
               <div class="resource-info">
                 <div class="resource-name">TCP/IP Stack Visual Guide</div>
@@ -2233,7 +2233,7 @@
               </div>
               <div class="resource-badge">LINK</div>
             </div>
-            <div class="resource-item" data-tag="Maths">
+            <div class="resource-item" data-tag="Maths" data-link="https://www.w3.org/TR/2006/REC-xml11-20060816.html" onclick="openResource(this)">
               <div class="resource-icon ri-doc">📝</div>
               <div class="resource-info">
                 <div class="resource-name">Integration Formula Sheet</div>
@@ -2241,7 +2241,7 @@
               </div>
               <div class="resource-badge">DOC</div>
             </div>
-            <div class="resource-item" data-tag="DBMS">
+            <div class="resource-item" data-tag="DBMS" data-link="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" onclick="openResource(this)">
               <div class="resource-icon ri-pdf">📄</div>
               <div class="resource-info">
                 <div class="resource-name">SQL Query Optimisation</div>
@@ -3552,6 +3552,12 @@
   setInterval(checkTaskNotifications, 20 * 1000); // check more frequently for timely alerts
 
   // RESOURCE FILTER
+  function openResource(item) {
+    const link = item.dataset.link;
+    if (!link) return;
+    window.location.href = link;
+  }
+
   function filterResources() {
     const q = document.getElementById('resourceSearch').value.toLowerCase();
     const f = document.getElementById('resourceFilter').value;
