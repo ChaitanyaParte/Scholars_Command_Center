@@ -621,6 +621,11 @@
     box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
     background: rgba(56, 189, 248, 0.05);
   }
+  .task-item.high {
+    border: 1px dashed rgba(248, 113, 113, 0.8);
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.4);
+    animation: glowHigh 2.5s ease-in-out infinite;
+  }
   .task-item.med {
     border: 1px dashed rgba(245, 158, 11, 0.8);
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
@@ -2095,7 +2100,7 @@
           </div>
           <button class="add-task-btn" onclick="openModal()">+ Add task via Ctrl+K or click</button>
           <div id="task-list">
-            <div class="task-item" data-date="10" data-month="Mar">
+            <div class="task-item high" data-date="10" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Submit DBMS Assignment 3</span>
               <span class="task-subject">DBMS</span>
@@ -2109,7 +2114,7 @@
               <span class="task-date-tag">14 Apr</span>
               <span class="task-priority tp-med">Med</span>
             </div>
-            <div class="task-item" data-date="20" data-month="Mar">
+            <div class="task-item high" data-date="20" data-month="Mar">
               <div class="task-check" onclick="toggleTask(this)"></div>
               <span class="task-label">Statistics problem set Week 8</span>
               <span class="task-subject">Stats</span>
