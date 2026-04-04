@@ -2020,46 +2020,132 @@
     <div class="pv-header" style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2>🏛️ College Predictor</h2>
-        <p>Enter your academic profile to find the best-matched colleges based on CGPA and preferences.</p>
+        <p>Enter your competitive exam scores and board marks to find the best-matched colleges.</p>
       </div>
       <button class="pv-btn" onclick="showView('dashboard')" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid #ef4444;width:auto;padding:8px 16px;margin:0;">✕ Exit</button>
     </div>
     <div class="pv-grid">
       <div class="pv-card">
-        <div class="pv-label">Your Academic Profile</div>
-        <label style="font-size:11px;color:var(--text-dim)">Current CGPA (out of 10)</label>
-        <input class="pv-input" id="cgpa-input" type="number" min="0" max="10" step="0.1" value="7.8" oninput="renderColleges()" />
-        <label style="font-size:11px;color:var(--text-dim)">Preferred Course</label>
-        <select class="pv-select">
-          <option>Computer Science</option>
-          <option>Electronics</option>
-          <option>Mechanical</option>
-          <option>Biotechnology</option>
-          <option>MBA</option>
-          <option>Data Science</option>
+        <div class="pv-label">🎯 Your Academic Profile</div>
+
+        <!-- Competitive Exam Selection -->
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin-bottom:8px;">🏆 Competitive Exam</label>
+        <select class="pv-select" id="exam-select" onchange="handleExamChange()">
+          <option value="">Select Exam...</option>
+          <option value="jee">JEE (Main/Advanced)</option>
+          <option value="neet">NEET</option>
+          <option value="cat">CAT (MBA)</option>
+          <option value="gate">GATE</option>
+          <option value="clat">CLAT (Law)</option>
+          <option value="nmat">NMAT (MBA)</option>
+          <option value="xat">XAT (MBA)</option>
+          <option value="snap">SNAP (MBA)</option>
+          <option value="mat">MAT (MBA)</option>
+          <option value="cmat">CMAT (MBA)</option>
+          <option value="bitsat">BITSAT</option>
+          <option value="viteee">VITEEE</option>
+          <option value="srmjee">SRMJEEE</option>
+          <option value="met">MET (Engineering)</option>
+          <option value="cet">CET (State Engineering)</option>
+          <option value="comedk">COMEDK</option>
+          <option value="aipmt">AIPMT</option>
+          <option value="aiims">AIIMS</option>
+          <option value="jipmer">JIPMER</option>
+          <option value="upsc">UPSC</option>
+          <option value="ssc">SSC</option>
+          <option value="banking">Banking Exams (IBPS/SBI)</option>
+          <option value="railway">Railway Exams</option>
+          <option value="defence">Defence Exams (NDA/CDS)</option>
+          <option value="teaching">Teaching Exams (CTET/UGC NET)</option>
+          <option value="other">Other Competitive Exam</option>
         </select>
-        <label style="font-size:11px;color:var(--text-dim)">College Type</label>
+
+        <!-- Exam Score Input -->
+        <div id="exam-score-section" style="display:none;">
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">📊 Exam Score</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input class="pv-input" id="exam-score-input" type="number" min="0" step="0.1" placeholder="Enter score" oninput="validateExamScore(); renderColleges()" style="flex:1;" />
+            <span id="exam-score-label" style="font-size:11px;color:var(--text-dim);white-space:nowrap;">Score</span>
+          </div>
+        </div>
+
+        <!-- Board Status -->
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">📚 12th Board Status</label>
+        <select class="pv-select" id="board-status-select" onchange="handleBoardStatusChange()">
+          <option value="">Select Status...</option>
+          <option value="appearing">Appearing for 12th Board</option>
+          <option value="completed">12th Board Completed</option>
+        </select>
+
+        <!-- Board Marks Input (only shown if completed) -->
+        <div id="board-marks-section" style="display:none;">
+          <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">📈 12th Board Marks (%)</label>
+          <input class="pv-input" id="board-marks-input" type="number" min="0" max="100" step="0.1" placeholder="e.g., 95.5" oninput="renderColleges()" />
+        </div>
+
+        <!-- Course Preferences -->
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">🎓 Preferred Course Stream</label>
+        <select class="pv-select" id="course-stream-select" onchange="renderColleges()">
+          <option value="All">All Streams</option>
+          <option value="engineering">Engineering (B.Tech/B.E.)</option>
+          <option value="medical">Medical (MBBS/BDS)</option>
+          <option value="mba">Management (MBA)</option>
+          <option value="law">Law (LLB)</option>
+          <option value="science">Pure Science</option>
+          <option value="commerce">Commerce</option>
+          <option value="arts">Arts & Humanities</option>
+          <option value="pharmacy">Pharmacy</option>
+          <option value="architecture">Architecture</option>
+          <option value="design">Design</option>
+          <option value="hospitality">Hospitality</option>
+          <option value="agriculture">Agriculture</option>
+        </select>
+
+        <!-- College Type Filter -->
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">🏛️ College Type Preference</label>
         <select class="pv-select" id="college-type-filter" onchange="renderColleges()">
           <option value="All">All Types</option>
           <option value="govt">Government / NIT / IIT</option>
           <option value="pvt">Private</option>
           <option value="deemed">Deemed University</option>
         </select>
-        <label style="font-size:11px;color:var(--text-dim)">Preferred State</label>
-        <select class="pv-select">
-          <option>Any State</option>
-          <option>Maharashtra</option>
-          <option>Tamil Nadu</option>
-          <option>Karnataka</option>
-          <option>Delhi</option>
-          <option>Rajasthan</option>
+
+        <!-- State Preference -->
+        <label style="font-size:11px;color:var(--text-dim);display:block;margin:12px 0 8px 0;">📍 Preferred State</label>
+        <select class="pv-select" id="state-filter" onchange="renderColleges()">
+          <option value="All">Any State</option>
+          <option value="maharashtra">Maharashtra</option>
+          <option value="tamil-nadu">Tamil Nadu</option>
+          <option value="karnataka">Karnataka</option>
+          <option value="delhi">Delhi</option>
+          <option value="rajasthan">Rajasthan</option>
+          <option value="uttar-pradesh">Uttar Pradesh</option>
+          <option value="gujarat">Gujarat</option>
+          <option value="west-bengal">West Bengal</option>
+          <option value="telangana">Telangana</option>
+          <option value="andhra-pradesh">Andhra Pradesh</option>
+          <option value="madhya-pradesh">Madhya Pradesh</option>
+          <option value="kerala">Kerala</option>
+          <option value="punjab">Punjab</option>
+          <option value="haryana">Haryana</option>
+          <option value="bihar">Bihar</option>
+          <option value="jharkhand">Jharkhand</option>
+          <option value="odisha">Odisha</option>
+          <option value="chhattisgarh">Chhattisgarh</option>
+          <option value="uttarakhand">Uttarakhand</option>
+          <option value="himachal-pradesh">Himachal Pradesh</option>
+          <option value="jammu-kashmir">Jammu & Kashmir</option>
+          <option value="goa">Goa</option>
+          <option value="puducherry">Puducherry</option>
+          <option value="chandigarh">Chandigarh</option>
         </select>
-        <button class="pv-btn" onclick="renderColleges()">🔍 Predict Colleges</button>
+
+        <button class="pv-btn" onclick="renderColleges()" style="margin-top:16px;">🔍 Predict Colleges</button>
       </div>
       <div class="pv-card">
-        <div class="pv-label">Match Results</div>
+        <div class="pv-label">📊 Match Results</div>
         <div id="college-list">
-          <p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Click Predict to see results.</p>
+          <p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Fill in your details and click Predict to see results.</p>
         </div>
       </div>
     </div>
@@ -3087,43 +3173,374 @@
   }
 
   const COLLEGES = [
-    {name:"BITS Pilani",city:"Pilani, Rajasthan",type:"deemed",match:94,minCGPA:8.5,courses:["CS","ECE","EEE","Mechanical"]},
-    {name:"VIT Vellore",city:"Vellore, Tamil Nadu",type:"pvt",match:91,minCGPA:8.0,courses:["CS","IT","ECE","Civil"]},
-    {name:"NIT Trichy",city:"Trichy, Tamil Nadu",type:"govt",match:85,minCGPA:8.2,courses:["CS","ECE","Mechanical"]},
-    {name:"NMIMS Mumbai",city:"Mumbai, Maharashtra",type:"deemed",match:82,minCGPA:7.5,courses:["CS","MBA","Pharmacy"]},
-    {name:"Manipal MIT",city:"Manipal, Karnataka",type:"pvt",match:78,minCGPA:7.0,courses:["CS","ECE","Biotech"]},
-    {name:"SRM Chennai",city:"Chennai, Tamil Nadu",type:"pvt",match:74,minCGPA:6.5,courses:["CS","ECE","Civil","Mech"]},
+    // IITs - Government
+    {name:"IIT Delhi",city:"New Delhi",state:"delhi",type:"govt",stream:"engineering",
+     jee_cutoff:99.5, neet_cutoff:650, board_cutoff:95,
+     courses:["CS","ECE","Mechanical","Civil","Chemical"]},
+    {name:"IIT Bombay",city:"Mumbai, Maharashtra",state:"maharashtra",type:"govt",stream:"engineering",
+     jee_cutoff:99.8, neet_cutoff:680, board_cutoff:96,
+     courses:["CS","ECE","Mechanical","Aerospace","Electrical"]},
+    {name:"IIT Madras",city:"Chennai, Tamil Nadu",state:"tamil-nadu",type:"govt",stream:"engineering",
+     jee_cutoff:99.6, neet_cutoff:670, board_cutoff:95,
+     courses:["CS","ECE","Mechanical","Biotech","Ocean Engineering"]},
+    {name:"IIT Kanpur",city:"Kanpur, Uttar Pradesh",state:"uttar-pradesh",type:"govt",stream:"engineering",
+     jee_cutoff:99.4, neet_cutoff:660, board_cutoff:94,
+     courses:["CS","ECE","Mechanical","Aerospace","Chemical"]},
+    {name:"IIT Kharagpur",city:"Kharagpur, West Bengal",state:"west-bengal",type:"govt",stream:"engineering",
+     jee_cutoff:99.3, neet_cutoff:655, board_cutoff:93,
+     courses:["CS","ECE","Mechanical","Mining","Architecture"]},
+    {name:"IIT Roorkee",city:"Roorkee, Uttarakhand",state:"uttarakhand",type:"govt",stream:"engineering",
+     jee_cutoff:99.2, neet_cutoff:650, board_cutoff:92,
+     courses:["CS","ECE","Mechanical","Civil","Electrical"]},
+
+    // NITs - Government
+    {name:"NIT Trichy",city:"Trichy, Tamil Nadu",state:"tamil-nadu",type:"govt",stream:"engineering",
+     jee_cutoff:95.5, neet_cutoff:620, board_cutoff:88,
+     courses:["CS","ECE","Mechanical","Civil","Chemical"]},
+    {name:"NIT Surathkal",city:"Mangalore, Karnataka",state:"karnataka",type:"govt",stream:"engineering",
+     jee_cutoff:94.8, neet_cutoff:615, board_cutoff:87,
+     courses:["CS","ECE","Mechanical","Civil","Electrical"]},
+    {name:"NIT Warangal",city:"Warangal, Telangana",state:"telangana",type:"govt",stream:"engineering",
+     jee_cutoff:94.2, neet_cutoff:610, board_cutoff:86,
+     courses:["CS","ECE","Mechanical","Biotech","Chemical"]},
+    {name:"NIT Calicut",city:"Calicut, Kerala",state:"kerala",type:"govt",stream:"engineering",
+     jee_cutoff:93.8, neet_cutoff:605, board_cutoff:85,
+     courses:["CS","ECE","Mechanical","Civil","Electrical"]},
+
+    // Deemed Universities
+    {name:"BITS Pilani",city:"Pilani, Rajasthan",state:"rajasthan",type:"deemed",stream:"engineering",
+     jee_cutoff:92.0, neet_cutoff:590, board_cutoff:82,
+     courses:["CS","ECE","EEE","Mechanical","Chemical"]},
+    {name:"NMIMS Mumbai",city:"Mumbai, Maharashtra",state:"maharashtra",type:"deemed",stream:"engineering",
+     jee_cutoff:88.0, neet_cutoff:570, board_cutoff:78,
+     courses:["CS","IT","ECE","Mechanical","Biotech"]},
+
+    // Private Universities
+    {name:"VIT Vellore",city:"Vellore, Tamil Nadu",state:"tamil-nadu",type:"pvt",stream:"engineering",
+     jee_cutoff:89.0, neet_cutoff:580, board_cutoff:80,
+     courses:["CS","IT","ECE","Civil","Mechanical"]},
+    {name:"SRM Chennai",city:"Chennai, Tamil Nadu",state:"tamil-nadu",type:"pvt",stream:"engineering",
+     jee_cutoff:85.0, neet_cutoff:560, board_cutoff:75,
+     courses:["CS","ECE","Civil","Mech","Biotech"]},
+    {name:"Manipal MIT",city:"Manipal, Karnataka",state:"karnataka",type:"pvt",stream:"engineering",
+     jee_cutoff:82.0, neet_cutoff:550, board_cutoff:72,
+     courses:["CS","ECE","Mechanical","Biotech","Civil"]},
+    {name:"Amrita Vishwa Vidyapeetham",city:"Coimbatore, Tamil Nadu",state:"tamil-nadu",type:"pvt",stream:"engineering",
+     jee_cutoff:80.0, neet_cutoff:540, board_cutoff:70,
+     courses:["CS","ECE","Mechanical","Aerospace","Biotech"]},
+
+    // Medical Colleges
+    {name:"AIIMS Delhi",city:"New Delhi",state:"delhi",type:"govt",stream:"medical",
+     jee_cutoff:0, neet_cutoff:695, board_cutoff:95,
+     courses:["MBBS","MD","MS","BDS","Nursing"]},
+    {name:"CMC Vellore",city:"Vellore, Tamil Nadu",state:"tamil-nadu",type:"pvt",stream:"medical",
+     jee_cutoff:0, neet_cutoff:680, board_cutoff:92,
+     courses:["MBBS","MD","MS","Nursing","Pharmacy"]},
+    {name:"JIPMER Puducherry",city:"Puducherry",state:"puducherry",type:"govt",stream:"medical",
+     jee_cutoff:0, neet_cutoff:675, board_cutoff:90,
+     courses:["MBBS","MD","MS","Nursing"]},
+    {name:"KMC Manipal",city:"Manipal, Karnataka",state:"karnataka",type:"pvt",stream:"medical",
+     jee_cutoff:0, neet_cutoff:650, board_cutoff:85,
+     courses:["MBBS","MD","MS","Nursing","Pharmacy"]},
+
+    // MBA Colleges
+    {name:"IIM Ahmedabad",city:"Ahmedabad, Gujarat",state:"gujarat",type:"govt",stream:"mba",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, cat_cutoff:99.5,
+     courses:["MBA","PGDM","Executive MBA"]},
+    {name:"IIM Bangalore",city:"Bangalore, Karnataka",state:"karnataka",type:"govt",stream:"mba",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, cat_cutoff:99.2,
+     courses:["MBA","PGDM","Business Analytics"]},
+    {name:"IIM Calcutta",city:"Kolkata, West Bengal",state:"west-bengal",type:"govt",stream:"mba",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, cat_cutoff:99.0,
+     courses:["MBA","PGDM","Finance","Marketing"]},
+    {name:"NMIMS Mumbai",city:"Mumbai, Maharashtra",state:"maharashtra",type:"deemed",stream:"mba",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, cat_cutoff:92.0,
+     courses:["MBA","PGDM","HR","Finance"]},
+
+    // Law Colleges
+    {name:"NLSIU Bangalore",city:"Bangalore, Karnataka",state:"karnataka",type:"govt",stream:"law",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, clat_cutoff:98.5,
+     courses:["BA LLB","BSc LLB","LLM"]},
+    {name:"NLIU Bhopal",city:"Bhopal, Madhya Pradesh",state:"madhya-pradesh",type:"govt",stream:"law",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, clat_cutoff:96.5,
+     courses:["BA LLB","BBA LLB","LLM"]},
+    {name:"NUJS Kolkata",city:"Kolkata, West Bengal",state:"west-bengal",type:"govt",stream:"law",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, clat_cutoff:95.8,
+     courses:["BA LLB","BSc LLB","LLM","PhD"]},
+    {name:"Jindal Global Law School",city:"Sonipat, Haryana",state:"haryana",type:"pvt",stream:"law",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:0, clat_cutoff:88.0,
+     courses:["BA LLB","BBA LLB","LLM"]},
+
+    // Architecture Colleges
+    {name:"SPA Delhi",city:"New Delhi",state:"delhi",type:"govt",stream:"architecture",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:85, architecture_cutoff:85,
+     courses:["B.Arch","M.Arch","Planning"]},
+    {name:"CEPT Ahmedabad",city:"Ahmedabad, Gujarat",state:"gujarat",type:"pvt",stream:"architecture",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:80, architecture_cutoff:80,
+     courses:["B.Arch","M.Arch","Urban Design"]},
+    {name:"Sir JJ College of Architecture",city:"Mumbai, Maharashtra",state:"maharashtra",type:"govt",stream:"architecture",
+     jee_cutoff:0, neet_cutoff:0, board_cutoff:78, architecture_cutoff:75,
+     courses:["B.Arch","M.Arch","Interior Design"]}
   ];
-  // COLLEGE PREDICTOR FUNCTION
+  // COLLEGE PREDICTOR FUNCTIONS
+  function handleExamChange() {
+    const exam = document.getElementById('exam-select').value;
+    const scoreSection = document.getElementById('exam-score-section');
+    const scoreInput = document.getElementById('exam-score-input');
+    const scoreLabel = document.getElementById('exam-score-label');
+
+    if (exam) {
+      scoreSection.style.display = 'block';
+      scoreInput.value = '';
+      scoreInput.focus();
+
+      // Set appropriate labels and placeholders based on exam
+      switch(exam) {
+        case 'jee':
+          scoreLabel.textContent = 'Percentile (0-100)';
+          scoreInput.placeholder = 'e.g., 95.5';
+          break;
+        case 'neet':
+          scoreLabel.textContent = 'Score (0-720)';
+          scoreInput.placeholder = 'e.g., 650';
+          break;
+        case 'cat':
+          scoreLabel.textContent = 'Percentile (0-100)';
+          scoreInput.placeholder = 'e.g., 98.5';
+          break;
+        case 'gate':
+          scoreLabel.textContent = 'Score (0-1000)';
+          scoreInput.placeholder = 'e.g., 750';
+          break;
+        case 'clat':
+          scoreLabel.textContent = 'Score (0-150)';
+          scoreInput.placeholder = 'e.g., 120';
+          break;
+        case 'bitsat':
+          scoreLabel.textContent = 'Score (0-450)';
+          scoreInput.placeholder = 'e.g., 380';
+          break;
+        case 'viteee':
+          scoreLabel.textContent = 'Score (0-125)';
+          scoreInput.placeholder = 'e.g., 95';
+          break;
+        case 'srmjee':
+          scoreLabel.textContent = 'Score (0-160)';
+          scoreInput.placeholder = 'e.g., 140';
+          break;
+        case 'upsc':
+          scoreLabel.textContent = 'Marks (0-2025)';
+          scoreInput.placeholder = 'e.g., 1200';
+          break;
+        case 'ssc':
+          scoreLabel.textContent = 'Marks (0-200)';
+          scoreInput.placeholder = 'e.g., 180';
+          break;
+        default:
+          scoreLabel.textContent = 'Score';
+          scoreInput.placeholder = 'Enter score';
+      }
+    } else {
+      scoreSection.style.display = 'none';
+    }
+    renderColleges();
+  }
+
+  function validateExamScore() {
+    const exam = document.getElementById('exam-select').value;
+    const scoreInput = document.getElementById('exam-score-input');
+    const score = parseFloat(scoreInput.value);
+
+    if (!score || score < 0) return;
+
+    let maxScore = 1000000; // Very high default
+    switch(exam) {
+      case 'jee':
+      case 'cat':
+        maxScore = 100;
+        break;
+      case 'neet':
+        maxScore = 720;
+        break;
+      case 'gate':
+        maxScore = 1000;
+        break;
+      case 'clat':
+        maxScore = 150;
+        break;
+      case 'bitsat':
+        maxScore = 450;
+        break;
+      case 'viteee':
+        maxScore = 125;
+        break;
+      case 'srmjee':
+        maxScore = 160;
+        break;
+      case 'upsc':
+        maxScore = 2025;
+        break;
+      case 'ssc':
+        maxScore = 200;
+        break;
+    }
+
+    if (score > maxScore) {
+      scoreInput.value = maxScore;
+    }
+  }
+
+  function handleBoardStatusChange() {
+    const status = document.getElementById('board-status-select').value;
+    const marksSection = document.getElementById('board-marks-section');
+    const marksInput = document.getElementById('board-marks-input');
+
+    if (status === 'completed') {
+      marksSection.style.display = 'block';
+      marksInput.value = '';
+      marksInput.focus();
+    } else {
+      marksSection.style.display = 'none';
+      marksInput.value = '';
+    }
+    renderColleges();
+  }
   function renderColleges(){
-    const cgpa = parseFloat(document.getElementById('cgpa-input')?.value || 7.8);
-    const filter = document.getElementById('college-type-filter')?.value || "All";
-    const list = COLLEGES.filter(col => col.minCGPA <= cgpa + 0.5 && (filter === "All" || col.type === filter));
+    const exam = document.getElementById('exam-select')?.value || '';
+    const examScore = parseFloat(document.getElementById('exam-score-input')?.value || 0);
+    const boardStatus = document.getElementById('board-status-select')?.value || '';
+    const boardMarks = parseFloat(document.getElementById('board-marks-input')?.value || 0);
+    const streamFilter = document.getElementById('course-stream-select')?.value || 'All';
+    const typeFilter = document.getElementById('college-type-filter')?.value || 'All';
+    const stateFilter = document.getElementById('state-filter')?.value || 'All';
+
     const container = document.getElementById('college-list');
     if (!container) return;
-    container.innerHTML = "";
-    if (!list.length) {
-      container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-dim);font-size:12px">No matches. Adjust CGPA or filters.</p>';
+
+    container.innerHTML = '';
+
+    // Validation
+    if (!exam) {
+      container.innerHTML = '<p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Please select a competitive exam to get predictions.</p>';
       return;
     }
-    list.forEach((col, i) => {
-      const matchAdj = Math.min(98, Math.round(col.match * (cgpa / 8)));
-      const barColor = matchAdj >= 85 ? "#34d399" : matchAdj >= 70 ? "#f59e0b" : "#f87171";
-      const typeLabel = col.type === "govt" ? "Govt" : col.type === "pvt" ? "Private" : "Deemed";
+
+    if (!examScore || examScore <= 0) {
+      container.innerHTML = '<p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Please enter your exam score to see college matches.</p>';
+      return;
+    }
+
+    if (boardStatus === 'completed' && (!boardMarks || boardMarks <= 0)) {
+      container.innerHTML = '<p style="text-align:center;padding:30px;color:var(--text-dim);font-size:12px">Please enter your 12th board marks to get accurate predictions.</p>';
+      return;
+    }
+
+    // Filter colleges based on criteria
+    let filteredColleges = COLLEGES.filter(college => {
+      // Stream filter
+      if (streamFilter !== 'All' && college.stream !== streamFilter) return false;
+
+      // Type filter
+      if (typeFilter !== 'All' && college.type !== typeFilter) return false;
+
+      // State filter
+      if (stateFilter !== 'All' && college.state !== stateFilter) return false;
+
+      // Exam cutoff check
+      let examCutoff = 0;
+      switch(exam) {
+        case 'jee': examCutoff = college.jee_cutoff || 0; break;
+        case 'neet': examCutoff = college.neet_cutoff || 0; break;
+        case 'cat': examCutoff = college.cat_cutoff || 0; break;
+        case 'clat': examCutoff = college.clat_cutoff || 0; break;
+        case 'bitsat': examCutoff = college.jee_cutoff ? college.jee_cutoff - 5 : 0; break;
+        case 'viteee': examCutoff = college.jee_cutoff ? college.jee_cutoff - 8 : 0; break;
+        case 'srmjee': examCutoff = college.jee_cutoff ? college.jee_cutoff - 10 : 0; break;
+        default: examCutoff = 0;
+      }
+
+      if (examCutoff > 0 && examScore < examCutoff - 5) return false; // Allow some buffer
+
+      // Board marks check (if completed)
+      if (boardStatus === 'completed' && boardMarks < (college.board_cutoff || 0) - 5) return false;
+
+      return true;
+    });
+
+    // Sort by match score
+    filteredColleges.sort((a, b) => {
+      const scoreA = calculateMatchScore(a, exam, examScore, boardStatus, boardMarks);
+      const scoreB = calculateMatchScore(b, exam, examScore, boardStatus, boardMarks);
+      return scoreB - scoreA;
+    });
+
+    if (!filteredColleges.length) {
+      container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-dim);font-size:12px">No colleges match your criteria. Try adjusting your preferences or scores.</p>';
+      return;
+    }
+
+    // Display results
+    filteredColleges.slice(0, 15).forEach((college, i) => {
+      const matchScore = calculateMatchScore(college, exam, examScore, boardStatus, boardMarks);
+      const barColor = matchScore >= 85 ? "#34d399" : matchScore >= 70 ? "#f59e0b" : "#f87171";
+      const typeLabel = college.type === "govt" ? "Govt" : college.type === "pvt" ? "Private" : "Deemed";
+
       const card = document.createElement("div");
       card.className = "college-card";
       card.innerHTML = `
         <div class="cc-rank">#${i+1}</div>
         <div class="cc-info">
-          <div class="cc-name">${col.name}</div>
-          <div class="cc-sub">${col.city} · ${col.courses.join(", ")}</div>
-          <div class="cc-bar-bg"><div class="cc-bar-fill" style="width:${matchAdj}%;background:${barColor}"></div></div>
+          <div class="cc-name">${college.name}</div>
+          <div class="cc-sub">${college.city} · ${college.courses.slice(0, 3).join(", ")}${college.courses.length > 3 ? '...' : ''}</div>
+          <div class="cc-bar-bg"><div class="cc-bar-fill" style="width:${matchScore}%;background:${barColor}"></div></div>
         </div>
-        <span class="cc-type type-${col.type}">${typeLabel}</span>
-        <span class="cc-pct" style="color:${barColor}">${matchAdj}%</span>
+        <span class="cc-type type-${college.type}">${typeLabel}</span>
+        <span class="cc-pct" style="color:${barColor}">${matchScore}%</span>
       `;
       container.appendChild(card);
     });
+  }
+
+  function calculateMatchScore(college, exam, examScore, boardStatus, boardMarks) {
+    let score = 50; // Base score
+
+    // Exam score matching
+    let examCutoff = 0;
+    switch(exam) {
+      case 'jee': examCutoff = college.jee_cutoff || 0; break;
+      case 'neet': examCutoff = college.neet_cutoff || 0; break;
+      case 'cat': examCutoff = college.cat_cutoff || 0; break;
+      case 'clat': examCutoff = college.clat_cutoff || 0; break;
+      case 'bitsat': examCutoff = college.jee_cutoff ? college.jee_cutoff - 5 : 0; break;
+      case 'viteee': examCutoff = college.jee_cutoff ? college.jee_cutoff - 8 : 0; break;
+      case 'srmjee': examCutoff = college.jee_cutoff ? college.jee_cutoff - 10 : 0; break;
+      default: examCutoff = 0;
+    }
+
+    if (examCutoff > 0) {
+      if (examScore >= examCutoff) {
+        score += 40; // Excellent match
+      } else if (examScore >= examCutoff - 5) {
+        score += 25; // Good match
+      } else if (examScore >= examCutoff - 10) {
+        score += 10; // Moderate match
+      }
+    }
+
+    // Board marks bonus (if completed)
+    if (boardStatus === 'completed' && boardMarks > 0) {
+      const boardCutoff = college.board_cutoff || 0;
+      if (boardMarks >= boardCutoff) {
+        score += 15;
+      } else if (boardMarks >= boardCutoff - 5) {
+        score += 8;
+      }
+    }
+
+    // College type preference bonus
+    if (college.type === 'govt') score += 5; // Government colleges get slight preference
+
+    return Math.min(100, Math.max(0, Math.round(score)));
   }
   // COURSE SELECTOR DATA
   const COURSES = [
